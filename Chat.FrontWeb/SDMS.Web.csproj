@@ -526,15 +526,8 @@
     <Compile Include="App_Start\SYSExceptionFilter.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\Base\AdminBaseController.cs" />
-    <Compile Include="Areas\Admin\Controllers\ACtrlTemp\AgentController.cs" />
-    <Compile Include="Areas\Admin\Controllers\ACtrlTemp\FinanceController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Admin\Controllers\ACtrlTemp\MemberController.cs" />
-    <Compile Include="Areas\Admin\Controllers\ACtrlTemp\StatisticalController.cs" />
-    <Compile Include="Areas\Admin\Controllers\ACtrlTemp\UserController.cs" />
-    <Compile Include="Areas\Admin\Controllers\ACtrlTemp\MessageController.cs" />
     <Compile Include="Areas\Admin\Controllers\SystemController.cs" />
-    <Compile Include="Areas\Admin\Controllers\ACtrlTemp\TeamController.cs" />
     <Compile Include="Areas\Admin\Models\Finance\AccountModel.cs" />
     <Compile Include="Areas\Admin\Models\Finance\ChangeListModel.cs" />
     <Compile Include="Areas\Admin\Models\Finance\JournalListModel.cs" />
@@ -559,16 +552,7 @@
     <Compile Include="Areas\Admin\Models\User\AdminAccount.cs" />
     <Compile Include="Common\UserView.cs" />
     <Compile Include="Common\ViewFind.cs" />
-    <Compile Include="Controllers\CtrTemp\FinanceController.cs" />
     <Compile Include="Controllers\Base\FrontBaseController.cs" />
-    <Compile Include="Controllers\CtrTemp\HomeController.cs" />
-    <Compile Include="Controllers\CtrTemp\MemberController.cs" />
-    <Compile Include="Controllers\CtrTemp\MessageController.cs" />
-    <Compile Include="Controllers\CtrTemp\TeamController.cs" />
-    <Compile Include="Controllers\CtrTemp\MemberLevelController.cs" />
-    <Compile Include="Controllers\CtrTemp\ToolController.cs" />
-    <Compile Include="Controllers\CtrTemp\TradingController.cs" />
-    <Compile Include="Controllers\CtrTemp\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

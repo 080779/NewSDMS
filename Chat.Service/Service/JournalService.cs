@@ -154,8 +154,8 @@ namespace SDMS.Service.Service
             jourDTO.Journal07 = journal.Journal07;
             //jourDTO.UserCode = journal.Users.UserCode;
             //jourDTO.TrueName = journal.Users.TrueName;
-            jourDTO.CurrencyName = journal.Currencys.CurrencyName;
-            jourDTO.CurrencyNameEn = journal.Currencys.CurrencyNameEn;
+            //jourDTO.CurrencyName = journal.Currencys.CurrencyName;
+            //jourDTO.CurrencyNameEn = journal.Currencys.CurrencyNameEn;
 
             return jourDTO;
         }
