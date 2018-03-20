@@ -1,0 +1,86 @@
+﻿@model SDMS.Web.Areas.Admin.Models.Message.NoticeMabageListModel
+@{
+    ViewBag.Title = "新闻列表";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+}
+
+<div class="box_con">
+    <div class="box box_width">
+        <div class="operation">
+            <a href="/admin/message/noticeEdit" class="easyui-linkbutton" iconcls="icon-add" id="lbtnAdd">发布信息</a>
+         </div>
+        <div class="dataTable">
+            <table width="99%" border="0" cellspacing="0" cellpadding="0" class="t1">
+                <thead>
+                    <tr>
+                        <th align="center">ID</th>
+                        <th align="center">主题</th>
+                        <th align="center">类型</th>
+                        <th align="center">日期</th>
+                        <th align="center">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="pagerList">
+                    @foreach (var rmodel in Model.newsList)
+                    {
+                        <tr>
+                            <td align="center">@rmodel.ID</td>
+                            <td align="center"><a href="/Admin/Message/noticeEdit?ID=@rmodel.ID">@rmodel.NewsTitle</a></td>
+                            <td align="center">@(rmodel.NewType == 1 ? "新闻公告" : rmodel.NewType == 2 ? "腾讯新闻" : "") </td>
+                            <td align="center">@rmodel.PublishTime</td>
+                            <td align="center">
+
+                                <a href="/Admin/Message/NoticeEdit?ID=@rmodel.ID" class="easyui-linkbutton sure" iconcls="icon-edit">编辑</a>
+                                <a href="javascript:void(0);" class="easyui-linkbutton del" iconcls="icon-no" id="@rmodel.ID">删除</a>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+</table>
+                <div class="nextpage">
+                 @Html.Raw(Model.Page)
+               </div>
+        </div>
+    </div>
+</div>
+@section FooterScript{
+<script type="text/javascript">
+        function getPage(pageIndex) {
+            $.ajax({
+                url: "/admin/message/NoticeManage?pageindex=" + pageIndex,
+                type: "post",
+                success: function (result) {
+                    $(".nextpage").empty();
+                    $(".nextpage").append(result.data.page);
+                    $("#pagerList").empty();
+                    $("#pagerList").append('<input type="hidden" id="index" value="' + pageIndex + '" />');
+
+                    var html = template('newsList', { newsList: result.data.newsList });
+                    $("#pagerList").append(html);
+                },
+                error: function () { alert("网络错误"); }
+            });
+        }
+      
+
+</script>
+<script id="newsList" type="text/html">
+    //template js模板
+    {{each newsList as rmodel}}
+    <tr>
+        <td align="center">{{rmodel.iD}}</td>
+        <td align="center"><a href="NoticeEdit?ID={{rmodel.iD}}">{{rmodel.newsTitle}}</a></td>
+        <td align="center">{{rmodel.newType}}</td>
+        <td align="center">{{rmodel.publishTime}}</td>
+        <td align="center">
+
+            <a href="javascript:void(0);" class="easyui-linkbutton sure" iconcls="icon-edit" id="{{rmodel.iD}}">编辑</a>
+            <a href="javascript:void(0);" class="easyui-linkbutton del" iconcls="icon-no" id="{{rmodel.iD}}">删除</a>
+
+        </td>
+    </tr>
+    
+    {{/each}}
+</script>
+}

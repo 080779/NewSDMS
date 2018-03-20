@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta charset="UTF-8" />
+    <meta name="description" content="" />
+    <meta name="author" content="ThemeBucket" />
+    <link rel="shortcut icon" href="#" type="image/png" />
+    <title>@ViewBag.Title</title>
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/css/style-responsive.css" rel="stylesheet" />
+    <!--复选框-黑色-->
+    <link href="~/css/minimal.css" rel="stylesheet" />
+    <link href="/css/indexcss.css" rel="stylesheet" type="text/css" />
+    <!--自写css-->
+    <link href="~/css/add_style.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/js/jquery-1.10.2.min.js"></script>
+    <script src="~/Areas/Admin/Scripts/My97DatePicker/WdatePicker.js"></script>
+    
+    <script src="~/js/template.js"></script>
+    <link rel="stylesheet" href="~/css/pagination.css" />
+    <script type="text/javascript" src="~/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="~/js/pagination.min.js"></script>
+    <script src="~/js/PageComm.js"></script>
+    <style type="text/css">
+        #page li {
+            cursor: pointer;
+        }
+        .pagination>li {
+            display: inline;
+            position: relative;
+            float: left;
+            padding: 6px 12px;
+            margin-left: -1px;
+            line-height: 1.42857143;
+            color: #337ab7;
+            text-decoration: none;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+        .curPager {
+            color: brown;
+        }
+    </style>
+</head>
+<body class="sticky-header">
+    <div style="display:block;margin-top:0em;">
+        <section>
+            <!-- left side start-->
+            <div class="left-side sticky-left-side">
+                @Html.Partial("~/Views/Share/_LeftMenuControl.cshtml")
+                <!--logo and iconic logo start-->
+            </div>
+            <div class="left-side-inner">
+                <div class="logo">
+                    <a href="/home/index">
+                        <img style="width: 80%; " src="../../images/logo-2.png" alt="">
+                    </a>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="header-section">
+                    <!--toggle button start-->
+                    <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+                    <!--toggle button end 需要补充会员编号-->
+                    <p class="toggle-btn-btn" style="line-height:40px;"></p>
+                </div>
+                @RenderBody()
+            </div>
+        </section>
+    </div>
+    <script type="text/javascript" src="~/js/jquery-ui-1.9.2.custom.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="~/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/js/modernizr.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery.nicescroll.js"></script>
+    <script type="text/javascript" src="~/js/layer.js"></script>
+    <script type="text/javascript" src="~/js/scripts.js"></script>
+    @*<script type="text/javascript" src="~/js/bootstrap-datepicker.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                //选择日期
+                $('.date input').datepicker({
+                    autoclose: true,
+                    todayHighlight: true,
+                    format: 'yyyy-mm-dd'
+                })
+            })
+        </script>*@
+
+    @RenderSection("FooterScript", false)
+</body>
+</html>

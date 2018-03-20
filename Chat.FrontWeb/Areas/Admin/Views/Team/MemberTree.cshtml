@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "MemberTree";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+    //var p = ViewBag.tree;
+}
+
+<h2>会员系谱图</h2>
+<div id="form1" class="box_con">
+    <div class="box_width">
+        <div class="operation">
+            <fieldset class="fieldset">
+                <legend class="legSearch">查询</legend>代理编号:
+                <input id="txtUserCode" tip="输入会员编号" class="input_select" />
+                <button id="LinkButton1" class="easyui-linkbutton" iconcls="icon-search" onclick="onserch()">跳 转</button>
+                <button id="LinkButton2" class="easyui-linkbutton" iconcls="icon-print" onclick="Myonserch()">我的系谱图</button>
+                <button id="LinkButton3" class="easyui-linkbutton" iconcls="icon-undo" onclick="Uponserch()">上一级</button>
+                <button id="LinkButton4" class="easyui-linkbutton" iconcls="icon-redo" onclick="Downonserch()">下一级</button>
+               
+
+                @*<button id="LinkButton5" class="easyui-linkbutton">确定</button>*@
+            </fieldset>
+        </div>
+        <div class="operation">
+            <fieldset class="fieldset">
+                <div style="width: 74px; height: 20px; float: left; color: #fff; background: url('/images/000.jpg'); text-align: center; line-height: 20px; font-weight: bold;">未激活</div>
+                <div style="width: 74px; height: 20px; float: left; color: #fff; background: url('/images/002.jpg'); text-align: center; line-height: 20px; font-weight: bold;">已激活</div>
+            </fieldset>
+        </div>
+        <div class="dataTable" style="overflow: auto;">
+            
+            @*<asp:Literal ID="Literal1" runat="server" EnableViewState="False"></asp:Literal>*@
+        </div>
+    </div>
+</div>
+<script>
+    var z=3
+    $(function () {
+        BindTree(9, 'system', z);
+    })
+    function BindTree(Id,code,z) {
+        $.ajax({
+            type: 'POST',
+            url: "/Admin/Team/Tree?Id=" + Id + "&code=" + code+"&znode="+z,
+            dataType: 'text',
+            async: false,
+            success: function (responseData) {
+                $(".dataTable").html(responseData)
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {//请求失败处理函数  
+                console.log("请求失败");
+            }
+        });
+    }
+    function onserch() {
+        if ($("#txtUserCode").val() == "") {
+            alert("请输入会员编号");
+        } else {
+            BindTree(0, $("#txtUserCode").val(), z)
+        }
+    }
+    function Myonserch() {
+        z = 1;
+        BindTree(9, $("#txtUserCode").val(), 1)
+    }
+    function Uponserch() {
+        z = z - 1;
+        BindTree(9, $("#txtUserCode").val(), z)
+    }
+    function Downonserch() {
+        z = z + 1;
+        BindTree(9, $("#txtUserCode").val(), z)
+    }
+</script>
+

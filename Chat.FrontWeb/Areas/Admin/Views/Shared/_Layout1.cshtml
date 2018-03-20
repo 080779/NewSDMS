@@ -1,0 +1,48 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="~/Areas/Admin/Content/Base.css" rel="stylesheet" />
+    <link href="~/Areas/Admin/Content/themes/icon.css" rel="stylesheet" />
+    <link href="~/Areas/Admin/Content/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/css/indexcss.css" rel="stylesheet" />
+    <script src="~/Areas/Admin/Scripts/jquery.js"></script>
+    <script src="~/Areas/Admin/Scripts/jquery.easyui.min.js"></script>
+    <script src="~/Areas/Admin/Scripts/Common.js"></script>
+    <script src="~/Areas/Admin/Scripts/main-layout.js"></script>
+    <script src="~/Areas/Admin/Scripts/My97DatePicker/WdatePicker.js"></script>
+    <script src="~/Areas/Admin/Scripts/jquery.parser.js"></script>
+    @*<link href="~/Areas/Admin/Content/bootstrap.min.css" rel="stylesheet" />*@
+    <script src="~/js/template.js"></script>
+    <link rel="stylesheet" href="~/css/pagination.css" />
+    <script type="text/javascript" src="~/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="~/js/pagination.min.js"></script>
+    <script src="~/js/PageComm.js"></script>
+    <script src="~/js/echarts.min.js"></script>
+    <style type="text/css">
+        #page li {
+            cursor: pointer;
+        }
+
+        .pagination > li {
+            display: inline;
+            position: relative;
+            float: left;
+            padding: 6px 12px;
+            margin-left: -1px;
+            line-height: 1.42857143;
+            color: #337ab7;
+            text-decoration: none;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+
+        .curPager {
+            color: brown;
+        }
+    </style>
+</head>
+<body>
+    @RenderBody()
+    @RenderSection("FooterScript", false)
+</body>
+</html>

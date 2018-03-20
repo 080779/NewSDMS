@@ -1,0 +1,25 @@
+﻿@charset "utf-8";
+
+/* 样式重置（reset） */
+body,h1,h2,h3,h4,h5,h6,p,dl,dd,ul,ol,form,input,textarea,th,td,select{ margin:0; padding:0;}
+em{ font-size:normal;}
+li{ list-style:none;}
+a{ text-decoration:none;}
+img{ border:none; vertical-align:text-top;}
+table{ border-collapse:collapse;}
+input,input:focus,textarea,textarea:focus,button,button:focus{ outline:none;}
+textarea{ resize:none; overflow:auto;}
+body{ font-family:"微软雅黑";}
+
+/* 公共样式（public） */
+html{ height: 100%;}
+body{ height: 100%; min-height: 100%;}
+.clear{ zoom:1;}
+.clear:after{content:''; display:block; clear:both;}
+.fl{ float:left;}
+.fr{ float:right;}
+a { blr:expression(this.onFocus=this.blur());}
+a { outline: none;}
+a:focus { outline: none;}
+.share{}
+.share img{ width: 100%;}

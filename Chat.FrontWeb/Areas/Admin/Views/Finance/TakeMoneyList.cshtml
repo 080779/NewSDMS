@@ -1,0 +1,193 @@
+﻿@model SDMS.Web.Areas.Admin.Models.Finance.TakeMoneyListModel
+@{
+    ViewBag.Title = "提现管理";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+}
+<div class="subBody">
+    <div class="box_con">
+        <div class="box box_width">
+            <div class="operation">
+                <fieldset class="fieldset">
+                    <legend class="legSearch">提现查询</legend>
+                    代理编号：<input type="text" class="input_select" id="txtusercode" placeholder="输入代理编号" />
+                    代理姓名：<input type="text" class="input_select" id="txttruename" placeholder="输入代理姓名" />
+                    审核状态：
+                    <select id="selectstate">
+                        <option value="-1">请选择</option>
+                        <option value="0">未审核</option>
+                        <option value="1">已通过</option>
+                    </select>
+                    申请日期：<input type="text" class="input_select" id="txtstart" onfocus="WdatePicker()" placeholder="输入申请日期" />
+                    至 <input type="text" class="input_select" id="txtend" onfocus="WdatePicker()" placeholder="输入申请日期" />
+                      <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" id="search">搜 索</a>
+                </fieldset>
+            </div>
+            <div class="dataTable">
+                <table width="99%" border="0" cellspacing="0" cellpadding="0" class="t1">
+                    <thead>
+                        <tr>
+                            <th>代理编号</th>
+                            <th>代理姓名</th>
+                            <th>提现金额</th>
+                            <th>产业基金</th>
+                            <th>平台服务费</th>
+                            <th>实际金额</th>
+                            <th>开户银行</th>
+                            <th>开户账户</th>
+                            <th>汇出开户名</th>
+                            <th>申请日期</th>
+                            <th>审核状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pagerList">
+                        @foreach (var tmodel in Model.takemoneyList)
+                        {
+                            <tr>
+                                <td align="center">@tmodel.UserCode</td>
+                                <td align="center">@tmodel.TrueName</td>
+                                <td align="center">@tmodel.TakeMoney</td>
+                                <td align="center">@tmodel.TakePoundage</td>
+                                <td align="center">@tmodel.Take005</td>
+                                <td align="center">@tmodel.RealityMoney</td>
+                                <td align="center">@tmodel.BankName</td>
+                                <td align="center">@tmodel.BankAccount</td>
+                                <td align="center">@tmodel.BankAccountUser</td>
+                                <td align="center">@tmodel.TakeTime</td>
+                                <td align="center">@tmodel.StateName</td>
+                                <td align="center">
+                                    @if (tmodel.Flag == 0)
+                                    {
+                                        <a href="javascript:void(0);" class="easyui-linkbutton sure" iconcls="icon-edit" id="@tmodel.ID">确认</a>
+                                        <a href="javascript:void(0);" class="easyui-linkbutton del" iconcls="icon-remove" id="@tmodel.ID">删除</a>
+                                    }
+                                    else
+                                    {
+
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="nextpage cBlack">
+                    @Html.Raw(Model.Page)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section FooterScript{
+    <script type="text/javascript">
+        function getPage(pageIndex) {
+            $.ajax({
+                url: "/admin/finance/takemoneyList?pageindex=" + pageIndex,
+                type: "post",
+                success: function (result) {
+                    $(".nextpage").empty();
+                    $(".nextpage").append(result.data.page);
+                    $("#pagerList").empty();
+                    $("#pagerList").append('<input type="hidden" id="index" value="' + pageIndex + '" />');
+
+                    var html = template('takemoneyList', { takemoneyList: result.data.takemoneyList });
+                    $("#pagerList").append(html);
+                    $.parser.parse($('#pagerList'));
+                },
+                error: function () { alert("网络错误"); }
+            });
+        }
+        
+        $(function () {
+            //搜索
+            $("#search").on("click", function () {
+                var usercode = $("#txtusercode").val();
+                var truename = $("#txttruename").val();
+                var state = $("#selectstate option:selected").val();
+                var start = $("#txtstart").val();
+                var end = $("#txtend").val();
+                $.ajax({
+                    url: "/admin/finance/takemoneyList",
+                    type: "post",
+                    data: { usercode: usercode, truename: truename, state: state, start: start, end: end },
+                    success: function (result) {
+                        $(".nextpage").empty();
+                        $(".nextpage").append(result.data.page);
+                        $("#pagerList").empty();
+                        $("#pagerList").append('<input type="hidden" id="index" value="1" />');
+                        var html = template('takemoneyList', { takemoneyList: result.data.takemoneyList });
+                        $("#pagerList").append(html);
+                        $.parser.parse($('#pagerList'));
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            })
+            //删除
+            $("body").on("click", ".del", function () {
+                console.log(111);
+                var page = $("#index").val();
+                if (page == "" || page == undefined || page == NaN) {
+                    page = "1";
+                }
+                var a = $(this).attr("id");
+                console.log(a);
+                $.ajax({
+                    url: "/admin/finance/takemoneydel?id=" + a + "&pageindex=" + page,
+                    type: "post",
+                    success: function (result) {
+                        if (result.status == "1") {
+                            window.location.href = result.data;
+                        }
+                        else {
+                            alert(result.msg);
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            });
+            //确认
+            $("body").on("click", ".sure", function () {
+                console.log(222);
+                var page = $("#index").val();
+                if (page == "" || page == undefined || page == NaN) {
+                    page = "1";
+                }
+                var a = $(this).attr("id");
+                $.ajax({
+                    url: "/admin/finance/takemoneyupdateflag?id=" + a + "&pageindex=" + page,
+                    type: "post",
+                    success: function (result) {
+                        if (result.status == "1") {
+                            window.location.href = result.data;
+                        }
+                        else {
+                            alert(result.msg);
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            })
+        })
+    </script>
+    <script id="takemoneyList" type="text/html">
+        {{each takemoneyList as takemoney}}
+        <tr>
+            <td align="center">{{takemoney.userCode}}</td>
+            <td align="center">{{takemoney.trueName}}</td>
+            <td align="center">{{takemoney.takeMoney}}</td>
+            <td align="center">{{takemoney.takePoundage}}</td>
+            <td align="center">{{takemoney.take005}}</td>
+            <td align="center">{{takemoney.realityMoney}}</td>
+            <td align="center">{{takemoney.bankName}}</td>
+            <td align="center">{{takemoney.bankAccount}}</td>
+            <td align="center">{{takemoney.bankAccountUser}}</td>
+            <td align="center">{{takemoney.takeTime}}</td>
+            <td align="center">{{takemoney.stateName}}</td>
+            <td align="center">
+                <a href="javascript:void(0);" class="easyui-linkbutton sure" iconcls="icon-edit" id="{{takemoney.id}}" style="display:{{takemoney.flag=='0'?'':'none'}}">确认</a>
+                <a href="javascript:void(0);" class="easyui-linkbutton del" iconcls="icon-remove" id="{{takemoney.id}}" style="display:{{takemoney.flag=='0'?'':'none'}}">删除</a>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+}
+

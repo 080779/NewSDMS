@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "留言管理";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+}
+<script type="text/javascript" language="javascript">
+
+  
+    function Submit() {
+        var UserCode = $.trim($("#textUserCode").val());
+        var Title = $.trim($("#textTitle").val());
+        var Context = $.trim($("#txtPubContext").val());
+         $.ajax({
+             url: '/Admin/Message/Leavewords',
+            type: "post",
+            data: { UserID: 1, UserCode:UserCode,Title: Title, Context: Context },
+            success: function (result) {
+                if (result.status == "1") {
+                    window.location.href = result.data; 
+                }
+                else {
+                    alert(result.msg);
+                }
+            },
+            error: function () { alert("网络错误"); }
+        });
+
+    }
+    function Return() {
+            ` `
+      
+        $.ajax({
+            url: '/Admin/Message/Leavewords',
+         
+        });
+
+    }
+</script>
+<form action="XX">
+    <div class="main_dt">
+
+        <ul>
+            <li>
+                <span style="margin-right:10px; display:block; width:100px; text-align:right; float:left;"><font>*</font>留言对象：</span>
+                <input type="text" name="textUserCode" id="textUserCode" tip="输入留言对象" class="input_second">
+            </li>
+           <li>
+                <span style="margin-right:10px; display:block; width:100px; text-align:right; float:left;"><font>*</font>主题：</span>
+                <input type="text" name="textTitle" id="textTitle" tip="输入主题" class="input_second">
+            </li>
+            <li style="height:250px;">
+                <span style="margin-right:10px; display:block; width:100px; text-align:right; float:left;"><font>*</font>内容：</span>
+                <textarea id="txtPubContext" tip="输入内容" class="input_neirong"></textarea>
+           </li>
+            <li style="padding-left:100px;">
+                <input class="easyui-linkbutton" type="button" id="btnSubmit" value="提 交" onclick="Submit()"/>
+                <input class="easyui-linkbutton" type="button" id="btnReturn" value="返 回" onclick="Return()"/>
+            </li>
+        </ul>
+    </div>
+    </form>

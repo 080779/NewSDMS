@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewBag.Title = "RecommendTree";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="/js/themes/default/style.min.css" />
+<script type="text/javascript" src="/js/jstree.min.js"></script>
+<h2>直推图</h2>
+
+<div class="wrapper">
+    <section class="panel">
+        <!--主体开始-->
+        <section style="padding: 28px;">
+            <div class="row">
+                会员编号：<input type="text" id="txtUserCode" />
+                <input type="button" value="查询" onclick="Serach()" />
+                <div class="col-md-12">
+                    <!--内容开始-->
+                    <div id="tree" class="tree tree-unselectable">
+                        <ul id="red">=
+                            <li data-jstree='{"opened":true}'></li>
+                        </ul>
+                        <input id="uid" class="userid" type="hidden" />
+                        <input id="tage" class="tage" type="hidden" />
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--./主体开始-->
+    </section>
+</div>
+<script>
+    $(function () {
+        $('#red').jstree({
+            'core': {
+                'data': {
+                    "url": "/admin/Team/TreeMethod?uid=9",
+                    "dataType": "json",
+                    "data": function (node) {
+                        return { "id": node.id };
+                    }
+                }
+            }
+
+        });
+        $('#red').jstree().hide_icons();
+
+    })
+    function Serach() {
+        $('#red').data('jstree', false).empty();
+        var usercode = $("#txtUserCode").val();
+        console.log(usercode);
+        $('#red').jstree({
+            'core': {
+                'data': {
+                    "url": "/admin/Team/TreeSeachMethod?code=" + usercode,
+                    "dataType": "json",
+                    "data": function (node) {
+                        return { "id": node.id };
+                    }
+                }
+            }
+
+        });
+        $('#red').jstree().hide_icons();
+    }
+</script>

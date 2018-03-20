@@ -1,0 +1,142 @@
+﻿@model SDMS.Web.Models.Finance.JournalListModel
+@{
+    ViewBag.Title = "账户明细";
+    Layout = "~/Views/Share/_Layout2.cshtml";
+}
+
+<div class="page-heading">
+    <i class="fa fa-bar-chart-o"></i>财务日志
+
+</div>
+<!-- page heading end-->
+<!--body wrapper start-->
+<div class="wrapper">
+    <section class="panel">
+        <!--主体开始-->
+        <section style="padding: 28px;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">财务日志</h3>
+                        </div>
+                        <div class="widget-body innerAll overthrow" style="padding: 20px; overflow: auto;">
+                            <div class="search3">
+                                <div class="form-group">
+                                    <label class="inline">币种</label>
+                                    <div class="date" style="display: inline-block;">
+                                        @Html.DropDownList("dropcurrencytype", ViewBag.currency as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                                        <span class="add-on hidden"></span>
+                                    </div>
+
+                                    <label class="inline">日期</label>
+                                    <div class="date" style="display: inline-block;">
+                                        <input type="text" class="input_select" id="txtstart" onfocus="WdatePicker()" placeholder="输入日期" />
+                                        <span class="add-on hidden"></span>
+                                    </div>
+                                    <label class="inline">至</label>
+                                    <div class="date" style="display: inline-block;">
+                                        <input type="text" class="input_select" id="txtend" onfocus="WdatePicker()" placeholder="输入日期" />
+                                        <span class="add-on hidden"></span>
+                                    </div>
+                                    <a href="javascript:void(0);" class="btn btn-primary" id="search">搜 索</a>
+                                </div>
+                            </div>
+                            <div class="widget-body innerAll overthrow col-md-12" style="padding: 20px; overflow: auto;">
+                                <table class="table table-bordered table-primary">
+                                    <thead>
+                                        <tr class="tac">
+                                            <th>币种</th>
+                                            <th>收入</th>
+                                            <th>支出</th>
+                                            <th>余额</th>
+                                            <th>描述</th>
+                                            <th>日期</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pagerList">
+                                        @foreach (var rmodel in Model.journalList)
+                                        {
+                                            <tr>
+                                                <td align="center">@rmodel.CurrencyName </td>
+                                                <td align="center">@rmodel.InAmount </td>
+                                                <td align="center">@rmodel.OutAmount </td>
+                                                <td align="center">@rmodel.BalanceAmount </td>
+                                                <td align="center">@rmodel.Remark </td>
+                                                <td align="center">@rmodel.JournalDate </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--./主体开始-->
+    </section>
+</div>
+<div class="nextpage">
+    @Html.Raw(Model.Page)
+</div>
+@section FooterScript{
+    <script type="text/javascript">
+        function getPage(pageIndex) {
+            $.ajax({
+                url: "/finance/journalList?pageindex=" + pageIndex,
+                type: "post",
+                success: function (result) {
+                    $(".nextpage").empty();
+                    $(".nextpage").append(result.data.page);
+                    $("#pagerList").empty();
+                    $("#pagerList").append('<input type="hidden" id="index" value="' + pageIndex + '" />');
+
+                    var html = template('journalList', { journalList: result.data.journalList });
+                    $("#pagerList").append(html);
+                    //$.parser.parse($('#pagerList'));
+                },
+                error: function () { alert("网络错误"); }
+            });
+        }
+        //搜索
+        $(function () {
+            $("#search").click(function () {
+                var type = $("#dropcurrencytype option:selected").val();
+                var start = $("#txtstart").val();
+                var end = $("#txtend").val();
+                $.ajax({
+                    url: "/finance/journalList",
+                    type: "post",
+                    data: { type: type, start: start, end: end },
+                    success: function (result) {
+                        $(".nextpage").empty();
+                        $(".nextpage").append(result.data.page);
+                        $("#pagerList").empty();
+                        $("#pagerList").append('<input type="hidden" id="index" value="1" />');
+                        if (result.data.journalList != "") {
+                            var html = template('journalList', { journalList: result.data.journalList });
+                            $("#pagerList").append(html);
+                            //$.parser.parse($('#pagerList'));
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            })
+        })
+    </script>
+    <script id="journalList" type="text/html">
+        
+        {{each journalList as temp}}
+        <tr>
+            <td align="center">{{temp.currencyName}}</td>
+            <td align="center">{{temp.inAmount}}</td>
+            <td align="center">{{temp.outAmount}}</td>
+            <td align="center">{{temp.balanceAmount}}</td>
+            <td align="center">{{temp.remark}}</td>
+            <td align="center">{{temp.journalDate}}</td>
+        </tr>
+        {{/each}}
+    </script>
+}
+

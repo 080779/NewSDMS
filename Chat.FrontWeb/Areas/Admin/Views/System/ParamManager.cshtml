@@ -1,0 +1,82 @@
+﻿@model SDMS.DTO.DTO.GlobeParamDTO[]
+@{
+    ViewBag.Title = "管理员列表";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+}
+<div class="dataTable">
+    <table width="99%" border="0" cellspacing="0" cellpadding="0" class="">
+        <tr>
+            <td colspan="4">
+                <a id="btnEditAll" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-reload">修改全部</a>
+            </td>
+        </tr>
+        @foreach (var param in Model)
+        {
+            if (param.Remark.Contains("<font"))
+            {
+                @Html.Raw("</table></div><div class='kuang' ><table cellSpacing='0' cellPadding='0' border='0' class='reg' >")
+            }
+            <tr>
+                <td width="230px" align="right">
+                    @Html.Raw(param.Remark)
+                </td>
+                <td width="200px">                    
+                    <input id="param_@param.ID" value='@param.ParamVarchar' onkeydown="if(event.keyCode==13)event.keyCode=9" onkeypress="if ((event.keyCode<48 || event.keyCode>57 ) && (event.keyCode<65 || event.keyCode>90) && (event.keyCode<97 || event.keyCode>122) && event.keyCode!=46) event.returnValue=false;" type="text" class="input_second" />
+                </td>
+                <td width="120px">
+                    @param.EndRemark
+                </td>
+                <td>
+                    @if (param.IsEdit == 1)
+                    {
+                        <a value="@param.ID" id="btnUpdate" class="easyui-linkbutton paramId" iconcls="icon-reload">修改</a>
+                    }                    
+                </td>
+            </tr>
+            }
+        </table>
+    </div>
+<script type="text/javascript">
+    $(function () {
+        //单个更新
+        $(".paramId").click(function () {
+            var id = $(this).attr("value");
+            var paramVarchar = $("#param_" + id).val();
+            $.ajax({
+                url: "/admin/system/paramedit", type: "post", data: { id: id, paramVarchar: paramVarchar },
+                success: function (result) {
+                    if (result.status == "1") {
+                        alert("更新成功");
+                    }
+                    else if (result.status == "0") {
+                        alert(result.msg);
+                        $("#param_" + id).val(result.data).select();
+                    }
+                },
+                error: function () { alert("网络错误"); }
+            });
+        });
+        //全部更新
+        $("#btnEditAll").click(function () {
+            var paramList = new Array();
+            $(".paramId").each(function () {
+                var id = $(this).attr("value");
+                var paramVarchar = $("#param_" + id).val();
+                paramList.push(id + "^" + paramVarchar);
+            });
+            $.ajax({
+                url: "/admin/system/parameditall", type: "post", data: { paramList: paramList },
+                success: function (result) {
+                    if (result.status == "1") {
+                        alert("更新成功");                        
+                    }
+                    else if (result.status == "0") {
+                        alert(result.msg);
+                        $("#param_" + result.data.id).val(result.data.paramVarchar).select();
+                    }
+                },
+                error: function () { alert("网络错误"); }
+            });
+        });
+    });
+</script>

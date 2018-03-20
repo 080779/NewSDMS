@@ -1,0 +1,68 @@
+﻿@model SDMS.Web.Areas.Admin.Models.System.RoleAddViewModel
+@{
+    ViewBag.Title = "添加角色";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+}
+<div class="operation">
+    <fieldset class="fieldset">
+        <table>
+            <tr>                
+                <td align="right">
+                    <p style="color:Red">*</p> 角色名：
+                </td>
+                <td>
+                    <input type="text" id="txtName" class="input_select" />
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    <p style="color:Red">*</p> 描述：
+                </td>
+                <td>
+                    <input type="text" id="txtDescription" class="input_select" />
+                </td>
+            </tr>            
+        </table>
+    </fieldset><br />
+    <fieldset class="fieldset">
+        <div class="cdiv" style="padding-left:15px;">
+            @foreach (var father in Model.PermissionList)
+            {
+                @father.Parent.MenuName<input type="checkbox" class="permission" value="@father.Parent.ID" /><br />
+                foreach (var child in father.Child)
+                {
+                    @child.MenuName<input type="checkbox" class="permission" value="@child.ID" />
+                }
+                <br />
+            }
+        </div>
+    </fieldset>
+    <a class="easyui-linkbutton" id="btnSave" >提交</a>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#btnSave").click(function () {
+            var permissionIds = new Array();
+            var name = $("#txtName").val();
+            var description = $("#txtDescription").val();
+            $(".permission").each(function () {
+                if ($(this).is(":checked")) {
+                    permissionIds.push($(this).val());
+                }
+            });
+            $.ajax({
+                url: "/admin/system/roleadd", type: "post", data: { name: name, description: description, permissionIds: permissionIds },
+                success: function (result) {
+                    if (result.status == "1") {
+                        alert("角色添加成功");
+                        window.location.href = result.data;
+                    }
+                    else if (result.status == "0") {
+                        alert(result.msg);
+                    }
+                },
+                error: function () { alert("网络错误"); }
+            });
+        });
+    });
+</script>

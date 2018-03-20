@@ -1,0 +1,144 @@
+﻿@model Chat.FrontWeb.Models.Message .NoticeMabageListModel
+@{
+    ViewBag.Title = "新闻公告";
+    Layout = "~/Views/Share/_Layout2.cshtml";
+}
+
+<div class="page-heading">
+    <i class="fa fa-bar-chart-o"></i>新闻中心
+</div>
+<!-- page heading end-->
+<!--body wrapper start-->
+
+<div class="wrapper">
+    <section class="panel">
+        <!--主体开始-->
+
+        <section style="padding: 28px;">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">新闻中心</h3>
+                        </div>
+                        <div class="widget-body innerAll overthrow" style="padding: 20px; overflow: auto;">
+                            <div class="search3">
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label class="inline">标题</label>
+                                        <input type="text" id="txtTitle" class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="inline">发布时间</label>
+                                        <div class="date" style="display: inline-block;">
+                                            <input ID="txtStart" tip="开通日期" onfocus="WdatePicker()" type="text" />
+                                            <span class="add-on hidden"></span>
+                                        </div>
+                                        <label class="inline">至</label>
+                                        <div class="date" style="display: inline-block;">
+                                            <input ID="txtEnd" tip="开通日期" onfocus="WdatePicker()" type="text" />
+                                            <span class="add-on hidden"></span>
+                                        </div>
+                                    </div>
+                                    <input type="button" id="search" value="搜 索" class="btn btn-primary" />
+                                </div>
+                            </div>
+                            <div class="widget-body innerAll overthrow col-md-12" style="padding: 20px; overflow: auto;">
+                                <table class="table table-bordered table-primary">
+                                    <thead>
+                                        <tr class="tac">
+                                          
+                                            <th>标题</th>
+                                            <th>时间</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody  id="pagerList">
+                                        @foreach (var rmodel in Model.newsList)
+                                        {
+                                            <tr>
+                                               
+                                                <td align="center">@rmodel.NewsTitle</td>
+                                                <td align="center">@rmodel.PublishTime</td>
+                                                <td align="center"><a href="NoticeDetail.aspx?IDid=@rmodel.ID">查看</a></td>
+                                                
+                                            </tr>
+                                        }
+                                     
+                                    </tbody>
+                                  
+                                </table>
+                                <div class="nextpage">
+                                    @Html.Raw(Model.Page)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!--./主体开始-->
+    </section>
+</div>
+<script>
+        function search() {
+
+            var all = $('#all').val();
+            if (all == 9999) {
+                window.location.reload();
+            }
+        };
+      function getPage(pageIndex) {
+            $.ajax({
+                url: "/Message/NoticeManage?pageindex=" + pageIndex,
+                type: "post",
+                success: function (result) {
+                    $(".nextpage").empty();
+                    $(".nextpage").append(result.data.page);
+                    $("#pagerList").empty();
+                    $("#newsList").append('<input type="hidden" id="index" value="' + pageIndex + '" />');
+
+                    var html = template('newsList', { newsList: result.data.leaveoutList });
+                    $("#newsList").append(html);
+                }, 
+                error: function () { alert("网络错误"); }
+            });
+        }
+        //搜索
+        $(function () {
+            $("#search").click(function () {
+                var usercode = $("#textInCode").val();
+
+                $.ajax({
+                    url: "/Message/NoticeManage",
+                    type: "post",
+                    data: { usercode: usercode},
+                    success: function (result) {
+                        $(".nextpage").empty();
+                        $(".nextpage").append(result.data.page);
+                        $("#pagerList").empty();
+                        $("#newsList").append('<input type="hidden" id="index" value="1" />');
+                        var html = template('newsList', { newsList: result.data.leaveoutList });
+                        $("#newsList").append(html);
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            })
+        })
+
+</script>
+<script id="newsList" type="text/html">
+    //template js模板
+    {{each newsList as rmodel}}
+    <tr>
+
+        <td align="center">{{rmodel.newsTitle}}</td>
+        <td align="center">{{rmodel.publishTime}}</td>
+        <td align="center">{{rmodel.iD}}</td>
+    </tr>
+    {{/each}}
+</script>
+        }

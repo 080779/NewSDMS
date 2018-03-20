@@ -1,0 +1,212 @@
+﻿@model SDMS.DTO.DTO.UserDTO
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Share/_Layout2.cshtml";
+}
+
+@using (Html.BeginForm("RegisterModel", "Team", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+        <div class="wrapper">
+            <section class="panel">
+                <!--主体开始-->
+                <section style="padding: 28px;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="widget panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">注册资料</h3>
+                                </div>
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="widget widget-body-white padding-none">
+                                    <div class="widget-body" style="padding: 20px; overflow: auto;">
+                                        <div class="row" style="padding: 10px;">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">会员编号<span class="ast">*</span>:</label>
+                                                <div class="col-md-6">
+                                                    @Html.EditorFor(model => model.UserCode, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.UserCode, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding: 10px;">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">登录密码<span class="ast">*</span>:</label>
+                                                <div class="col-md-6">
+                                                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @type = "password", @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding: 10px;">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">确认密码<span class="ast">*</span>:</label>
+                                                <div class="col-md-6">
+                                                    <input type="password" class="form-control" id="reLogPwd" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding: 10px;">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">二级密码<span class="ast">*</span>:</label>
+                                                <div class="col-md-6">
+                                                    @Html.EditorFor(model => model.SecondPassword, new { htmlAttributes = new { @type = "password",@class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.SecondPassword, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding: 10px;">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">确认密码<span class="ast">*</span>:</label>
+                                                <div class="col-md-6">
+                                                    <input type="password" class="form-control" id="reSeconPwd"  />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding: 10px;">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">会员等级<span class="ast">*</span>:</label>
+                                                <div class="col-md-6">
+                                                    @Html.DropDownList("levelid", new SelectList(ViewBag.LeveModelList, "LevelID", "LevelName", "--请选择--"), new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.LevelID, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding: 10px;">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">注册金额<span class="ast">*</span>:</label>
+                                                <div class="col-md-6">
+                                                    @Html.EditorFor(model => model.RegMoney, new { htmlAttributes = new { @class = "form-control", @readonly= "readonly" } })
+                                                    @Html.ValidationMessageFor(model => model.RegMoney, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding: 10px;">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">推荐人编号<span class="ast">*</span>:</label>
+                                                <div class="col-md-6">
+                                                    @Html.EditorFor(model => model.RecommendCode, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.RecommendCode, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding: 10px;">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">安置人编号<span class="ast">*</span>:</label>
+                                                <div class="col-md-6">
+                                                    @Html.EditorFor(model => model.ParentCode, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.ParentCode, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding: 10px;">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">安置区域<span class="ast">*</span>:</label>
+                                                <div class="col-md-6">
+                                                    @Html.RadioButtonFor(s => s.Location, "1") 左
+                                                    @Html.RadioButtonFor(s => s.Location, "2") 右
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding: 10px;">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">会员姓名<span class="ast">*</span>:</label>
+                                                <div class="col-md-6">
+                                                    @Html.EditorFor(model => model.TrueName, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.TrueName, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding: 10px;">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">手机号码<span class="ast">*</span>:</label>
+                                                <div class="col-md-6">
+                                                   @Html.EditorFor(model => model.PhoneNum, new { htmlAttributes = new { @class = "form-control" } })
+                                                   @Html.ValidationMessageFor(model => model.PhoneNum, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="data-footer innerAll half text-right clearfix" style="text-align: center; padding: 10px;">
+                                        @*<asp:Button ID="btnSubmit" runat="server" class="btn btn-primary coinkg" OnClick="btnSubmit_Click" />*@
+                                        <input type="submit" value="提交" class="btn btn-primary coinkg" />
+                                    </div>
+                                    @*<div class="panel-heading">
+                                        <h3 class="panel-title">银行资料</h3>
+                                    </div>
+                                    <div class="widget widget-body-white padding-none">
+                                        <div class="widget-body" style="padding: 20px; overflow: auto;">
+                                        </div>
+                                    </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </section>
+        </div>
+}
+        <script>
+    $(function () {
+        $('form').bind('submit', checkform);
+            $("select[name='levelid']").change(function () {
+            $.ajax({
+                url: "/Team/RegMoney?id=" + this.value,
+                type: "post",
+                success: function (result) {
+                    $("#RegMoney").val(result);
+                },
+                error: function () { alert("网络错误"); }
+            });
+        })
+
+    })
+    function checkform() {
+        if ($("#UserCode").val() == "") {
+            alert("用户编号不能为空");
+            return false;
+        }
+        if ($("#Password").val() == "") {
+            alert("密码不能为空");
+            return false;
+        }
+        if ($("#LevelID").val() == "") {
+            alert("等级不能为空");
+            return false;
+        }
+        if ($("#RegMoney").val() == "") {
+            alert("注册金额不能为空");
+            return false;
+        }
+        if ($("#RecommendCode").val() == "") {
+            alert("推荐人不能为空");
+            return false;
+        }
+        if ($("#ParentCode").val() == "") {
+            alert("安置会员不能为空");
+            return false;
+        }
+        if ($("#Location").val() == "") {
+            alert("安置区域不能为空");
+            return false;
+        }
+        if ($("#TrueName").val() == "") {
+            alert("会员姓名不能为空");
+            return false;
+        }
+        if ($("#PhoneNum").val() == "") {
+            alert("手机号码不能为空");
+            return false;
+            }
+        if ($("#Password").val() != $("#reLogPwd").val()) {
+                alert("登录密码不一致");
+                return false;
+            }
+        if ($("#SecondPassword").val() != $("#reSeconPwd").val()) {
+                alert("二级密码不一致");
+                return false;
+            }
+    }
+        </script>

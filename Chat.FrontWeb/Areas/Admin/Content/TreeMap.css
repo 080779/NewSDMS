@@ -1,0 +1,14 @@
+﻿/*map系谱图*/
+.cGreenG{ color:#097406;}
+.cRedG{ color:#B42D2D;}
+
+.map09{ height:127px; width:151px; background:url(TreeMap/map19.png) no-repeat;}
+.map09.th{ padding-left:35px; height:15px; line-height:15px; font-weight:bold ; }
+.map09 .th{ color:#fff; text-decoration:none; font-family:Arial, Helvetica, sans-serif; font-size:14px; }
+.map09 .th a:link{ color:#fff; text-decoration:none;}
+.map09 .th a:visited{ color:#fff;  }
+
+.map10{ height:127px; width:151px; background:url(TreeMap/map19_1.png) no-repeat;}
+.map10.th{ padding-left:35px; height:15px; line-height:15px;font-weight:bold ; }
+.map10 .th a:link a:visited { color:#fff; text-decoration:none; font-family:Arial, Helvetica, sans-serif; font-size:14px; }
+ 

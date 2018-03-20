@@ -1,0 +1,114 @@
+﻿  
+<script type="text/javascript">
+    //判断一下当前是不是做顶层，如果不是，则做一下顶层页面重定向       
+    if (window != top) {
+        top.location.href = location.href;
+    }
+</script>
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <title>登录</title>
+    <link href="/css/login.css" rel="stylesheet" type="text/css" />
+    <script src="~/js/jquery.min.js"></script>
+    <script type="text/javascript" language="javascript">
+        String.prototype.Trim = function () {
+            return this.replace(/(^\s*)|(\s*$)/g, "");
+        }
+
+        function Check() {
+            if ($("#username").val().trim() == "")
+            {
+                alert("请输入账号！");
+                $("#username").focus();
+                $("#verifyImage").click();
+                return false;
+            }
+            if ($("#password").val().trim() == "") {
+                alert("请输入密码！");
+                $("#password").focus();
+                $("#verifyImage").click();
+                return false;
+            }
+            if ($("#verifyCode").val().trim() == "") {
+                alert("请输入账号！");
+                $("#verifyCode").focus();
+                $("#verifyImage").click();
+                return false;
+            }
+        }
+
+        $(function(){
+            $("#verifyImage").click(function () {
+                $(this).attr("src", "/admin/user/createverifycode?img=" + Math.random());
+            });
+
+            $("#btnSave").click(function () {
+                var username = $("#username").val();
+                var password = $("#password").val();
+                var verifyCode = $("#verifyCode").val();
+                $.ajax({
+                    url: "/admin/user/login", type: "post", data: { username: username, password: password,verifyCode:verifyCode },
+                    success: function (result) {
+                        if (result.status == "1") {
+                            window.location.href = result.data;
+                        }
+                        else if (result.status == "0") {
+                            alert(result.msg);
+                            $("#verifyImage").click();
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            });
+        });
+    </script>
+
+</head>
+<body bgcolor="#fffcda">
+        <div id="big_box">
+             <div class="loginbox">
+                <table class="tb" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="title">
+                            账&nbsp;&nbsp;号
+                        </td>
+                        <td>
+                            <input class="loginin" id="username" type="text" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="title">
+                            密&nbsp;&nbsp;码
+                        </td>
+                        <td>
+                            <input class="loginin" id="password" type="password" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="title">
+                            验证码
+                        </td> 
+                        
+                        <td>
+                            <input class="loginvadate" id="verifyCode" type="text" />&nbsp;
+                            
+                        </td>
+                        <td>
+                            <img id="verifyImage" style="cursor:pointer" title="点击刷新验证码" src="/admin/user/createverifycode" height="34" class="left" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="title"></td>
+                        <td>
+                          <input type="button" id="btnSave" value="提 交"/>
+                        </td>
+                    </tr>
+                   
+                </table>
+            </div>
+        </div>
+</body>
+</html>

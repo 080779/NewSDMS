@@ -1,0 +1,111 @@
+.border-bottom{border-bottom:1px #d6d6d6 solid !important;}
+.border-bottom > tbody > tr > td { border:none;border-bottom:1px #d6d6d6 solid !important;}
+.panel{box-shadow: none !important;margin-bottom: 0px;}
+.panel-heading {
+    border-bottom: 1px solid #d6d6d6;
+    padding: 15px;
+    text-transform: uppercase;
+    color: #535351;
+    font-size: 18px;
+    font-weight:600;
+}
+.no-border {
+    border-bottom: none;
+}
+.page-heading {
+    padding: 15px;
+    position: relative;
+    font-size: 27px;
+    padding-top: 25px;
+    padding-bottom: 10px;
+}
+.cor-green{
+	color: #6b9477;
+	letter-spacing: 2px;
+}
+.cor-red{
+	color: #997473;
+	letter-spacing: 2px;
+}
+.cor-ash{
+	color: #7a7676;;
+}
+.btn-col-blue{
+	color:#3C8DBD;
+	border:1px solid #3C8DBD;
+	
+}
+.btn-col-blue:hover{
+	color:#fff;
+	border:1px solid #3C8DBD;
+	background:#3C8DBD ;
+}
+.nicescroll-rails{
+    display:none !important;
+}
+ .btn-a-green{padding: 15px;
+    border: 2px solid #6b9477;
+    border-radius: 10px;
+    display: block;
+    width: 80%;
+    text-align: center;
+    font-size: 19px;
+    color: #333;
+    text-emphasis: 5px;
+    letter-spacing: 3px;
+    background:#fff;
+    text-decoration: none;
+    margin: 0px 28px;
+}
+ .btn-a-green:hover{
+ 	border: 2px solid #d6d6d6;
+ 	background:#6b9477;
+ 	color:#fff;
+ 	text-decoration: none;
+ }
+ .btn-a-red{padding: 15px;
+    border: 2px solid #997473;
+    border-radius: 10px;
+    display: block;
+    width: 80%;
+    text-align: center;
+    font-size: 19px;
+    color: #333;
+    text-emphasis: 5px;
+    letter-spacing: 3px;
+    background:#fff;
+    text-decoration: none;
+    margin: 0px 28px;
+}
+ .btn-a-red:hover{
+ 	border: 2px solid #d6d6d6;
+ 	background:#997473;
+ 	color:#fff;
+ 	text-decoration: none;
+ }
+.text-center{ text-align: center;}
+.table-text-center tr td,
+.table-text-center tr th{ text-align: center;}
+ul.p-info .title.w-30 { width: 30%;}
+ul.p-info .desk.w-70 {width: 70%;}
+.border-d6{
+	width: 70%;
+border: 2px solid #d6d6d6;
+border-radius: 15px;
+padding-bottom: 30px;
+}
+footer {
+    border-top:none;
+}
+.panel-default {
+    border: 1px solid #e98034;
+	height:auto !important;
+	
+}
+.panel-default > .panel-heading{
+	background: #e98034;
+	border-color: #e98034;
+}
+.dataTables_paginate {
+    padding: 0px 0;
+}

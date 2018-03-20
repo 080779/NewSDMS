@@ -1,0 +1,148 @@
+﻿@{
+    ViewBag.Title = "未开通报单中心";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+}
+<div class="operation">
+    <fieldset class="fieldset">
+        <legend class="legSearch">查询</legend>选择下拉：
+        @Html.DropDownList("Select_Code", new SelectList(ViewBag.hard_value, "Value", "Text"), new { @class = "btn btn-success dropdown-toggle form-control" })
+        <input id="usercode" type="text" />
+    
+        申请日期： <input tip="输入申请日期" type="text" onfocus="WdatePicker()" id="Start" />
+        至
+        <input tip="输入申请日期" type="text" onfocus="WdatePicker()" id="End" /> 
+
+        <input type="button" id="search" value="查询" />
+    </fieldset>
+</div>
+<div id="load">
+    @{
+        Html.RenderAction("Agent_Page",new { i=0});
+    }
+</div> 
+
+@section FooterScript
+{
+    <script type="text/javascript">
+        function getPage(pageIndex) {
+            var name = $("#Select_Code").find("option:selected").val();
+            var strat = $("#Start").val();
+            var End = $("#End").val();
+            var usercode = $("#usercode").val();
+
+            $("#load").load("/admin/Agent/Agent_Page?Id=" + name + "&usercode=" + usercode + "&Strat=" + strat + "&End=" + End + "&i=0&pageindex=" + pageIndex, function () {
+                $.parser.parse($('#load'));
+            });
+        }
+        //function getPage(pageIndex) {
+        //    var name = $("#Select_Code").find("option:selected").val();
+        //    var usercode = $("#usercode").val(); 
+        //    var strat = $("#Start").val();
+        //    var End = $("#End").val();
+        //    $.ajax({
+        //        url: "/admin/Agent/MemberGetPage?Id=" + name + "&&usercode=" + usercode + "&&Strat=" + strat + "&&End=" + End + "&&i=0&&pageindex=" + pageIndex, type: "post",
+        //        success: function (result) {
+                    
+        //            $(".nextpage").empty();
+        //            $(".nextpage").append(result.data.page);
+        //            $("#pagerList").empty();
+        //            $("#pagerList").append('<input type="hidden" id="index" value="' + pageIndex + '" />');
+        //            var html = template('MemberList', { agentListDTO: result.data.agentListDTO });
+        //            //alert(result.data.MemberList);
+        //            $("#pagerList").append(html);
+        //            $.parser.parse($('#pagerList'));
+        //        },
+        //        error: function () { alert("网络错误"); }
+        //    });
+        //}
+        $(function () {
+            $('body').on('click', '.del', function(){   
+                var pass = $(this).val();
+                $.ajax({
+                    url: "/admin/Agent/Del?id=" + pass, type: "post",
+                    success: function (result) {
+                        //alert(2);
+                        if (result.status == "0") {
+                            alert(result.msg);
+                        }
+                        else if (result.status == "1") {
+                            //alert(1);
+                            alert(result.msg);
+                        }
+                        else if (result.status == "2") {
+                            alert(result.msg);
+                            window.location.href = result.data;
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            })
+
+        });
+        $(function () {
+            $('body').on('click', '.pass', function(){  
+                var pass = $(this).val();
+                $.ajax({
+                    url: "/admin/Agent/Pass?id=" + pass, type: "post",
+                    success: function (result) {
+                        //alert(2);
+                        if (result.status == "0") {
+                            alert(result.msg);
+                        }
+                        else if (result.status == "1") {
+                            //alert(1);
+                            alert(result.msg);
+                        }
+                        else if (result.status == "2") {
+                            alert(result.msg);
+                            window.location.href = result.data;
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            });
+        });
+        $(function () {
+            $("#search").click(function (pageIndex) {
+                getPage(1);
+                //alert(usercode);
+                //$.ajax({
+                //    url: "/admin/Agent/MemberGetPage?Id=" + name + "&&usercode=" + usercode + "&&Strat=" + strat + "&&End=" + End + "&&i=" + 0 + "&&pageindex=" + pageIndex, type: "post",
+                //    success: function (result) {
+                //        $.parser.parse($('#load'));
+                //        //$(".nextpage").empty();
+                //        //$(".nextpage").append(result.data.page);
+                //        //$("#pagerList").empty();
+                //        //$("#pagerList").append('<input type="hidden" id="index" value="' + pageIndex + '" />');
+
+                //        //var html = template('MemberList', { memberList: result.data.memberList });
+                //        ////alert(result.data.MemberList);
+                //        //$("#pagerList").append(html);
+                //        //$.parser.parse($('#pagerList'));
+                //    },
+                //    error: function () { alert("网络错误"); }
+                //});
+            });
+        });
+    </script>
+
+    <script id="MemberList" type="text/html">
+        @*//template js模板*@
+        {{each agentListDTO as User}}
+        <tr>
+            <td align="center">{{User.agentCode}}</td> 
+            <td align="center">{{User.createTime}}</td>
+            <td align="center">
+                <button class="easyui-linkbutton pass" value="{{User.id}}" iconcls="icon-edit">激活</button>
+                <button class="easyui-linkbutton del" value="{{User.id}}" iconcls="icon-remove">删除</button>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+}
+
+
+
+
+
+

@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "我要留言";
+    Layout = "~/Views/Share/_Layout2.cshtml";
+}
+<script type="text/javascript" language="javascript">
+
+
+    function Submit() {
+       
+        var Title = $.trim($("#txtTitle").val());
+        var Context = $.trim($("#txtPubContext").val());
+         $.ajax({
+             url: '/Message/Leavewords',
+            type: "post",
+            data: {Title: Title, Context: Context },
+            success: function (result) {
+                if (result.status == "1") {
+                    window.location.href = result.data;
+                }
+                else {
+                    alert(result.msg);
+                }
+            },
+            error: function () { alert("网络错误"); }
+        });
+
+    }
+    function Return() {
+            ` `
+
+        $.ajax({
+            url: '/Message/Leavewords',
+
+        });
+
+    }
+</script>
+<div class="page-heading">
+    <i class="fa fa-bar-chart-o"></i>我要留言
+</div>
+<!-- page heading end-->
+<!--body wrapper start-->
+
+<div class="wrapper">
+    <section class="panel">
+        <!--主体开始-->
+        <section style="padding: 28px;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">我要留言</h3>
+                        </div>
+                        <div class="widget widget-body-white padding-none">
+                            <div class="widget-body" style="padding: 20px; overflow: auto;">
+                                <div class="row" style="padding: 10px;">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">主题<span class="ast">*</span>:</label>
+                                        <div class="col-md-9">
+                                            <input class="form-control" name="" id="txtTitle" type="text" size="400" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding: 10px;">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">留言内容<span class="ast">*</span>:</label>
+                                        <div class="col-md-9">
+                                            <textarea id="txtPubContext" tip="输入内容" class="form-control" TextMode="MultiLine"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="data-footer innerAll half text-right clearfix" style="text-align: center; padding: 10px;">
+                                <input id="btn_s1" class="btn btn-primary coinkg" value="提 交" onclick="Submit()" />
+                                <input class="btn btn-primary coinkg" type="button" id="btnReturn" value="返 回" onclick="Return()" />
+                         </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+        </section>
+
+    </section> 
+    </div>
+
+

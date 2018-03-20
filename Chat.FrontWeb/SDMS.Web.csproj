@@ -1,0 +1,741 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{16BE9289-29B6-4B93-84CE-4D706406218A}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SDMS.Web</RootNamespace>
+    <AssemblyName>SDMS.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.0.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.0.1\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Mvc5.4.0.1\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CaptchaGen, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CaptchaGen.1.0.0\lib\net40\CaptchaGen.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Deployment">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Content\Base.css" />
+    <Content Include="Areas\Admin\Content\Images\ico_NoDate.gif" />
+    <Content Include="Areas\Admin\Content\Site.css" />
+    <Content Include="Areas\Admin\Content\bootstrap.min.css" />
+    <Content Include="Areas\Admin\Content\themes\default\accordion.css" />
+    <Content Include="Areas\Admin\Content\themes\default\calendar.css" />
+    <Content Include="Areas\Admin\Content\themes\default\combo.css" />
+    <Content Include="Areas\Admin\Content\themes\default\combobox.css" />
+    <Content Include="Areas\Admin\Content\themes\default\datagrid.css" />
+    <Content Include="Areas\Admin\Content\themes\default\datebox.css" />
+    <Content Include="Areas\Admin\Content\themes\default\dialog.css" />
+    <Content Include="Areas\Admin\Content\themes\default\easyui.css" />
+    <Content Include="Areas\Admin\Content\themes\default\images\accordion_collapse.png" />
+    <Content Include="Areas\Admin\Content\themes\default\images\accordion_expand.png" />
+    <Content Include="Areas\Admin\Content\themes\default\images\blank.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\button_a_bg.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\button_plain_hover.png" />
+    <Content Include="Areas\Admin\Content\themes\default\images\button_span_bg.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\calendar_nextmonth.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\calendar_nextyear.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\calendar_prevmonth.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\calendar_prevyear.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\combo_arrow.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\datagrid_header_bg.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\datagrid_row_collapse.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\datagrid_row_expand.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\datagrid_sort_asc.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\datagrid_sort_desc.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\datagrid_title_bg.png" />
+    <Content Include="Areas\Admin\Content\themes\default\images\datebox_arrow.png" />
+    <Content Include="Areas\Admin\Content\themes\default\images\layout_button_down.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\layout_button_left.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\layout_button_right.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\layout_button_up.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\menu.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\menu_downarrow.png" />
+    <Content Include="Areas\Admin\Content\themes\default\images\menu_rightarrow.png" />
+    <Content Include="Areas\Admin\Content\themes\default\images\menu_sep.png" />
+    <Content Include="Areas\Admin\Content\themes\default\images\menu_split_downarrow.png" />
+    <Content Include="Areas\Admin\Content\themes\default\images\messager_error.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\messager_info.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\messager_question.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\messager_warning.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\pagination_first.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\pagination_last.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\pagination_load.png" />
+    <Content Include="Areas\Admin\Content\themes\default\images\pagination_loading.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\pagination_next.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\pagination_prev.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\panel_loading.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\panel_title.png" />
+    <Content Include="Areas\Admin\Content\themes\default\images\panel_tools.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\panel_tool_collapse.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\panel_tool_expand.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\searchbox_button.png" />
+    <Content Include="Areas\Admin\Content\themes\default\images\spinner_arrow_down.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\spinner_arrow_up.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\tabs_active.png" />
+    <Content Include="Areas\Admin\Content\themes\default\images\tabs_close.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\tabs_enabled.png" />
+    <Content Include="Areas\Admin\Content\themes\default\images\tabs_leftarrow.png" />
+    <Content Include="Areas\Admin\Content\themes\default\images\tabs_rightarrow.png" />
+    <Content Include="Areas\Admin\Content\themes\default\images\tree_arrows.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\tree_checkbox_0.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\tree_checkbox_1.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\tree_checkbox_2.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\tree_dnd_no.png" />
+    <Content Include="Areas\Admin\Content\themes\default\images\tree_dnd_yes.png" />
+    <Content Include="Areas\Admin\Content\themes\default\images\tree_file.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\tree_folder.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\tree_folder_open.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\tree_loading.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\validatebox_pointer.gif" />
+    <Content Include="Areas\Admin\Content\themes\default\images\validatebox_warning.png" />
+    <Content Include="Areas\Admin\Content\themes\default\layout.css" />
+    <Content Include="Areas\Admin\Content\themes\default\linkbutton.css" />
+    <Content Include="Areas\Admin\Content\themes\default\menu.css" />
+    <Content Include="Areas\Admin\Content\themes\default\menubutton.css" />
+    <Content Include="Areas\Admin\Content\themes\default\messager.css" />
+    <Content Include="Areas\Admin\Content\themes\default\pagination.css" />
+    <Content Include="Areas\Admin\Content\themes\default\panel.css" />
+    <Content Include="Areas\Admin\Content\themes\default\progressbar.css" />
+    <Content Include="Areas\Admin\Content\themes\default\propertygrid.css" />
+    <Content Include="Areas\Admin\Content\themes\default\searchbox.css" />
+    <Content Include="Areas\Admin\Content\themes\default\spinner.css" />
+    <Content Include="Areas\Admin\Content\themes\default\splitbutton.css" />
+    <Content Include="Areas\Admin\Content\themes\default\tabs.css" />
+    <Content Include="Areas\Admin\Content\themes\default\tree.css" />
+    <Content Include="Areas\Admin\Content\themes\default\validatebox.css" />
+    <Content Include="Areas\Admin\Content\themes\default\window.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\accordion.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\calendar.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\combo.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\combobox.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\datagrid.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\datebox.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\dialog.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\easyui.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\accordion_collapse.png" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\accordion_expand.png" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\blank.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\button_a_bg.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\button_plain_hover.png" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\button_span_bg.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\calendar_nextmonth.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\calendar_nextyear.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\calendar_prevmonth.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\calendar_prevyear.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\combo_arrow.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\datagrid_header_bg.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\datagrid_row_collapse.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\datagrid_row_expand.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\datagrid_sort_asc.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\datagrid_sort_desc.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\datagrid_title_bg.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\datebox_arrow.png" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\layout_button_down.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\layout_button_left.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\layout_button_right.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\layout_button_up.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\menu.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\menu_downarrow.png" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\menu_rightarrow.png" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\menu_sep.png" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\menu_split_downarrow.png" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\messager_error.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\messager_info.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\messager_question.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\messager_warning.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\pagination_first.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\pagination_last.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\pagination_load.png" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\pagination_loading.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\pagination_next.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\pagination_prev.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\panel_loading.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\panel_title.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\panel_tools.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\panel_tool_collapse.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\panel_tool_expand.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\searchbox_button.png" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\spinner_arrow_down.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\spinner_arrow_up.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\tabs_close.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\tabs_enabled.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\tabs_leftarrow.png" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\tabs_rightarrow.png" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\tree_arrows.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\tree_checkbox_0.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\tree_checkbox_1.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\tree_checkbox_2.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\tree_dnd_no.png" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\tree_dnd_yes.png" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\tree_file.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\tree_folder.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\tree_folder_open.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\tree_loading.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\validatebox_pointer.gif" />
+    <Content Include="Areas\Admin\Content\themes\gray\images\validatebox_warning.png" />
+    <Content Include="Areas\Admin\Content\themes\gray\layout.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\linkbutton.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\menu.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\menubutton.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\messager.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\pagination.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\panel.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\progressbar.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\propertygrid.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\searchbox.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\spinner.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\splitbutton.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\tabs.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\tree.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\validatebox.css" />
+    <Content Include="Areas\Admin\Content\themes\gray\window.css" />
+    <Content Include="Areas\Admin\Content\themes\icon.css" />
+    <Content Include="Areas\Admin\Content\themes\icons\back.png" />
+    <Content Include="Areas\Admin\Content\themes\icons\blank.gif" />
+    <Content Include="Areas\Admin\Content\themes\icons\cancel.png" />
+    <Content Include="Areas\Admin\Content\themes\icons\cut.png" />
+    <Content Include="Areas\Admin\Content\themes\icons\edit_add.png" />
+    <Content Include="Areas\Admin\Content\themes\icons\edit_remove.png" />
+    <Content Include="Areas\Admin\Content\themes\icons\filesave.png" />
+    <Content Include="Areas\Admin\Content\themes\icons\help.png" />
+    <Content Include="Areas\Admin\Content\themes\icons\mini_add.png" />
+    <Content Include="Areas\Admin\Content\themes\icons\mini_edit.png" />
+    <Content Include="Areas\Admin\Content\themes\icons\mini_refresh.png" />
+    <Content Include="Areas\Admin\Content\themes\icons\no.png" />
+    <Content Include="Areas\Admin\Content\themes\icons\ok.png" />
+    <Content Include="Areas\Admin\Content\themes\icons\pencil.png" />
+    <Content Include="Areas\Admin\Content\themes\icons\print.png" />
+    <Content Include="Areas\Admin\Content\themes\icons\redo.png" />
+    <Content Include="Areas\Admin\Content\themes\icons\reload.png" />
+    <Content Include="Areas\Admin\Content\themes\icons\search.png" />
+    <Content Include="Areas\Admin\Content\themes\icons\sum.png" />
+    <Content Include="Areas\Admin\Content\themes\icons\tip.png" />
+    <Content Include="Areas\Admin\Content\themes\icons\undo.png" />
+    <Content Include="Areas\Admin\Content\Tooltip.css" />
+    <Content Include="Areas\Admin\Content\TreeMap.css" />
+    <Content Include="Areas\Admin\Scripts\Calendar.js" />
+    <Content Include="Areas\Admin\Scripts\Common.js" />
+    <Content Include="Areas\Admin\Scripts\DD_belatedPNG_0.0.8a-min.js" />
+    <Content Include="Areas\Admin\Scripts\DD_belatedPNG_0.0.8a.js" />
+    <Content Include="Areas\Admin\Scripts\expressInstall.swf" />
+    <None Include="Areas\Admin\Scripts\jquery-1.4.1-vsdoc.js" />
+    <Content Include="Areas\Admin\Scripts\jquery-1.4.1.js" />
+    <Content Include="Areas\Admin\Scripts\jquery-1.4.1.min.js" />
+    <Content Include="Areas\Admin\Scripts\jquery.blockUI.js" />
+    <Content Include="Areas\Admin\Scripts\jquery.easyui.min.js" />
+    <Content Include="Areas\Admin\Scripts\jquery.js" />
+    <None Include="Areas\Admin\Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Areas\Admin\Scripts\jquery.parser.js" />
+    <Content Include="Areas\Admin\Scripts\jquery.validate.js" />
+    <Content Include="Areas\Admin\Scripts\jquery.validate.min.js" />
+    <Content Include="Areas\Admin\Scripts\jquery1.2.js" />
+    <Content Include="Areas\Admin\Scripts\jsAddress.js" />
+    <Content Include="Areas\Admin\Scripts\main-layout.js" />
+    <Content Include="Areas\Admin\Scripts\MicrosoftAjax.debug.js" />
+    <Content Include="Areas\Admin\Scripts\MicrosoftAjax.js" />
+    <Content Include="Areas\Admin\Scripts\MicrosoftMvcAjax.debug.js" />
+    <Content Include="Areas\Admin\Scripts\MicrosoftMvcAjax.js" />
+    <Content Include="Areas\Admin\Scripts\MicrosoftMvcValidation.debug.js" />
+    <Content Include="Areas\Admin\Scripts\MicrosoftMvcValidation.js" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\calendar.js" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\config.js" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\lang\en.js" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\lang\zh-cn.js" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\lang\zh-tw.js" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\My97DatePicker.htm" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\skin\blue\bg.jpg" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\skin\blue\btnbg.jpg" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\skin\blue\datepicker.css" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\skin\blue\down.jpg" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\skin\blue\left.gif" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\skin\blue\navLeft.gif" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\skin\blue\navRight.gif" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\skin\blue\qs.jpg" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\skin\blue\right.gif" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\skin\blue\up.jpg" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\skin\datePicker.gif" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\skin\default\datepicker.css" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\skin\default\img.gif" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\skin\WdatePicker.css" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\skin\whyGreen\bg.jpg" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\skin\whyGreen\datepicker.css" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\skin\whyGreen\img.gif" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\skin\YcloudRed\bg.gif" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\skin\YcloudRed\datepicker.css" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\skin\YcloudRed\qs.jpg" />
+    <Content Include="Areas\Admin\Scripts\My97DatePicker\WdatePicker.js" />
+    <Content Include="Areas\Admin\Scripts\superValidator.js" />
+    <Content Include="Areas\Admin\Scripts\swfobject_modified.js" />
+    <Content Include="Areas\Admin\Scripts\tagcss.css" />
+    <Content Include="Areas\Admin\Scripts\tagjs.js" />
+    <Content Include="css\add_style.css" />
+    <Content Include="css\bootstrap-reset.css" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\common.css" />
+    <Content Include="css\css.css" />
+    <Content Include="css\font-awesome.min.css" />
+    <Content Include="css\indexcss.css" />
+    <Content Include="css\jquery-ui-1.10.3.css" />
+    <Content Include="css\login.css" />
+    <Content Include="css\main.css" />
+    <Content Include="css\minimal.css" />
+    <Content Include="css\pagination.css" />
+    <Content Include="css\style-default.css" />
+    <Content Include="css\style-responsive.css" />
+    <Content Include="css\style.css" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\bg99.gif" />
+    <Content Include="Images\bg_199.gif" />
+    <Content Include="Images\000.jpg" />
+    <Content Include="Images\001.jpg" />
+    <Content Include="Images\002.jpg" />
+    <Content Include="Images\003.jpg" />
+    <Content Include="Images\004.jpg" />
+    <Content Include="Images\005.jpg" />
+    <Content Include="Images\006.jpg" />
+    <Content Include="Images\icon.png" />
+    <Content Include="Images\image0.jpg" />
+    <Content Include="Images\image01.jpg" />
+    <Content Include="Images\image02.jpg" />
+    <Content Include="Images\image03.jpg" />
+    <Content Include="Images\image04.jpg" />
+    <Content Include="Images\image05.jpg" />
+    <Content Include="Images\image06.jpg" />
+    <Content Include="Images\image1.jpg" />
+    <Content Include="Images\image2.jpg" />
+    <Content Include="Images\image3.jpg" />
+    <Content Include="Images\image4.jpg" />
+    <Content Include="Images\image5.jpg" />
+    <Content Include="Images\image6.jpg" />
+    <Content Include="Images\img.jpg" />
+    <Content Include="Images\infos.png" />
+    <Content Include="Images\login-bg2.jpg" />
+    <Content Include="Images\login_bg_02.gif" />
+    <Content Include="Images\logo-1.png" />
+    <Content Include="Images\logo-2.png" />
+    <Content Include="Images\logo1.png" />
+    <Content Include="Images\minus.png" />
+    <Content Include="Images\plus-white.png" />
+    <Content Include="Images\plus.png" />
+    <Content Include="Images\right.png" />
+    <Content Include="Images\t_tree_bottom.gif" />
+    <Content Include="Images\t_tree_bottom_l.gif" />
+    <Content Include="Images\t_tree_bottom_r.gif" />
+    <Content Include="Images\t_tree_line.gif" />
+    <Content Include="Images\t_tree_mid.gif" />
+    <Content Include="Images\t_tree_mind.gif" />
+    <Content Include="img\23e.png" />
+    <Content Include="img\code.jpg" />
+    <Content Include="img\active-complete.jpg" />
+    <Content Include="img\active-over.jpg" />
+    <Content Include="img\active-start.jpg" />
+    <Content Include="img\default\ask-title-border.png" />
+    <Content Include="img\default\bg-dec-index.png" />
+    <Content Include="img\default\bg-i.jpg" />
+    <Content Include="img\default\bg-index.jpg" />
+    <Content Include="img\default\bg-l.jpg" />
+    <Content Include="img\default\bg1.png" />
+    <Content Include="img\default\bg2.png" />
+    <Content Include="img\default\bg3.png" />
+    <Content Include="img\default\caitiao.png" />
+    <Content Include="img\default\heiban-i.png" />
+    <Content Include="img\default\i-icon1.png" />
+    <Content Include="img\default\i-icon2.png" />
+    <Content Include="img\default\i-icon3.png" />
+    <Content Include="img\default\i-icon4.png" />
+    <Content Include="img\default\icon-backhome.png" />
+    <Content Include="img\default\icon-knowlege.png" />
+    <Content Include="img\default\icon-number.png" />
+    <Content Include="img\default\icon-right.png" />
+    <Content Include="img\default\icon-search.png" />
+    <Content Include="img\default\icon-wrong.png" />
+    <Content Include="img\default\prize-top-bg.jpg" />
+    <Content Include="img\default\result-right.png" />
+    <Content Include="img\default\result-wrong.png" />
+    <Content Include="img\share.png" />
+    <Content Include="img\default\tit-bg.png" />
+    <Content Include="img\default\tm-bg.png" />
+    <Content Include="img\zhb.jpg" />
+    <Content Include="img\zhb.png" />
+    <Content Include="js\bootstrap-datepicker.js" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\check.js" />
+    <Content Include="js\echarts.min.js" />
+    <Content Include="js\jquery-1.10.2.min.js" />
+    <Content Include="js\jquery-1.8.2.js" />
+    <Content Include="js\jquery-2.1.1.min.js" />
+    <Content Include="js\jquery-migrate-1.2.1.min.js" />
+    <Content Include="js\jquery-ui-1.9.2.custom.min.js" />
+    <Content Include="js\jquery.min.js" />
+    <Content Include="js\jquery.nicescroll.js" />
+    <Content Include="css\layer.css" />
+    <Content Include="js\jstree.min.js" />
+    <Content Include="js\layer.js" />
+    <Content Include="js\login1.js" />
+    <Content Include="js\modernizr.min.js" />
+    <Content Include="js\PageComm.js" />
+    <Content Include="js\pagination.min.js" />
+    <Content Include="js\scripts.js" />
+    <Content Include="js\tagcss.css" />
+    <Content Include="js\template.js" />
+    <Content Include="js\themes\default-dark\32px.png" />
+    <Content Include="js\themes\default-dark\40px.png" />
+    <Content Include="js\themes\default-dark\style.css" />
+    <Content Include="js\themes\default-dark\style.min.css" />
+    <Content Include="js\themes\default-dark\throbber.gif" />
+    <Content Include="js\themes\default\32px.png" />
+    <Content Include="js\themes\default\40px.png" />
+    <Content Include="js\themes\default\style.css" />
+    <Content Include="js\themes\default\style.min.css" />
+    <Content Include="js\themes\default\throbber.gif" />
+    <Content Include="Areas\Admin\Views\Home\memberline.cshtml" />
+    <Content Include="Areas\Admin\Views\Statistical\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Finance\Account.cshtml" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\NoPermissionAttribute.cs" />
+    <Compile Include="App_Start\PermissionAttribute.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\SYSAuthorizationFilter.cs" />
+    <Compile Include="App_Start\SYSExceptionFilter.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\Base\AdminBaseController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AgentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FinanceController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MemberController.cs" />
+    <Compile Include="Areas\Admin\Controllers\StatisticalController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MessageController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SystemController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TeamController.cs" />
+    <Compile Include="Areas\Admin\Models\Finance\AccountModel.cs" />
+    <Compile Include="Areas\Admin\Models\Finance\ChangeListModel.cs" />
+    <Compile Include="Areas\Admin\Models\Finance\JournalListModel.cs" />
+    <Compile Include="Areas\Admin\Models\Finance\BonusListModel.cs" />
+    <Compile Include="Areas\Admin\Models\Finance\RechargeListModel.cs" />
+    <Compile Include="Areas\Admin\Models\Agent\AgentListViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\Finance\TakeMoneyListModel.cs" />
+    <Compile Include="Areas\Admin\Models\IndexViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\Member\MemberListViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\Finance\RemitListModel.cs" />
+    <Compile Include="Areas\Admin\Models\Message\LeaveOutListModel.cs" />
+    <Compile Include="Areas\Admin\Models\Message\LeaveReMsgListModel.cs" />
+    <Compile Include="Areas\Admin\Models\Message\LeaveWordsDetailModel.cs" />
+    <Compile Include="Areas\Admin\Models\Message\NoticeEditListModel.cs" />
+    <Compile Include="Areas\Admin\Models\System\AdminEditViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\System\AdminListViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\System\BankNameListModel.cs" />
+    <Compile Include="Areas\Admin\Models\System\RoleAddViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\System\RoleEditViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\System\SystemBankListModel.cs" />
+    <Compile Include="Areas\Admin\Models\Team\UserProView.cs" />
+    <Compile Include="Areas\Admin\Models\User\AdminAccount.cs" />
+    <Compile Include="Common\UserView.cs" />
+    <Compile Include="Common\ViewFind.cs" />
+    <Compile Include="Controllers\FinanceController.cs" />
+    <Compile Include="Controllers\Base\FrontBaseController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MemberController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
+    <Compile Include="Controllers\TeamController.cs" />
+    <Compile Include="Controllers\MemberLevelController.cs" />
+    <Compile Include="Controllers\ToolController.cs" />
+    <Compile Include="Controllers\TradingController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Finance\BonusListModel.cs" />
+    <Compile Include="Models\Finance\ChangeListModel.cs" />
+    <Compile Include="Models\Finance\ChangeModel.cs" />
+    <Compile Include="Models\Finance\JournalListModel.cs" />
+    <Compile Include="Models\Finance\RemitListModel.cs" />
+    <Compile Include="Models\Finance\RemitModel.cs" />
+    <Compile Include="Models\MemberLevel\AgentListViewModel.cs" />
+    <Compile Include="Models\MemberLevel\MemberLevelListViewModel.cs" />
+    <Compile Include="Models\Finance\TakeModel.cs" />
+    <Compile Include="Models\Message\LeaveMsgListModel.cs" />
+    <Compile Include="Models\Message\LeaveOutListModel.cs" />
+    <Compile Include="Models\Message\LeaveWordsDetailModel.cs" />
+    <Compile Include="Models\Member\MemberListViewModel.cs" />
+    <Compile Include="Models\Finance\TakeMoneyListModel.cs" />
+    <Compile Include="Models\Message\NoticeMabageListModel.cs" />
+    <Compile Include="Models\Stock\StockView.cs" />
+    <Compile Include="Models\Team\TreeViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config" />
+    <Content Include="packages.config" />
+    <Content Include="fonts\hzgb.ttf" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout1.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\zhuye.cshtml" />
+    <Content Include="Areas\Admin\Views\System\AdminManager.cshtml" />
+    <Content Include="Areas\Admin\Views\System\AdminEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\System\RoleManager.cshtml" />
+    <Content Include="Areas\Admin\Views\System\RoleEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Team\MemberTree.cshtml" />
+    <Content Include="Areas\Admin\Views\Member\Member.cshtml" />
+    <Content Include="Areas\Admin\Views\System\AdminAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\System\RoleAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Login.cshtml" />
+    <Content Include="Areas\Admin\Views\Message\Leavewords.cshtml" />
+    <Content Include="Areas\Admin\Views\Finance\RemitList.cshtml" />
+    <Content Include="Areas\Admin\Views\Team\Register.cshtml" />
+    <Content Include="Areas\Admin\Views\Finance\TakeMoneyList.cshtml" />
+    <Content Include="Areas\Admin\Views\Member\MemberList.cshtml" />
+    <Content Include="Areas\Admin\Views\Finance\RechargeList.cshtml" />
+    <Content Include="Areas\Admin\Views\Message\LeaveOut.cshtml" />
+    <Content Include="Areas\Admin\Views\Agent\Agent.cshtml" />
+    <Content Include="Areas\Admin\Views\Agent\AgentList.cshtml" />
+    <Content Include="Areas\Admin\Views\Finance\BonusList.cshtml" />
+    <Content Include="Areas\Admin\Views\Message\LeaveIn.cshtml" />
+    <Content Include="Areas\Admin\Views\Message\NoticeEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Message\LeaveWordsDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\Finance\JournalList.cshtml" />
+    <Content Include="Areas\Admin\Views\System\ParamManager.cshtml" />
+    <Content Include="Areas\Admin\Views\System\DataBaseManager.cshtml" />
+    <Content Include="Areas\Admin\Views\System\BankNameManage.cshtml" />
+    <Content Include="Areas\Admin\Views\System\SystemBankManage.cshtml" />
+    <Content Include="Areas\Admin\Views\Message\NoticeManage.cshtml" />
+    <Content Include="Areas\Admin\Views\Team\RecommendTree.cshtml" />
+    <Content Include="Areas\Admin\Views\Finance\ChangeList.cshtml" />
+    <Content Include="Areas\Admin\Views\Member\PersonalData.cshtml" />
+    <Content Include="Areas\Admin\Views\Team\ProcLevel.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\AdminManagerPaging.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\MemberPage.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\MemberListPage.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\AgentPage.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\AgentListPage.cshtml" />
+    <Content Include="Areas\Admin\Views\Agent\Pic.cshtml" />
+    <None Include="Properties\PublishProfiles\Answer.pubxml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\Member\Member.cshtml" />
+    <Content Include="Views\Member\MemberList.cshtml" />
+    <Content Include="Views\Share\_Layout2.cshtml" />
+    <Content Include="Views\Share\_LeftMenuControl.cshtml" />
+    <Content Include="Views\Member\RegisterList.cshtml" />
+    <Content Include="Views\Finance\RemitList.cshtml" />
+    <Content Include="Views\MemberLevel\MemberLevel.cshtml" />
+    <Content Include="Views\Finance\AddTakeMoney.cshtml" />
+    <Content Include="Views\Finance\AddRemit.cshtml" />
+    <Content Include="Views\Team\MemberTree.cshtml" />
+    <Content Include="Views\Finance\TakeMoneyList.cshtml" />
+    <Content Include="Views\MemberLevel\AgentLevel.cshtml" />
+    <Content Include="Views\Team\Register.cshtml" />
+    <Content Include="Views\Team\PersonalInfo.cshtml" />
+    <Content Include="Views\Finance\JournalList.cshtml" />
+    <Content Include="Views\Finance\BonusList.cshtml" />
+    <Content Include="Views\Team\RecommendTree.cshtml" />
+    <Content Include="Views\Finance\AddChange.cshtml" />
+    <Content Include="Views\Finance\ChangeList.cshtml" />
+    <Content Include="Views\Message\Leavewords.cshtml" />
+    <Content Include="Views\Message\LeaveOut.cshtml" />
+    <Content Include="Views\Message\LeaveMsg.cshtml" />
+    <Content Include="Views\Message\LeaveWordsDetail.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Models\Statistical\" />
+    <Folder Include="Upload\VerifyCode\Admin\" />
+    <Folder Include="Upload\VerifyCode\Front\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Chat.DTO\SDMS.DTO.csproj">
+      <Project>{dc1ce7c1-fc87-41ef-8045-30e85e93bca9}</Project>
+      <Name>SDMS.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Chat.IService\SDMS.IService.csproj">
+      <Project>{EE1591CA-EBBF-4C29-BAF4-78F01AE2A5D0}</Project>
+      <Name>SDMS.IService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Chat.Service\SDMS.Service.csproj">
+      <Project>{1d7c08a8-8ed2-4a8f-a22b-fe1fea8c869a}</Project>
+      <Name>SDMS.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Chat.WebCommon\SDMS.Common.csproj">
+      <Project>{D9BE0C2C-29C7-45A6-9542-1FA31960F500}</Project>
+      <Name>SDMS.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>52988</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:52988/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

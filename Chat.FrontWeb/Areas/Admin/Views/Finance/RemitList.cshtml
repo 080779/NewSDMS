@@ -1,0 +1,199 @@
+﻿@model SDMS.Web.Areas.Admin.Models.Finance.RemitListModel
+@{
+    ViewBag.Title = "充值管理";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+}
+<div class="subBody">
+    <div class="box_con">
+
+        <div class="box box_width">
+            <div class="operation">
+                <fieldset class="fieldset">
+                    <legend class="legSearch">汇款查询</legend>
+                    代理编号：<input type="text" class="input_select" id="txtusercode" placeholder="输入代理编号" />
+                    代理姓名：<input type="text" class="input_select" id="txttruename" placeholder="输入代理姓名" />
+                    审核状态：
+                    <select id="selectstate">
+                        <option value="-1">请选择</option>
+                        <option value="0">未审核</option>
+                        <option value="1">已通过</option>
+                    </select>
+                    申请日期：<input type="text" class="input_select" id="txtstart" onfocus="WdatePicker()" placeholder="输入申请日期" />
+                    至 <input type="text" class="input_select" id="txtend" onfocus="WdatePicker()" placeholder="输入申请日期" />
+                      <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" id="search">搜 索</a>
+                </fieldset>
+            </div>
+            <div class="dataTable">
+                <table width="99%" border="0" cellspacing="0" cellpadding="0" class="t1">
+                    <thead>
+                        <tr>
+                            <th>代理编号</th>
+                            <th>代理姓名</th>
+                            <th>汇款金额</th>
+                            <th>汇款具体时间</th>
+                            <th>汇出银行</th>
+                            <th>汇出账户</th>
+                            <th>汇出开户名</th>
+                            <th>汇款备注</th>
+                            <th>汇入银行</th>
+                            <th>汇入账户</th>
+                            <th>汇入开户名</th>
+                            <th>申请日期</th>
+                            <th>审核状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pagerList">
+                        @foreach (var rmodel in Model.remitList)
+                        {
+                        <tr>
+                        <td align="center">@rmodel.UserCode</td>
+                        <td align="center">@rmodel.TrueName</td>
+                        <td align="center">@rmodel.RemitMoney</td>
+                        <td align="center">@rmodel.RechargeableDate</td>
+                        <td align="center">@rmodel.BankName</td>
+                        <td align="center">@rmodel.BankAccount</td>
+                        <td align="center">@rmodel.BankAccountUser</td>
+                        <td align="center">@rmodel.Remark</td>
+                        <td align="center">@rmodel.Remit003</td>
+                        <td align="center">@rmodel.Remit004</td>
+                        <td align="center">@rmodel.Remit007</td>
+                        <td align="center">@rmodel.AddDate</td>
+                        <td align="center">@rmodel.StateName</td>
+                        <td align="center">
+                            @if (rmodel.State == 0)
+                            {
+                            <a href="javascript:void(0);" class="easyui-linkbutton sure" iconcls="icon-ok" id="@rmodel.ID">确认</a>
+                            <a href="javascript:void(0);" class="easyui-linkbutton del" iconcls="icon-no" id="@rmodel.ID">删除</a>
+                            }
+                            else
+                            {
+
+                            }
+                        </td>
+                    </tr>
+                    }
+                    </tbody>
+                </table>
+                <div class="nextpage cBlack">
+                    @Html.Raw(Model.Page)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section FooterScript{
+    <script type="text/javascript">
+        function getPage(pageIndex) {
+            $.ajax({
+                url: "/admin/finance/remitList?pageindex=" + pageIndex,
+                type: "post",
+                success: function (result) {
+                    $(".nextpage").empty();
+                    $(".nextpage").append(result.data.page);
+                    $("#pagerList").empty();
+                    $("#pagerList").append('<input type="hidden" id="index" value="' + pageIndex + '" />');
+
+                    var html = template('remitList', { remitList: result.data.remitList });
+                    $("#pagerList").append(html);
+                    $.parser.parse($('#pagerList'));
+                },
+                error: function () { alert("网络错误"); }
+            });
+        }
+        //搜索
+        $(function () {
+            $("#search").click(function () {
+                var usercode = $("#txtusercode").val();
+                var truename = $("#txttruename").val();
+                var state = $("#selectstate option:selected").val();
+                var start = $("#txtstart").val();
+                var end = $("#txtend").val();
+                $.ajax({
+                    url: "/admin/finance/remitList",
+                    type: "post",
+                    data: { usercode: usercode, truename: truename, state: state, start: start, end: end },
+                    success: function (result) {
+                        $(".nextpage").empty();
+                        $(".nextpage").append(result.data.page);
+                        $("#pagerList").empty();
+                        $("#pagerList").append('<input type="hidden" id="index" value="1" />');
+
+                        var html = template('remitList', { remitList: result.data.remitList });
+                        $("#pagerList").append(html);
+                        $.parser.parse($('#pagerList'));
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            })
+
+            //删除
+            $("body").on("click", ".del", function () {
+                var page = $("#index").val();
+                if (page == "" || page == undefined || page == NaN) {
+                    page = "1";
+                }
+                var a = $(this).attr("id");
+                $.ajax({
+                    url: "/admin/finance/remitdel?id=" + a + "&pageindex=" + page,
+                    type: "post",
+                    success: function (result) {
+                        if (result.status == "1") {
+                            window.location.href = result.data;
+                        }
+                        else {
+                            alert(result.msg);
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            })
+        
+            //确定
+            $("body").on("click", ".sure", function () {
+                var page = $("#index").val();
+                if (page == "" || page == undefined || page == NaN) {
+                    page = "1";
+                }
+                var a = $(this).attr("id");
+                $.ajax({
+                    url: "/admin/finance/remitupdatestate?id=" + a + "&pageindex=" + page,
+                    type: "post",
+                    success: function (result) {
+                        if (result.status == "1") {
+                            window.location.href = result.data;
+                        }
+                        else {
+                            alert(result.msg);
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            })
+        })
+    </script>
+    <script id="remitList" type="text/html">
+        {{each remitList as remit}}
+        <tr>
+            <td align="center">{{remit.id}}</td>
+            <td align="center">{{remit.userCode}}</td>
+            <td align="center">{{remit.trueName}}</td>
+            <td align="center">{{remit.remitMoney}}</td>
+            <td align="center">{{remit.rechargeableDate}}</td>
+            <td align="center">{{remit.bankName}}</td>
+            <td align="center">{{remit.bankAccount}}</td>
+            <td align="center">{{remit.bankAccountUser}}</td>
+            <td align="center">{{remit.remark}}</td>
+            <td align="center">{{remit.remit003}}</td>
+            <td align="center">{{remit.remit004}}</td>
+            <td align="center">{{remit.remit007}}</td>
+            <td align="center">{{remit.stateName}}</td>
+            <td align="center">
+                <a class="easyui-linkbutton sure" id="{{remit.id}}" iconcls="icon-ok" style="display:{{remit.state=='0'?'':'none'}}">确认</a>
+                <a class="easyui-linkbutton del" id="{{remit.id}}" iconcls="icon-no" style="display:{{remit.state=='0'?'':'none'}}">删除</a>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+}
+

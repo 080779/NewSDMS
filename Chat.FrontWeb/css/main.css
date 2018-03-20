@@ -1,0 +1,245 @@
+/*reset*/
+body,h1,h2,h3,h4,p,ul,ol,dl,dt,dd,form,input,select,span,p,strong,em { margin:0; padding:0;}
+li{ list-style:none;}
+a{ text-decoration:none; blr:expression(this.onFocus=this.blur()); outline: none; color: #666;}
+a:focus { outline: none; } 
+img{ border:none; vertical-align:top;}
+input,select,textarea{ outline:none;resize:none;}
+em { font-style: normal;}
+body, input{ font-family:"微软雅黑";font-size: 12px;}
+body{
+	background: #EBEBEB;
+	-webkit-user-select: none;
+}
+
+/*public*/
+.clear{ zoom:1;}
+.clear:after{content:''; display:block; clear:both;}
+.fl{float: left;}
+.fr{float: right;}
+.w1000{ width: 1000px; margin: 0 auto;}
+.a-grey{ color: #666;}
+.a-grey:hover{}
+.a-blue{ color: #48afaa;}
+.a-blue:hover{}
+.green{
+	color: #09AD6A !important;
+}
+.red{
+	color: #FB746C !important;
+}
+.subnav{
+	width: 100%;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	font-size: 0;
+}
+.subnav li{
+	display: inline-block;
+	width: 50%;
+	text-align: center;
+	height: 48px;
+	line-height: 48px;
+	font-size: 16px;
+	vertical-align: top;
+	box-sizing: border-box;
+}
+.subnav li a{
+	display: block;
+	background: #fff;
+	color: #666;
+}
+.subnav li:last-child a{
+	background: #09AD6A ;
+	color: #fff;
+}
+
+
+/* list */
+.infolist{
+}
+.infolist li{
+	padding: 20px 20px 1px;
+	margin-bottom:15px;
+	background: #fff;
+}
+.infolist li img{
+	display: block;
+	vertical-align: top;
+	width: 100%;
+	margin-bottom: 15px;
+}
+.infolist li h2{
+	font-size: 18px;
+	color: #333333;
+	letter-spacing: 0;
+	line-height: 1.6;
+	margin-bottom: 15px;
+}
+.infolist li p{
+	margin-bottom: 15px;
+	font-size: 14px;
+	color: #999;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.infolist li p span{
+	margin-right: 1em;
+}
+
+
+/* article */
+.articleder {
+	background: #fff;
+	margin-bottom: 8px;
+}
+.articleder img{
+	width: 100%;
+	display: block;
+	vertical-align: top;
+}
+.articleder h2{
+	font-size: 16px;
+	color: #333333;
+	line-height: 1.6;
+	padding:15px;
+	font-weight: normal;
+}
+
+.articleattr {
+	background: #fff;
+}
+.attrs li{
+	padding: 15px;
+	font-size: 14px;
+	color: #999;
+	overflow: hidden;
+	border-bottom:1px solid #EBEBEB;
+}
+.prices{
+	overflow: hidden;
+	padding:15px;
+}
+.attrs span,.prices span{
+	width: 70px;
+	float: left;
+	color: #666;
+}
+.attrs div,.prices div{
+	width:calc(100% - 75px);
+	float: left;
+	color: #333;
+}
+.prices div{
+	text-align: right;
+	color: #666;
+}
+.prices div span{
+	width: auto;
+	font-weight: bold;
+}
+
+.articleinfo{
+	margin: 15px 0 60px;
+	background: #fff url(../images/infos.png) no-repeat center 15px;
+	background-size:100px auto;
+	padding:42px 15px 10px;
+}
+.articleinfo-con{
+	overflow: hidden;
+}
+.articleinfo-con img{
+	max-width: 100%!important;
+}
+.articleinfo p{
+	line-height: 2;
+	margin-bottom:8px;
+}
+
+.joinbox{
+	margin-bottom:60px;
+}
+.infos,.ticketinfo{
+	background: #fff;
+	margin-bottom:15px;
+}
+.joinbox h3{
+	font-size: 18px;
+	color: #2BBC69;
+	padding:15px;
+	border-bottom:1px solid #EBEBEB;
+}
+.joinbox h3 span{
+	display: inline-block;
+	width: 4px;
+	height: 16px;
+	background: #2bbc69;
+	vertical-align: top;
+	margin-right:15px;
+	border-radius: 20%;
+	margin-top: 6px;
+}
+.joinbox ul{
+	background: #fff;
+}
+.joinbox ul li{
+	padding:15px;
+	border-bottom:1px solid #EBEBEB;
+	overflow: hidden;
+}
+.joinbox ul li span{
+	float: left;
+	width: 80px;
+	text-align: right;
+	box-sizing: border-box;
+	padding-right:15px;
+	color: #333;
+	font-size: 14px;
+	line-height: 1.6;
+}
+.joinbox ul li div{
+	float: left;
+	width:calc(100% - 85px);
+}
+.joinbox ul li div input,.joinbox ul li div select{
+	background: none;
+	border:none;
+	width: 100%;
+	height: 20px;
+	vertical-align: middle;
+	color: #666;
+	font-size: 14px;
+}
+.joinbox ul li div select{
+	-webkit-appearance:none;
+	background:url(../images/right.png) no-repeat right center;
+	background-size:20px auto;
+}
+.joinbox ul li div select:focus{
+	border: none;
+}
+
+.joinbox ul li div textarea{
+	display: block;
+	width: 100%;
+	min-height: 5rem;
+	border:none;
+	color: #666;
+	font-size: 14px;
+	line-height: 1.6;
+}
+
+.joininthumb{
+	height: 160px;
+	padding-left:calc(16% + 110px);
+	padding-top: 45px;
+	margin-bottom:15px;
+	background:#fff url(../images/icon.png) no-repeat 16% 30px;
+	background-size: auto 7.2rem;
+	color: #2BBC69;
+	font-size: 16px;
+	line-height: 2;
+	box-sizing: border-box;
+}

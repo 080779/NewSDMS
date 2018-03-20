@@ -1,0 +1,195 @@
+﻿@model SDMS.DTO.DTO.UserDTO
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+}
+<link href="/css/css.css" rel="Stylesheet" type="text/css" />
+<link href="/css/indexcss.css" rel="stylesheet" type="text/css" />
+<h2>会员注册</h2>
+
+@using (Html.BeginForm("RegisterModel", "Team", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "元素不能为空", new { @class = "text-danger" })
+    <div class="box box_width">
+        <div class="dataTable">
+            <fieldset class="fieldset">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="">
+                    <tr>
+                        <td width="200" align="right">
+                            <h1>
+                                登录资料：
+                            </h1>
+                        </td>
+                        <td align="left"></td>
+                    </tr>
+                    <tr>
+                        <td width="200" align="right">
+                            <span class="cRed">*</span>会员编号：
+                        </td>
+                        <td align="left"> 
+                            @Html.EditorFor(model => model.UserCode, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.UserCode, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="200" align="right">
+                            <span class="cRed">*</span>登陆密码：
+                        </td>
+                        <td align="left">
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @type = "password", @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr style="display:none">
+                        <td width="200" align="right">
+                            <span class="cRed">*</span>二级密码：
+                        </td>
+                        <td align="left">
+                            @Html.EditorFor(model => model.SecondPassword, new { htmlAttributes = new { @type = "password", @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.SecondPassword, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="200" align="right">
+                            <h1>
+                                会员资料：
+                            </h1>
+                        </td>
+                        <td align="left"></td>
+                    </tr>
+                    <tr>
+                        <td width="200" align="right">
+                            <span class="cRed">*</span>会员等级：
+                        </td>
+                        <td align="left">
+                            @*@Html.EditorFor(model => model.LevelID, new { htmlAttributes = new { @class = "form-control" } })*@
+                            @Html.DropDownList("levelName", new SelectList(ViewBag.LeveModelList, "LevelID", "LevelName","--请选择--"), new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LevelID, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="200" align="right">
+                            <span class="cRed">*</span>注册金额：
+                        </td>
+                        <td align="left">
+                            @Html.EditorFor(model => model.RegMoney, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.RegMoney, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr class="c1">
+                        <td width="200" align="right">
+                            <span class="cRed">*</span>推荐编号：
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => model.RecommendCode, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.RecommendCode, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="200" align="right">
+                            <span class="cRed">*</span>安置会员编号：
+                        </td>
+                        <td align="left">
+                            @Html.EditorFor(model => model.ParentCode, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ParentCode, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="200" align="right">
+                            <span class="cRed">*</span>安置区域：
+                        </td>
+                        <td align="left">
+                            @Html.RadioButtonFor(s => s.Location, "1") 左
+                            @Html.RadioButtonFor(s => s.Location, "2") 右
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="200" align="right">
+                            <span class="cRed">*</span>会员姓名：
+                        </td>
+                        <td align="left">
+                            @Html.EditorFor(model => model.TrueName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.TrueName, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="200" align="right">
+                            <span class="cRed">*</span>手机号码：
+                        </td>
+                        <td align="left">
+                            @Html.EditorFor(model => model.PhoneNum, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PhoneNum, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="200" align="right">
+                            &nbsp;
+                        </td>
+                        <td align="left">
+                            <input type="submit" value="提交" class="btn btn-submit" />
+                           
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>     
+     </div>
+}
+<script>
+    $(function () {
+        $('form').bind('submit', checkform);
+        $("select[name='levelName']").change(function () {
+            $.ajax({
+                url: "/admin/Team/RegMoney?id=" + this.value,
+                type: "post",
+                success: function (result) {
+                    $("#RegMoney").val(result);
+                },
+                error: function () { alert("网络错误"); }
+            });
+        })
+        
+    })
+    function checkform() {
+        if ($("#UserCode").val() == "")
+        {
+            alert("用户编号不能为空");
+            return false;
+        }
+        if ($("#Password").val() == "") {
+            alert("密码不能为空");
+            return false;
+        }
+        if ($("#LevelID").val() == "") {
+            alert("等级不能为空");
+            return false;
+        }
+        if ($("#RegMoney").val() == "") {
+            alert("注册金额不能为空");
+            return false;
+        }
+        if ($("#RecommendCode").val() == "") {
+            alert("推荐人不能为空");
+            return false;
+        }
+        if ($("#ParentCode").val() == "") {
+            alert("安置会员不能为空");
+            return false;
+        }
+        if ($("#Location").val() == "") {
+            alert("安置区域不能为空");
+            return false;
+        }
+        if ($("#TrueName").val() == "") {
+            alert("会员姓名不能为空");
+            return false;
+        }
+        if ($("#PhoneNum").val() == "") {
+            alert("手机号码不能为空");
+            return false;
+        }
+    }
+</script>
+

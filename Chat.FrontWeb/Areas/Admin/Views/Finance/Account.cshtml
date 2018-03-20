@@ -1,0 +1,145 @@
+﻿@model SDMS.Web.Areas.Admin.Models.Finance.AccountModel
+@{
+    ViewBag.Title = "账户查询";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+}
+
+<div class="operation">
+    <fieldset class="fieldset">
+        <table width="60%" border="0" cellspacing="0" cellpadding="0" class="">
+            <tr>
+                <td>现有正式代理：<a href="../business/AgentList.aspx"><asp:Label ID="Label1" Text=""></asp:Label></a>个</td>
+                <td>待激活代理：<a href="../business/Member.aspx"><asp:Label ID="Label2" Text=""></asp:Label></a>个</td>
+               
+            </tr>
+            <tr>
+                <td>今日申请提现：<a href="TakeMoney.aspx"><asp:Label ID="Label5"  Text=""></asp:Label></a>条</td>
+                <td>已提现金额：<a href="TakeList.aspx"><asp:Label ID="Label6"  Text=""></asp:Label></a></td>
+                <td>注册总金额：<a href="Account.aspx"><asp:Label ID="Label7"  Text=""></asp:Label></a></td>
+            </tr>
+            <tr>
+                <td>准代理人数：<a href="#"><asp:Label ID="lblevel1" Text=""></asp:Label></a>人</td>
+                <td>一级代理人数：<a href="#"><asp:Label ID="lblevel2" Text=""></asp:Label></a>人</td>
+                <td>二级代理人数：<a href="#"><asp:Label ID="lblevel3" Text=""></asp:Label></a>人</td>
+                <td>三级代理人数：<a href="#"><asp:Label ID="lblevel4"  Text=""></asp:Label></a>人</td>
+            </tr>
+            <tr>
+                <td>四级代理人数：<a href="#"><asp:Label ID="lblevel5" Text=""></asp:Label></a>人</td>
+                <td>五级代理人数：<a href="#"><asp:Label ID="lblevel6" Text=""></asp:Label></a>人</td>
+                <td>六级代理人数：<a href="#"><asp:Label ID="lblevel7" Text=""></asp:Label></a>人</td>
+            </tr>
+        </table>
+    </fieldset>
+</div>
+<div class="dataTable">
+    <table width="99%" border="0" cellspacing="0" cellpadding="0" class="t1">
+        <tr>
+            <th align="center"></th>
+            <th align="center">
+                总收入
+            </th>
+            <th align="center">
+                总支出
+            </th>
+            <th align="center">
+                总盈利
+            </th>
+            <th align="center">
+                拨出比率
+            </th>
+        </tr>
+        <tr>
+            <td align="center">
+                总计
+            </td>
+            <td align="center">
+                <%=GetIncomeTotal().ToString("0.00")%>
+            </td>
+            <td align="center">
+                <%=GetPayTotal().ToString("0.00")%>
+            </td>
+            <td align="center">
+                <%=(GetIncomeTotal() - GetPayTotal()).ToString("0.00")%>
+            </td>
+            <td align="center">
+                <%=GetIncomeTotal() == 0 ? "0" : (GetPayTotal() / GetIncomeTotal() * 100).ToString("0.00")%>%
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="operation">
+    <fieldset class="fieldset">
+        <legend class="legSearch">查詢</legend>
+        結算日期：<input type="text" class="input_select" id="txtstart" onfocus="WdatePicker()" placeholder="输入日期" />
+        至<input type="text" class="input_select" id="txtend" onfocus="WdatePicker()" placeholder="输入日期" />
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" id="search">搜 索</a>
+    </fieldset>
+</div>
+<div class="dataTable">
+    <table width="99%" border="0" cellspacing="0" cellpadding="0" class="t1">
+        <tr>
+            <th align="center">
+                結算日期
+            </th>
+            <th align="center">
+                本日收入
+            </th>
+            <th align="center">
+                本日支出
+            </th>
+            <th align="center">
+                本日盈利
+            </th>
+            <th align="center">
+                拨出比率
+            </th>
+        </tr>
+        <tbody id="pagerList">
+      
+            @foreach (var rmodel in Model.a)
+            {
+                <tr>
+                    <td align="center">@rmodel.recordTime </td>
+                    <td align="center">@rmodel.TrueName </td>
+                    <td align="center">@rmodel.TypeName </td>
+                    <td align="center">@rmodel.Amount </td>
+                    <td align="center">@rmodel.Revenue </td>
+                    <td align="center">@rmodel.Sf </td>
+                    <td align="center">@rmodel.Source </td>
+                    <td align="center">@rmodel.AddTime </td>
+                    <td align="center">@rmodel.SttleTime </td>
+                    <td align="center">@rmodel.SettleName </td>
+                </tr>
+            }
+     
+
+            @foreach (var rmodel in Model.bonusList)
+            {
+                <tr>
+                    <td align="center">
+                        <%#Eval("recordTime")%>
+
+                    </td>
+                    <td align="center">
+
+                        <%#  (float.Parse(Eval("sr").ToString())).ToString("0.00")%>
+                    </td>
+                    <td align="center">
+
+                        <%#  (float.Parse(Eval("zc").ToString())).ToString("0.00")%>
+                    </td>
+                    <td align="center">
+                        <%#  (float.Parse(Eval("yl").ToString())).ToString("0.00")%>
+
+                    </td>
+                    <td align="center">
+                        <%#MyBL(Eval("sr"),Eval("zc"))%>
+                    </td>
+                </tr>
+            }
+        </tbody>
+</table>
+    <div class="nextpage cBlack">
+        @Html.Raw(Model.Page)
+    </div>
+</div>

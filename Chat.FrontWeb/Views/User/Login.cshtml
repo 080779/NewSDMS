@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <link rel="shortcut icon" href="#" type="image/png" />
+    <title>用户登录</title>
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/css/style-responsive.css" rel="stylesheet" />
+    <script type="text/javascript" src="/js/jquery-1.8.2.js"></script>
+    <script type="text/javascript" src="/js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="/js/layer.js"></script>
+    <script type="text/javascript">
+        String.prototype.Trim = function () {
+            return this.replace(/(^\s*)|(\s*$)/g, "");
+        }
+
+        function ed(id) { return document.getElementById(id); }
+
+        function CheckText() {
+            if (ed("TBUserName").value.Trim() == "") {
+                alert("请输入账号！");
+                ed("TBUserName").focus();
+                $("#checkCode").click();
+                return false;
+            }
+            if (ed("TBPassWord").value.Trim() == "") {
+                alert("请输入密码！");
+                ed("TBPassWord").focus();
+                $("#checkCode").click();
+                return false;
+            }
+            if (ed("TBCode").value.Trim() == "") {
+                alert("请输入验证码！");
+                ed("TBCode").focus();
+                $("#checkCode").click();
+                return false;
+            }
+            if (ed("checkCode").length < 4) {
+                alert("请认真检查验证码是否输入完整！");
+                ed("checkCode").focus();
+                $("#checkCode").click();
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+
+<body class="login-body">
+    <div class="container">
+        <div class="form-signin">
+            <div class="form-signin-heading text-center">
+                <img src="/images/logo-1.png" alt="" style="width: 70%; height: 70%;" />
+            </div>
+            <div class="login-wrap">
+                <div class="alert alert-danger" style="display: none;">
+                    <!--    用户名或密码不正确。 -->
+                </div>
+                <input type="text" class="form-control" placeholder="用户名" id="TBUserName" />
+                <input type="password" class="form-control" placeholder="密码" id="TBPassWord" /><span id="passwordshow"></span>
+                <input class="form-control" type="text" placeholder="验证码" id="TBCode" />
+                <div>
+                    <img id="checkCode" src="/user/createverifycode" />
+                </div>
+                <button id="btnLogin" class="btn btn-lg btn-login btn-block">提交</button>
+                @*<a href="/forget.aspx" style="float: left">忘记密码?</a>
+                    <a href="/Reg/reg.html" style="float: right">立即注册</a><span style="float: right">还没有账号?</span>*@
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        $(function () {
+            $(document).keydown(function (event) {
+                if (event.keyCode == 13) {
+                    $("#btnLogin").click();
+                }
+            });
+
+            $("#btnLogin").click(function () {
+                if (!CheckText())
+                {
+                    return;
+                }
+                var usercode = $("#TBUserName").val();
+                var password = $("#TBPassWord").val();
+                var verifyCode = $("#TBCode").val();
+                $.ajax({
+                    type: "post", url: "/user/login", data: { usercode: usercode, password: password, verifyCode: verifyCode },
+                    success: function (result) {
+                        if (result.status == "1") {
+                            window.location.href = result.data;
+                        }
+                        else if (result.status == "0") {
+                            alert(result.msg);
+                            $("#checkCode").click();
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            });
+
+            $("#checkCode").click(function () {
+                $(this).attr("src", "/user/createverifycode?img="+Math.random());
+            });
+
+            $('#password').blur(function () {
+                var regex = /^[a-zA-Z0-9]{6,18}$/;
+                var password = $("#password").val();
+                if ("" != password && null != password) {
+                    if (!regex.test(password)) {
+                        $('#passwordshow').html("<span style='color: red'>请输入6~18位的密码</span>");
+                    } else {
+                        $("#passwordshow").html("<span style='color: red'></span>");
+                    }
+                } else {
+                    $("#passwordshow").html("<span style='color: red'></span>");
+                }
+            });
+        });
+        $("#checkCode").click();
+    </script>
+</body>
+</html>

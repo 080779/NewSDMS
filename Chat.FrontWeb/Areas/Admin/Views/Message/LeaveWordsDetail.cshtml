@@ -1,0 +1,139 @@
+﻿@model SDMS.Web.Areas.Admin.Models.Message.LeaveWordsDetailModel
+
+
+@{
+    ViewBag.Title = "留言详情";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+}
+
+<script type="text/javascript" language="javascript">
+
+
+    function Submit() {
+      
+        var Context = $.trim($("#txtPubContext").val());
+        var Id = $.trim($("#hid").val());
+         $.ajax({
+             url: '/Admin/Message/LeaveWordsContext',
+            type: "post",
+            data: { Id: Id, Context: Context },
+            success: function (result) {
+                if (result.status == "1") {
+                    window.location.href = result.data;
+                }
+                else {
+                    alert(result.msg);
+                }
+            },
+            error: function () { alert("网络错误"); }
+        });
+
+    }
+    function Return() {
+            ` `
+
+        $.ajax({
+            url: '/Admin/Message/LeaveWordsDetail',
+
+        });
+
+    }
+</script>
+<div class="mailTop">
+    <input type="hidden" id="hid"  value="@Model.data.ID"/>
+    <div class="sendMen">
+        <span class="ico_mail"></span>【@Model.data.UserCode】发件
+    </div>
+    <div class="sendTime cGray">
+        <span class="ico_mailReTime">发送时间：</span>@Model.data.LeaveTime
+    </div>
+</div>
+<div class="mailTop">
+    <div class="sendMen">
+        <span class="ico_mail">主题：</span>@Model.data.MsgTitle
+    </div>
+</div>
+<div>
+    <!--class="reply"-->
+  @Model.data.MsgContent
+</div>
+<!--end mailTop-->
+<div class="clear">
+</div>
+<div class="mailCon">
+    
+    <!--end reply-->
+    @foreach (var rmodel in Model.leaveReMsgList)
+    {
+          <div class="managerReply">
+                <h2 class="cGold ico_admin">
+                 @rmodel.UserCode  @rmodel.ReTime
+                </h2>
+                <p>
+                </p>
+                <p class="cRed">
+                   @rmodel.ReContent
+                </p>
+            </div>
+    
+    }
+   
+    <!--end managerReply-->
+    <div class="nextpage">
+        @Html.Raw(Model.Page )
+    </div>
+</div>
+<div style="padding-left: 10px;" id="mail" >
+    <p>
+        回复留言：
+    </p>
+    <p>
+        <textarea id="txtPubContext" Height="127px" Width="99%" Style="border: 1px #A4BED4 solid; float: inherit;"></textarea>
+        
+    </p>
+    <p>
+    </p>
+    <input id="btn_s1" class="easyui-linkbutton" iconcls="icon-ok" value="提 交" onclick="Submit()"/>
+    <input class="easyui-linkbutton" iconcls="icon-back" type="button" id="btnReturn" value="返 回" onclick="Return()" />
+ 
+</div>
+@section FooterScript{
+<script type="text/javascript">
+        function getPage(pageIndex) {
+            $.ajax({
+                url: "/admin/message/LeaveWordsDetail?pageindex=" + pageIndex,
+                type: "post",
+                success: function (result) {
+                    $(".nextpage").empty();
+                    $(".nextpage").append(result.data.page);
+                    $("#pagerList").empty();
+                    $("#pagerList").append('<input type="hidden" id="index" value="' + pageIndex + '" />');
+
+                    var html = template('leaveReMsgList', { leaveReMsgList: result.data.leaveReMsgList });
+                    $("#pagerList").append(html);
+                },
+                error: function () { alert("网络错误"); }
+            });
+        }
+       
+
+</script>
+<script id="leaveReMsgList" type="text/html">
+
+
+    //template js模板
+    {{each leaveReMsgList as rmodel}}
+    
+        <h2 class="cGold ico_admin">
+          {{rmodel.userCode}}  {{rmodel.reTime}} 
+        </h2>
+        <p>
+        </p>
+        <p class="cRed">
+            {{rmodel.reContent}}
+         </p>
+    
+   
+    {{/each}}
+</script>
+}

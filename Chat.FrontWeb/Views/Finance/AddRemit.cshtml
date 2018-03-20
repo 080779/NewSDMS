@@ -1,0 +1,186 @@
+﻿@model SDMS.Web.Models.Finance.RemitModel
+@{
+    ViewBag.Title = "充值";
+    Layout = "~/Views/Share/_Layout2.cshtml";
+}
+
+<div class="page-heading">
+    <i class="fa fa-bar-chart-o"></i>代理充值
+</div>
+<!-- page heading end-->
+<!--body wrapper start-->
+<div class="wrapper">
+    <section class="panel">
+        <!--主体开始-->
+        <section style="padding: 28px;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div style="background-color: #3C8DBD; padding: 10px; padding-bottom: 20px; margin-bottom: 20px; color: #fff; border-radius: 5px;">
+                        <h3 class="font-light m-b-xs">充值注意事项</h3>
+                        <p>
+                            1、请仔细核对金额、地址等信息；
+                        </p>
+                        <p>
+                            2、充值业务开启时间，请关注官方公告。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">代理充值</h3>
+                        </div>
+                        <div class="widget widget-body-white padding-none">
+                            <div class="widget-body" style="padding: 20px; overflow: auto;">
+                                <div class="row" style="padding: 10px;">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">汇入银行<span class="ast">*</span>:</label>
+                                        <div class="col-md-9">
+                                            @Html.DropDownList("dropinbank", ViewBag.bankinlist as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding: 10px;">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">汇入账户<span class="ast">*</span>:</label>
+                                        <div class="col-md-9">
+                                            <label id="lbinbankaccount" class="form-control"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="padding: 10px;">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">汇入开户名<span class="ast">*</span>:</label>
+                                        <div class="col-md-9">
+                                            <label id="lbinbankaccountuser" class="form-control"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="data-footer innerAll half text-right clearfix" style="text-align: center; padding: 10px;"></div>
+                        </div>
+                        <div class="panel-heading">
+                            <h3 class="panel-title">申请信息</h3>
+                        </div>
+                        <div class="widget widget-body-white padding-none">
+                            <div class="widget-body" style="padding: 20px; overflow: auto;">
+                                <div class="row" style="padding: 10px;">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">充值币种<span class="ast">*</span>:</label>
+                                        <div class="col-md-9">
+                                            激活金
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding: 10px;">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">汇出银行<span class="ast">*</span>:</label>
+                                        <div class="col-md-9">
+                                            @Html.DropDownList("dropoutbank", ViewBag.bankoutlist as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                                            <input type="hidden" id="hdsysbank" value="@Model.sysbankList"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding: 10px;">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">汇出账户<span class="ast">*</span>:</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtoutaccount" class="form-control" maxlength="19" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding: 10px;">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">汇出开户名<span class="ast">*</span>:</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtaccountuser" class="form-control" maxlength="19" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding: 10px;">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">汇款金额<span class="ast">*</span>:</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="txtmoney" class="form-control coinkg" onkeydown="if(event.keyCode==13) event.keyCode=9"
+                                                   onKeyPress="if ((event.keyCode<48 || event.keyCode>57 ) && event.keyCode!=46) event.returnValue=false;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding: 10px;">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">汇款具体时间<span class="ast">*</span>:</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="hktime" onfocus="WdatePicker()" class="form-control" placeholder="请输入就汇款时间" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding: 10px;">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">汇款备注<span class="ast">*</span>:</label>
+                                        <div class="col-md-9">
+                                            <textarea id="txtremark" cols="30" rows="5" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="data-footer innerAll half text-right clearfix" style="text-align: center; padding: 10px;">
+                                <input type="button" id="btnsubmit" class="btn btn-primary coinkg" value="提 交" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--./主体开始-->
+    </section>
+</div>
+@section FooterScript{
+<script type="text/javascript">
+        $(function () {
+            $("#dropinbank").change(function () {
+                var id = $(this).val();
+                var str = $("#hdsysbank").val();
+                var alist = eval("(" + str + ")");
+                for (var i = 0; i < alist.length; i++){
+                    //console.log(alist[i].ID);
+                    if (id == alist[i].ID) {
+                        $("#lbinbankaccount").text(alist[i].BankAccount);
+                        $("#lbinbankaccountuser").text(alist[i].BankAccountUser);
+                        break;
+                    }
+                }
+            })
+        })
+
+        //提交
+        $(function () {
+            $("#btnsubmit").click(function () {
+                var money = $("#txtmoney").val();
+                var sysbankid = $("#dropinbank option:selected").val(); 
+                var bankname = $("#dropoutbank option:selected").text();
+                var bankaccount = $("#txtoutaccount").val();
+                var accountuser = $("#txtaccountuser").val();
+                var hktime = $("#hktime").val();
+                var remark = $("#txtremark").val();
+                $.ajax({
+                    url: "/finance/addtakemoney",
+                    type: "post",
+                    data: { amount: money, sysbankid: sysbankid, bankname: bankname, bankaccount: bankaccount, bankaccountuser: accountuser, hktime: hktime, remark: remark },
+                    success: function (result) {
+                        if (result.status == "1") {
+                            window.location.href = result.data;
+                        }
+                        else {
+                            alert(result.msg);
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            })
+        })
+</script>
+
+}

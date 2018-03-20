@@ -1,0 +1,226 @@
+﻿@model SDMS.Web.Models.Member.MemberListViewModel
+@{
+    ViewBag.Title = "未开通会员";
+    Layout = "~/Views/Share/_Layout2.cshtml";
+}
+
+<div class="wrapper">
+    <section class="panel">
+        <!--主体开始-->
+        <section style="padding: 28px;">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">未开通会员</h3>
+                        </div>
+                        <div class="widget-body innerAll overthrow" style="padding: 20px; overflow: auto;">
+                            <div class="search3">
+                                <div class="form-inline">
+                                    请选择查询类型：
+                                    <div class="form-group">
+                                        @Html.DropDownList("Select_Code", new SelectList(ViewBag.hard_value, "Value", "Text"), new { @class = "btn btn-success dropdown-toggle form-control" })
+
+                                    </div>
+                                    <div class="form-group">
+
+                                        <label class="inline">会员编号</label>
+
+                                        <input name="txtUserCode" id="txtUserCode" class="form-control" type="text" />
+                                    </div>
+                                    <div class="form-group">
+                                        会员级别：<select id="Level">
+                                            <option value="0">--请选择--</option>
+                                            @foreach (var item in Model.BlogCategory)
+                                            {
+                                                <option value="@item.LevelID">@item.LevelName</option>
+
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="inline">申请时间</label>
+                                        <div class="date" style="display: inline-block;">
+                                            <input ID="txtStart" tip="开通日期" onfocus="WdatePicker()" type="text" />
+                                            <span class="add-on hidden"></span>
+                                        </div>
+                                        <label class="inline">至</label>
+                                        <div class="date" style="display: inline-block;">
+                                            <input ID="txtEnd" tip="开通日期" onfocus="WdatePicker()" class="input_select" type="text" />
+                                            <span class="add-on hidden"></span>
+                                        </div>
+                                        <input type="button" id="search" value="搜 索" class="btn btn-primary" />
+                                        @*<asp:Button ID="btnSearch"  OnClick="btnSearch_Click" class="btn btn-primary" />*@
+                                    </div>
+
+                                    <span class="search1"></span>
+                                </div>
+                            </div>
+                            <div class="widget-body innerAll overthrow col-md-12" style="padding: 20px; overflow: auto;">
+                                <table class="table table-bordered table-primary">
+                                    <thead>
+                                        <tr class="tac">
+                                            <th>会员编号</th>
+                                            <th>会员姓名</th> 
+                                            <th>推荐人编号</th> 
+                                            <th>注册等级</th> 
+                                            <th>注册日期</th> 
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pagerList">
+                              @foreach (var user in Model.MemberList)
+                              {
+                                <tr>
+                                    <td align="center">@user.UserCode</td>
+                                    <td align="center">@user.TrueName</td>
+                                    <td align="center">@user.RecommendCode</td>
+                                    <td align="center">@user.LevelName</td>
+                                    <td align="center">@user.CreateTime</td>
+                                    <td align="center">
+                                        <a></a>
+                                        <button class="easyui-linkbutton pass" value="@user.ID" iconcls="icon-edit">激活</button> 
+                                        <button class="easyui-linkbutton del" value="@user.ID" iconcls="icon-remove">删除</button> 
+                                    </td>
+                                </tr>
+                              }
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+</div>
+<div class="nextpage">
+    @Html.Raw(Model.Page)
+</div>
+
+<script type="text/javascript">
+    function search() {
+
+        var all = $('#all').val();
+        if (all == 9999) {
+            window.location.reload();
+        }
+    };
+    $(function () {
+        $("#search").click(function (pageIndex) {
+            var name = $("#Select_Code").find("option:selected").val();
+            var level = $("#Level").find("option:selected").val();
+            var strat = $("#txtStart").val();
+            var End = $("#txtEnd").val();
+            var usercode = $("#txtUserCode").val();
+            var getloginid = 1;
+            $.ajax({
+                url: "/Member/MemberGetPage?Id=" + name + "&&getloginid=" + getloginid + "&&usercode=" + usercode + "&&Level=" + level + "&&Strat=" + strat + "&&End=" + End + "&&i=" + 0 + "&&pageindex=" + pageIndex, type: "post",
+                success: function (result) { 
+                    $(".nextpage").empty();
+                    $(".nextpage").append(result.data.page);
+                    $("#pagerList").empty();
+                    $("#pagerList").append('<input type="hidden" id="index" value="' + pageIndex + '" />');
+
+                    var html = template('MemberList', { memberList: result.data.memberList });
+                    //alert(result.data.MemberList);
+                    $("#pagerList").append(html);
+                }
+            })
+
+        })
+    });
+    function getPage(pageIndex) {
+        var name = $("#Select_Code").find("option:selected").val();
+        var level = $("#Level").find("option:selected").val();
+        var strat = $("#txtStart").val();
+        var End = $("#txtEnd").val();
+        var usercode = $("#txtUserCode").val();
+        var getloginid = 1;
+        $.ajax({
+            url: "/Member/MemberGetPage?Id=" + name + "&&getloginid=" + getloginid + "&&usercode=" + usercode + "&&Level=" + level + "&&Strat=" + strat + "&&End=" + End + "&&i=0&&pageindex=" + pageIndex, type: "post",
+            success: function (result) { 
+                $(".nextpage").empty();
+                $(".nextpage").append(result.data.page);
+                $("#pagerList").empty();
+                $("#pagerList").append('<input type="hidden" id="index" value="' + pageIndex + '" />'); 
+                var html = template('MemberList', { memberList: result.data.memberList }); 
+                //alert(result.data.memberList);
+                $("#pagerList").append(html);
+            },
+            error: function () { alert("网络错误"); }
+        });
+    }
+    $(function () {
+        $('body').on('click', '.del', function(){ 
+        //$(".del").live("click", function () {
+            var pass = $(this).val();
+            $.ajax({
+                url: "/Member/Del?id=" + pass, type: "post",
+                success: function (result) {
+                    //alert(2);
+                    if (result.status == "0") {
+                        alert(result.msg);
+                    }
+                    else if (result.status == "1") {
+                        //alert(1);
+                        alert(result.msg);
+                    }
+                    else if (result.status == "2") {
+                        alert(result.msg);
+                        window.location.href = result.data;
+                    }
+                },
+                error: function () { alert("网络错误"); }
+            });
+        })
+
+    });
+    $(function () {
+        $('body').on('click', '.pass', function () {
+        //$(".pass").live("click", function () {
+            var pass = $(this).val();
+            $.ajax({
+                url: "/Member/Pass?id=" + pass, type: "post",
+                success: function (result) {
+                    //alert(2);
+                    if (result.status == "0") {
+                        alert(result.msg);
+                    }
+                    else if (result.status == "1") {
+                        //alert(1);
+                        alert(result.msg);
+                    }
+                    else if (result.status == "2") {
+                        alert(result.msg);
+                        window.location.href = result.data;
+                    }
+                },
+                error: function () { alert("网络错误"); }
+            });
+        });
+    });
+</script>
+<script id="MemberList" type="text/html">
+    @*//template js模板*@
+    {{each memberList as User}}
+    <tr>
+        <td align="center">{{User.userCode}}</td>
+        <td align="center">{{User.trueName}}</td>
+        <td align="center">{{User.recommendCode}}</td>
+        <td align="center">{{User.levelName}}</td>
+        <td align="center">{{User.createTime}}</td>
+    
+        <td align="center">
+            <button class="easyui-linkbutton pass" value="{{User.id}}" iconcls="icon-edit">激活</button>
+            <button class="easyui-linkbutton del" value="{{User.id}}" iconcls="icon-remove">删除</button>
+        </td>
+    </tr>
+    {{/each}}
+</script>
+
+ 

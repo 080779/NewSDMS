@@ -1,0 +1,182 @@
+﻿@model SDMS.Web.Models.Finance.RemitListModel
+@{
+    ViewBag.Title = "充值记录";
+    Layout = "~/Views/Share/_Layout2.cshtml";
+}
+<div class="page-heading">
+    <i class="fa fa-bar-chart-o"></i>充值记录
+</div>
+<!-- page heading end-->
+<!--body wrapper start-->
+
+<div class="wrapper">
+    <section class="panel">
+        <!--主体开始-->
+        <section style="padding: 28px;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">充值查询</h3>
+                        </div>
+                        <div class="widget-body innerAll overthrow" style="padding: 20px; overflow: auto;">
+                            <div class="search3">
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label class="inline">申请时间</label>
+                                        <div class="date" style="display: inline-block;">
+                                            <input type="text" class="form-control" onfocus="WdatePicker()" id="txtStart" placeholder="输入发布时间" />
+                                            <span class="add-on hidden"></span>
+                                        </div>
+                                        <label class="inline">至</label>
+                                        <div class="date" style="display: inline-block;">
+                                            <input type="text" class="form-control" onfocus="WdatePicker()" id="txtEnd" placeholder="输入发布时间" />
+                                            <span class="add-on hidden"></span>
+                                        </div>
+                                    </div>
+                                    <input type="button" class="btn btn-primary" id="btnSearch" value="搜 索" />
+                                </div>
+                            </div>
+                            <div class="widget-body innerAll overthrow col-md-12" style="padding: 20px; overflow: auto;">
+                                <table class="table table-bordered table-primary">
+                                    <thead>
+                                        <tr class="tac">
+                                            <th>汇入银行</th>
+                                            <th>汇入账户</th>
+                                            <th>汇入开户名</th>
+                                            <th>汇款金额</th>
+                                            <th>汇款具体时间</th>
+                                            <th>汇出银行</th>
+                                            <th>汇出账户</th>
+                                            <th>汇款备注</th>
+                                            <th>申请日期</th>
+                                            <th>状态</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pagerList">
+                                        @foreach (var tmodel in Model.remitList)
+                                        {
+                                            <tr class="tac">
+                                                <td>@tmodel.OutBankName</td>
+                                                <td>@tmodel.OutBankAccount</td>
+                                                <td>@tmodel.OutBankAccountUser</td>
+                                                <td>@tmodel.RechargeableDate</td>
+                                                <td>@tmodel.BankName</td>
+                                                <td>@tmodel.BankAccount</td>
+                                                <td>@tmodel.BankAccountUser</td>
+                                                <td>@tmodel.AddDate</td>
+                                                <td>@tmodel.StateName</td>
+                                                <td>
+                                                    @if (tmodel.State == 0)
+                                                    {
+                                                        <a href="javascript:void(0);" class="btn del" id='@tmodel.ID'>删除</a>
+                                                    }
+                                                    else
+                                                    {
+
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        <!--./主体开始-->
+    </section>
+</div>
+<div class="nextpage">
+    @Html.Raw(Model.Page)
+</div>
+@section FooterScript{
+
+    <script type="text/javascript">
+        function getPage(pageIndex) {
+            $.ajax({
+                url: "/finance/remitList?pageindex=" + pageIndex,
+                type: "post",
+                success: function (result) {
+                    $(".nextpage").empty();
+                    $(".nextpage").append(result.data.page);
+                    $("#pagerList").empty();
+                    $("#pagerList").append('<input type="hidden" id="index" value="' + pageIndex + '" />');
+
+                    var html = template('remitList', { remitList: result.data.remitList });
+                    $("#pagerList").append(html);
+                },
+                error: function () { alert("网络错误"); }
+            });
+        }
+        //搜索
+        $(function () {
+            $("#btnSearch").click(function () {
+                //var state = $("#selectstate option:selected").val();
+                var start = $("#txtStart").val();
+                var end = $("#txtEnd").val();
+                $.ajax({
+                    url: "/finance/remitList",
+                    type: "post",
+                    data: { start: start, end: end },
+                    success: function (result) {
+                        $(".nextpage").empty();
+                        $(".nextpage").append(result.data.page);
+                        $("#pagerList").empty();
+                        $("#pagerList").append('<input type="hidden" id="index" value="1" />');
+                        var html = template('remitList', { remitList: result.data.remitList });
+                        $("#pagerList").append(html);
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            })
+        })
+        //删除
+        $(function () {
+            $(".del").click(function () {
+                var page = $("#index").val();
+                if (page == "" || page == undefined || page == NaN) {
+                    page = "1";
+                }
+                var a = $(this).attr("id");
+                $.ajax({
+                    url: "/finance/remitdel?id=" + a + "&pageindex=" + page,
+                    type: "post",
+                    success: function (result) {
+                        if (result.status == "1") {
+                            window.location.href = result.data;
+                        }
+                        else {
+                            alert(result.msg);
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            })
+        })
+    </script>
+    <script id="remitList" type="text/html">
+        //template js模板
+        {{each remitList as temp}}
+        <tr>
+            <td align="center">{{temp.outBankName}}</td>
+            <td align="center">{{temp.outBankAccount}}</td>
+            <td align="center">{{temp.outBankAccountUser}}</td>
+            <td align="center">{{temp.rechargeableDate}}</td>
+            <td align="center">{{temp.bankName}}</td>
+            <td align="center">{{temp.bankAccount}}</td>
+            <td align="center">{{temp.bankAccountUser}}</td>
+            <td align="center">{{temp.addDate}}</td>
+            <td align="center">{{temp.stateName}}</td>
+            <td align="center">
+                <a href="javascript:void(0);" class="btn del" value="{{temp.id}}" style="display:{{temp.state=='0'?'':'none'}}">删除</a>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+}

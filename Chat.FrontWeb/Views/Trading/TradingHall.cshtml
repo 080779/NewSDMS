@@ -1,0 +1,164 @@
+﻿@model Chat.FrontWeb.Models.Stock.StockView
+
+@{
+    ViewBag.Title = "TradingHall";
+    Layout = "~/Views/Share/_Layout2.cshtml";
+}
+
+<section class="wrapper">
+    <section class="panel">
+        <!--主体开始-->
+        <section style="padding: 28px;">
+            <div id='myform'>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="widget panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    交易大厅
+                                </h3>
+                            </div>
+                            <div class="widget widget-body-white padding-none">
+                                <div class="widget-body" style="padding: 20px; overflow: auto;">
+                                    <div class="row" style="padding: 10px;">
+                                        <div class="form-group">
+                                            <label>挂卖价格</label><input type="text" id="price" />
+                                            <label>挂卖数量</label><input type="text" id="number" />
+                                            <input id="btn" type="button" value="搜索" class="btn btn-primary" required />
+                                            <input id="btnsell" type="button" value="我要卖出" class="btn btn-primary" required />
+                                        </div>
+                                    </div>
+                                    <div class="widget-body innerAll overthrow col-md-12" style="padding: 20px; overflow: auto;">
+                                        <table class="table table-bordered table-primary tab">
+                                            <thead>
+                                                <tr class="tac">
+                                                    <th>会员编号</th>
+                                                    <th>挂卖数量</th>
+                                                    <th>挂卖价格</th>
+                                                    <th>发布时间</th>
+                                                    <th>操作</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="pagerList">
+                                                @foreach (var item in Model.StockViewList)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.UserCode)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Number)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Price)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.BuyDate)
+                                                        </td>
+                                                        <td>
+                                                           <a href="#">购买</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="trNull" hidden="hidden">
+                                                        <td colspan="4" align="center"><div class="NoData"><span class="cBlack"> <img src="/Areas/Admin/Content/Images/ico_NoDate.gif" width="16" height="16" /> 抱歉！目前数据库暂无数据。</span></div></td>
+                                                    </tr>
+                                                }
+                                        </table>
+                                        <div class="nextpage">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+</section>
+<script>
+    $(".nextpage").PageGrivView({
+        totalPage:@Model.showPageNum,
+        showPageNum:@Model.totalPage,
+        url: "/Trading/TradingHall",
+        obj: ".tab",
+        css: "css-1"/**css-1到css-5**/
+
+    });
+    $(function () {
+        $("#btn").click(function () {
+            var number = $("#number").val();
+            var price = $("#price").val();
+            $.ajax({
+                type: 'POST',
+                url: "/Trading/TradingHall",
+                data: { number: number, price: price },
+               
+                success: function (data) {
+                    $(".tab").replaceWith($(data).find(".tab"));
+                    //alert(data);
+                    console.log("请求成功");
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {//请求失败处理函数
+                    console.log("请求失败");
+                }
+            });
+        })
+        $("#btnsell").click(function () {
+            window.location.href = "/Trading/Sell";
+        })
+        $("a").click(function () {
+            window.location.href = "/Trading/Sell";
+        })
+    })
+        //function onchUser() {
+        //    var code = $("#usercode").val();
+        //    if (code != "") {
+        //        $.ajax({
+        //            type: 'POST',
+        //            url: "/Admin/Team/GetUseLevelName?code=" + code,
+        //            dataType: 'text',
+        //            async: false,
+        //            success: function (responseData) {
+        //                if (responseData == "会员不存在") {
+        //                    $("#usercode").val("");
+        //                    alert(responseData);
+        //                } else { $("#txtLevel").val(responseData); }
+        //            },
+        //            error: function (XMLHttpRequest, textStatus, errorThrown) {//请求失败处理函数
+        //                console.log("请求失败");
+        //            }
+        //        });
+        //    }
+        //}
+        //function onSubmit() {
+        //    var code = $("#usercode").val();
+        //    var levelID = $("#levelName").val();
+        //    if (code != "") {
+        //        $.ajax({
+        //            type: 'POST',
+        //            url: "/Admin/Team/ProUserLevel?code=" + code + "&leveID=" + levelID,
+        //            dataType: 'json',
+        //            async: false,
+        //            success: function (responseData) {
+        //                if (responseData.Status == 1) {
+        //                    //$("#usercode").val("");
+        //                    location.reload();
+        //                    alert(responseData.msg);
+        //                    // window.location.reload();
+        //                } else {
+        //                    alert(responseData.msg);
+        //                }
+        //            },
+        //            error: function (XMLHttpRequest, textStatus, errorThrown) {//请求失败处理函数
+        //                console.log("请求失败");
+        //            }
+        //        });
+        //    } else {
+        //        alert("请输入要升级的会员");
+        //    }
+        //}
+</script>
+
+

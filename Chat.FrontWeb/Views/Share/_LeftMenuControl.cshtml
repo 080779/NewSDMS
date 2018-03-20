@@ -1,0 +1,132 @@
+﻿
+<ul class="nav nav-pills nav-stacked custom-nav">
+    <li>
+        <a href="/home/index"><i class="fa fa-list-ul"></i><span>主菜单</span></a>
+    </li>
+    <li class="menu-list nav-nav">
+        <a href=""><i class="fa fa-user"></i><span>代理中心</span></a>
+        <ul class="sub-menu-list">
+            <li>
+                <a href="/Team/PersonalInfo">代理资料</a>
+            </li>
+            @*<li>
+            <a href="/user/member/Investment.aspx">再签/续签</a>
+        </li>
+        <li>
+            <a href="/user/member/InvestmentList.aspx">我的合同</a>
+        </li>*@
+            <li>
+                <a href="/Finance/AddRemit">代理充值</a>
+            </li>
+            <li>
+                <a href="/Finance/AddTakeMoney">代理提现</a>
+            </li>
+            <li>
+                <a href="/Finance/AddChange">代理转账</a>
+            </li>
+        </ul>
+    </li>
+    <li class="menu-list nav-nav">
+        <a href=""><i class="fa fa-sitemap"></i><span>会员管理</span></a>
+        <ul class="sub-menu-list">
+            <li>
+                <a href="/Team/MemberTree">系谱图</a>
+            </li>
+            <li>
+                <a href="/Team/RecommendTree">推荐关系图</a>
+            </li>
+            <li>
+                <a href="/Team/Register">会员注册</a>
+            </li>
+            <li>
+                <a href="/Member/Member">未开通会员</a>
+            </li>
+            <li>
+                <a href="/Member/MemberList">已开通会员</a>
+            </li>
+            <li>
+                <a href="/Member/RegisterList">注册列表</a>
+            </li>
+            <li>
+                <a href="/Team/PersonalInfo">会员资料</a>
+            </li>
+            <li>
+                <a href="/MemberLevel/MemberLevel">会员升级</a>
+            </li>
+            <li>
+                <a href="/MemberLevel/AgentLevel">申请报单中心</a>
+            </li>
+        </ul>
+    </li>
+    <li class="menu-list nav-nav">
+        <a href=""><i class="fa fa-money"></i><span>财务管理</span></a>
+        <ul class="sub-menu-list">
+            <li>
+                <a href="/Finance/JournalList">财务日志</a>
+            </li>
+            <li>
+                <a href="/Finance/BonusList">收益明细</a>
+            </li>
+            <li>
+                <a href="/Finance/RemitList">充值查询</a>
+            </li>
+            <li>
+                <a href="/Finance/TakeMoneyList">提现查询</a>
+            </li>
+            <li>
+                <a href="/Finance/ChangeList">转账查询</a>
+            </li>
+        </ul>
+    </li>
+    <li class="menu-list nav-nav">
+        <a href=""><i class="fa fa-money"></i><span>交易大厅</span></a>
+        <ul class="sub-menu-list">
+            <li>
+                <a href="/Trading/TradingHall">交易大厅</a>
+            </li>
+            
+        </ul>
+    </li>
+    <li class="menu-list nav-nav">
+        <a href=""><i class="fa fa-bell-o"></i><span>信息中心</span></a>
+        <ul class="sub-menu-list">
+            <li>
+                <a href="/Message/NoticeManage">新闻公告</a>
+            </li>
+            <li>
+                <a href="/Message/Leavewords">我要留言</a>
+            </li>
+            <li>
+                <a href="/Message/LeaveMsg">收取邮件</a>
+            </li>
+            <li>
+                <a href="/Message/LeaveOut">已发信件</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="/user/logout"><i class="fa fa-sign-in"></i><span>安全退出</span></a>
+    </li>
+</ul>
+<!--sidebar nav end-->
+
+
+<script type="text/javascript">
+    function log(msg) {
+        console.log(msg);
+    }
+    log(window.location.href);
+
+    $.each($(".custom-nav a"), function () {
+        if (window.location.href.indexOf($(this).attr("href")) > 0) {
+            if ($(this).parents("li.menu-list").length) {
+                $(this).parents("li.menu-list").addClass("nav-active");
+            } else {
+                if ($(this).next("ul").length) {
+                    $(this).parent("li").addClass("nav-active");
+                }
+            }
+        }
+    });
+
+</script>

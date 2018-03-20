@@ -1,0 +1,151 @@
+﻿
+
+@{
+    ViewBag.Title = "发件箱";
+    Layout = "~/Views/Share/_Layout2.cshtml";
+}
+<script>
+        $(document).ready(function () {
+            $(".nav-nav").eq(4).addClass("nav-active")
+        });
+</script>
+<div class="page-heading">
+    <i class="fa fa-bar-chart-o"></i>发件箱
+</div>
+<!-- page heading end-->
+<!--body wrapper start-->
+
+<div class="wrapper">
+    <section class="panel">
+        <!--主体开始-->
+
+        <section style="padding: 28px;">
+            <style type="text/css">
+                .npb {
+                    margin: 0;
+                    padding: 0;
+                }
+
+                    .npb li {
+                        list-style: none;
+                        display: inline-block;
+                    }
+            </style>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">发件箱</h3>
+                        </div>
+                        <div class="widget-body innerAll overthrow" style="padding: 20px; overflow: auto;">
+                            <ul class="clearfix npb" role="tablist" style="margin-bottom: 10px;">
+                                <li>
+                                    <a href="/Message/LeaveMsg" class="btn btn-primary"><i class="fa fa-inbox"></i>收件箱  </a>
+                                </li>
+                                <li class="">
+                                    <a href="/Message/LeaveOut" class="btn btn-default"><i class="fa fa-reply-all"></i>发信箱  </a>
+                                </li>
+                                <li class="">
+                                    <a href="/Message/Leavewords" class="btn btn-default"><i class="fa fa-pencil"></i>留言  </a>
+                                </li>
+                            </ul>
+                            <table class="table table-bordered table-primary">
+                                <thead>
+                                    <tr class="tac">
+                                        <th>发件人</th>
+                                        <th>主題内容</th>
+                                        <th>发件日期</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                   @foreach (var rmodel in Model.leaveoutList)
+                                   {
+                                            <tr class="tac">
+                                                <td>@rmodel.ToUserCode</td>
+                                                <td><a href="/Message/LeaveWordsDetail?id=@rmodel.ID&type=2" target="_self">@rmodel.MsgTitle</a></td>
+                                                <td>@rmodel.LeaveTime</td>
+                                                <td>@rmodel.IsReplyName</td>
+                                            </tr>
+                                   } 
+                                </tbody>
+                               
+                            </table>
+                            <div class="nextpage">
+                                @Html.Raw(Model.Page)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <script>
+                function search() {
+
+                    var all = $('#all').val();
+                    if (all == 9999) {
+                        window.location.reload();
+                    }
+                };
+            function getPage(pageIndex) {
+            $.ajax({
+                url: "/Message/leaveOut?pageindex=" + pageIndex,
+                type: "post",
+                success: function (result) {
+                    $(".nextpage").empty();
+                    $(".nextpage").append(result.data.page);
+                    $("#pagerList").empty();
+                    $("#pagerList").append('<input type="hidden" id="index" value="' + pageIndex + '" />');
+
+                    var html = template('leaveoutList', { leaveoutList: result.data.leaveoutList });
+                    $("#pagerList").append(html);
+                },
+                error: function () { alert("网络错误"); }
+            });
+        }
+        //搜索
+        $(function () {
+            $("#search").click(function () {
+                var usercode = $("#textInCode").val();
+
+                $.ajax({
+                    url: "/Message/leaveOut",
+                    type: "post",
+                    data: { usercode: usercode},
+                    success: function (result) {
+                        $(".nextpage").empty();
+                        $(".nextpage").append(result.data.page);
+                        $("#pagerList").empty();
+                        $("#pagerList").append('<input type="hidden" id="index" value="1" />');
+                        var html = template('leaveoutList', { leaveoutList: result.data.leaveoutList });
+                        $("#pagerList").append(html);
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            })
+        })
+
+        </script>
+        <script id="leaveoutList" type="text/html">
+            //template js模板
+            {{each leaveoutList as rmodel}}
+            <tr>
+             
+                <td align="center">{{rmodel.toUserCode}}</td>
+                <td align="center"><a href="/Message/LeaveWordsDetail?id={{rmodel.iD}}&type=2" target="_self">{{rmodel.msgTitle}}</a></td>
+                <td align="center">{{rmodel.leaveTime}}</td>
+                <td align="center">{{rmodel.lsReplyName}}</td>
+            </tr>
+            {{/each}}
+        </script>
+        }
+        
+    </section>
+</div>
+
+
+

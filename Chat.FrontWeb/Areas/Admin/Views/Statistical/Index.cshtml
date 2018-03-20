@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+}
+
+<div>
+    <div id="main" style="width: 600px;height:400px;"></div>
+</div>
+
+
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('main'));
+    var series;
+    var data;
+
+    $.ajax({
+        url: "/Statistical/load", type: "post",
+        success: function (result) {
+            series = result.data.ser;
+            data = result.data.strs;
+            aa(myChart, series, data)
+        },
+        error: function () { alert("网络错误"); }
+    });
+    function aa(c, a, d) {
+        option = {
+            color: ['#3398DB'],
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: d,
+                    axisTick: {
+                        alignWithLabel: true
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value'
+                }
+            ],
+            series: [
+                series
+            ]
+        };
+
+        c.setOption(option);
+    }
+
+</script>

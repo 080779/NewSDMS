@@ -1,0 +1,160 @@
+﻿@model SDMS.Web.Areas.Admin.Models.Finance.RechargeListModel
+@{
+    ViewBag.Title = "后台充值";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+}
+
+<div class="subBody">
+    <div class="box_con">
+        <div class="box box_width">
+            <div class="operation">
+                <fieldset class="fieldset">
+                    <legend class="legSearch">操作</legend>
+                    代理编号：<input type="text" id="textusercode" class="input_select" />
+                    &nbsp;&nbsp;
+                    金币类型：
+                    @Html.DropDownList("dropmoneytype", ViewBag.currency as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                    &nbsp;&nbsp;
+                    充值类型：
+                         <select id="dropstyle">
+                             <option value="0">请选择</option>
+                             <option value="1">增加</option>
+                             <option value="2">减少</option>
+                         </select>
+                    &nbsp;&nbsp;
+                    充值金额：<input type="text" id="textmoney" class="input_select" placeholder="请输入充值金额"/>
+                    <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-ok" id="addmoney">提 交</a>
+                </fieldset>
+                <fieldset class="fieldset">
+                    <legend class="legSearch">查询</legend>
+                    代理编号：<input type="text" class="input_select" id="txtusercode" placeholder="输入代理编号" />
+                    代理姓名：<input type="text" class="input_select" id="txttruename" placeholder="输入代理姓名" />
+                    充值币种：
+                    @Html.DropDownList("selectmoneytype", ViewBag.currency as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                    充值类型：
+                    <select id="selectstyle">
+                        <option value="0">请选择</option>
+                        <option value="1">增加</option>
+                        <option value="2">减少</option>
+                    </select>
+                    申请日期：<input type="text" class="input_select" id="txtstart" onfocus="WdatePicker()" placeholder="输入申请日期" />
+                    至 <input type="text" class="input_select" id="txtend" onfocus="WdatePicker()" placeholder="输入申请日期" />
+                      <a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" id="search">搜 索</a>
+                </fieldset>
+            </div>
+            <div class="dataTable">
+                <table width="99%" border="0" cellspacing="0" cellpadding="0" class="t1">
+                    <thead>
+                        <tr>
+                            <th>代理编号</th>
+                            <th>代理姓名</th>
+                            <th>币种</th>
+                            <th>充值类型</th>
+                            <th>充值金额</th>
+                            <th>充值时间</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pagerList">
+                        @foreach (var rmodel in Model.rechargeList)
+                        {
+                        <tr>
+                            <td align="center">@rmodel.UserCode</td>
+                            <td align="center">@rmodel.TrueName</td>
+                            <td align="center">@rmodel.CurrencyName</td>
+                            <td align="center">@rmodel.StyleName</td>
+                            <td align="center">@rmodel.RechargeableMoney</td>
+                            <td align="center">@rmodel.RechargeDate</td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="nextpage cBlack">
+                    @Html.Raw(Model.Page)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section FooterScript{
+    <script type="text/javascript">
+        function getPage(pageIndex) {
+            $.ajax({
+                url: "/admin/finance/rechargeList?pageindex=" + pageIndex,
+                type: "post",
+                success: function (result) {
+                    $(".nextpage").empty();
+                    $(".nextpage").append(result.data.page);
+                    $("#pagerList").empty();
+                    $("#pagerList").append('<input type="hidden" id="index" value="' + pageIndex + '" />');
+
+                    var html = template('rechargeList', { rechargeList: result.data.rechargeList });
+                    $("#pagerList").append(html);
+                    $.parser.parse($('#pagerList'));
+                },
+                error: function () { alert("网络错误"); }
+            });
+        }
+        
+        $(function () {
+            //搜索
+            $("body").on("click", "#search", function () {
+                var usercode = $("#txtusercode").val();
+                var truename = $("#txttruename").val();
+                var type = $("#selectmoneytype option:selected").val();
+                var style = $("#selectstyle option:selected").val();
+                var start = $("#txtstart").val();
+                var end = $("#txtend").val();
+                $.ajax({
+                    url: "/admin/finance/rechargeList",
+                    type: "post",
+                    data: { usercode: usercode, truename: truename, type: type, style: style, start: start, end: end },
+                    success: function (result) {
+                        $(".nextpage").empty();
+                        $(".nextpage").append(result.data.page);
+                        $("#pagerList").empty();
+                        $("#pagerList").append('<input type="hidden" id="index" value="1" />');
+                        var html = template('rechargeList', { rechargeList: result.data.rechargeList });
+                        $("#pagerList").append(html);
+                        $.parser.parse($('#pagerList'));
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            })
+
+            //添加
+            $("body").on("click", "#addmoney", function () {
+                var usercode = $("#textusercode").val();
+                var type = $("#dropmoneytype option:selected").val();
+                var style = $("#dropstyle option:selected").val();
+                var txtmoney = $("#textmoney").val();
+                var end = $("#txtend").val();
+                $.ajax({
+                    url: "/admin/finance/addmoney",
+                    type: "post",
+                    data: { usercode: usercode, type: type, style: style, stramount: txtmoney },
+                    success: function (result) {
+                        if (result.status == "1") {
+                            window.location.href = result.data;
+                        }
+                        else {
+                            alert(result.msg);
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            })
+        })
+    </script>
+    <script id="rechargeList" type="text/html">
+        {{each rechargeList as recharge}}
+        <tr>
+            <td align="center">{{recharge.userCode}}</td>
+            <td align="center">{{recharge.trueName}}</td>
+            <td align="center">{{recharge.currencyName}}</td>
+            <td align="center">{{recharge.styleName}}</td>
+            <td align="center">{{recharge.rechargeableMoney}}</td>
+            <td align="center">{{recharge.rechargeDate}}</td>
+        </tr>
+        {{/each}}
+    </script>
+}

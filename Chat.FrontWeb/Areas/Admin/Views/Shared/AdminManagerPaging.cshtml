@@ -1,0 +1,31 @@
+﻿
+@model SDMS.Web.Areas.Admin.Models.System.AdminListViewModel
+<div class="dataTable">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="t1">
+        <thead>
+            <tr>
+                <th>管理员编号</th>
+                <th>姓名</th>
+                <th>注册日期</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="pagerList">
+            @foreach (var admin in Model.AdminList)
+            {
+                <tr>
+                    <td align="center">@admin.ID</td>
+                    <td align="center">@admin.UserName</td>
+                    <td align="center">@admin.CreateTime</td>
+                    <td align="center">
+                        <a class="easyui-linkbutton" href="/admin/system/adminedit?id=@admin.ID" iconcls="icon-edit">编辑</a>
+                        <a class="easyui-linkbutton del" iconcls="icon-remove" value="@admin.ID">删除</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="nextpage">
+    @Html.Raw(Model.Page)
+</div>

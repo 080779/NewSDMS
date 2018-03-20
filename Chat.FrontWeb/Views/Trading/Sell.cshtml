@@ -1,0 +1,115 @@
+﻿@model Chat.DTO.DTO.StockDTO
+@{
+    ViewBag.Title = "Sell";
+    Layout = "~/Views/Share/_Layout2.cshtml";
+}
+
+@using (Html.BeginForm("TradingModel", "Trading", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="wrapper">
+        <section class="panel">
+            <!--主体开始-->
+            <section style="padding: 28px;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="widget panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">基本信息</h3>
+                            </div>
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="widget widget-body-white padding-none">
+                                <div class="widget-body" style="padding: 20px; overflow: auto;">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="widget-body" style="padding: 20px; overflow: auto;">
+                                        <div class="row">
+                                            <div class="form-group" style="padding: 10px;">
+                                                <label class="col-md-3 control-label">会员编号:</label>
+                                                <div class="col-md-6">
+                                                    <input type="text" name="UserCode" value="@ViewBag.UserCode" class="form-control" readonly="readonly" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding: 10px;">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">币种数量:</label>
+                                                <div class="col-md-6">
+                                                    <input type="text" name="Emoney" value="@ViewBag.Emoney" class="form-control" readonly="readonly" />
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">出售信息</h3>
+                            </div>
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="widget widget-body-white padding-none">
+                                <div class="widget-body" style="padding: 20px; overflow: auto;">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="widget-body" style="padding: 20px; overflow: auto;">
+                                        <div class="row" style="display:none">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label"></label>
+                                                <div class="col-md-6">
+                                                    @Html.HiddenFor(model => model.UserID, new { htmlAttributes = new { @class = "form-control" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding: 10px;">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">卖出数量<span class="ast">*</span>:</label>
+                                                <div class="col-md-6">
+                                                    @Html.EditorFor(model => model.Number, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Number, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding: 10px;">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">卖出价格(个/币)<span class="ast">*</span>:</label>
+                                                <div class="col-md-6">
+                                                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding: 10px;">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label"></label>
+                                                <div class="col-md-6">
+                                                    <input type="submit" value="提交" class="btn btn-default" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+}
+<script>
+    $(function () {
+        $('form').bind('submit', checkform);
+    })
+    function checkform() {
+        if ($("#Number").val() == "") {
+            alert("卖出数量不能为空");
+            return false;
+        }
+        if ($("#Price").val() == "") {
+            alert("卖出价格不能为空");
+            return false;
+        }
+    }
+</script>
+

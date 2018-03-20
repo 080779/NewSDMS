@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "数据库管理";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+}
+<div class="box box_width">
+    <div align="left" style="padding-left: 10px;">
+        <ul style="width: 650px; float: left; margin: 0 auto; border: 1px solid #ccc; padding: 0px 15px 15px 45px;">
+            <li style="float: none; line-height: 25px; color: Black; text-align: left">
+                ※ 此操作需在Master数据库添加清除连接的存储过程。如未添加还原备份可能会出问题！<br />
+                &nbsp;&nbsp;&nbsp;执行此操作前，请先关闭前台然后关闭其它网页窗口，断开FTP连接。
+            </li>
+            <li style="float: none; line-height: 25px; color: Black; text-align: left">※ 断开针对数据库的远程连接</li>
+            <li style="float: none; line-height: 25px; color: Black; text-align: left">
+                ※ 提交后，请耐心等待（请不要重复点击上面的按钮），完成时间视网络状况而定。<br />
+                &nbsp;&nbsp;&nbsp;还原备份、请在网站浏览少时进行此操作，执行此操作可能导致网站变慢或不稳定。
+            </li>
+        </ul>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <div>
+            &nbsp;
+        </div>
+        <ul style="width: 650px; float: left; margin: 0 auto; border: 1px solid #ccc; padding: 0px 15px 15px 45px;">
+            <li>&nbsp;</li>
+            <li style="padding-left: 10px;">
+                <a id="btnBack" class="easyui-linkbutton" iconcls="icon-save" >备份数据库</a>
+                <a id="btnClear" class="easyui-linkbutton" iconcls="icon-cancel" >清空测试数据</a>
+                @Model   
+                <br />
+            </li>
+            <li>&nbsp;</li>
+            <li>
+                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="t1">
+                    <tr>
+                        <th align="center">
+                            备份文件
+                        </th>
+                        <th align="center">
+                            备份日期
+                        </th>
+                        <th align="center">
+                            操作
+                        </th>
+                    </tr>
+                    <tr>
+                        <td align="center"></td>
+                        <td align="center"></td>
+                        <td align="center">
+                            <a ID="lbtnH" class="easyui-linkbutton" iconcls="icon-back">还原</a>
+                            <a ID="lbtnX" class="easyui-linkbutton" iconcls="icon-print">下载</a>
+                            <a ID="lbtnB" class="easyui-linkbutton" iconcls="icon-no">删除</a>
+                        </td>
+                    </tr>
+                </table>
+            </li>
+            <li>
+                
+            </li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#btnClear").click(function () {
+            if(!confirm('确定要清空测试数据吗?'))
+            {
+                return false;
+            }
+
+            $.ajax({
+                url: "/Admin/system/clear", type: "post",
+                success: function (result) {
+                    if (result.status == 1) {
+                        alert("测试数据清空成功")
+                    }
+                    else if (result.status == 0) {
+                        alert(result.msg);
+                    }
+                },
+                error: function () { alert("网络错误"); }
+            });
+        });
+    });
+</script>
