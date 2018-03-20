@@ -24,7 +24,7 @@ namespace SDMS.Service.Entities
         public decimal? Journal05 { get; set; }
         public decimal? Journal06 { get; set; }
         public DateTime? Journal07 { get; set; }
-        public virtual UserEntity Users { get; set; }
+        //public virtual UserEntity Users { get; set; }
         public virtual CurrencyNameEntity Currencys { get; set; }
     }
 }

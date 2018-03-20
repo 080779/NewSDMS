@@ -18,7 +18,7 @@ namespace SDMS.Service.ModelConfig
             Property(u => u.RemarkEn).HasMaxLength(50);
             Property(u => u.Journal03).HasMaxLength(50);
             Property(u => u.Journal04).HasMaxLength(50);
-            HasRequired(b => b.Users).WithMany().HasForeignKey(b => b.UserID).WillCascadeOnDelete(false);
+            //HasRequired(b => b.Users).WithMany().HasForeignKey(b => b.UserID).WillCascadeOnDelete(false);
             HasRequired(b => b.Currencys).WithMany().HasForeignKey(b => b.JournalType).WillCascadeOnDelete(false);
         }
     }

@@ -18,7 +18,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
 {
     public class HomeController : AdminBaseController
     {
-        public IUserService userService { get; set; }
+        //public IUserService userService { get; set; }
         //adminService已经在AdminBaseController中定义
         public IPowerService powerService { get; set; }
 
@@ -61,9 +61,9 @@ namespace SDMS.Web.Areas.Admin.Controllers
 
         public ActionResult GetMemberCountList()
         {
-            List<UserAllCountModel> ulist = userService.GetMemberNumGroupbyTime();
+            //List<UserAllCountModel> ulist = userService.GetMemberNumGroupbyTime();
 
-            return Json(new AjaxResult { Status = "1", Data = ulist });
+            return Json(new AjaxResult { Status = "1"});
         }
 
     }

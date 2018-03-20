@@ -71,11 +71,11 @@ namespace SDMS.Service.Service
                 }
                 if (!string.IsNullOrEmpty(UserCode))
                 {
-                    JournalQuery = JournalQuery.Where(p => p.Users.UserCode.Contains(UserCode));
+                    //JournalQuery = JournalQuery.Where(p => p.Users.UserCode.Contains(UserCode));
                 }
                 if (!string.IsNullOrEmpty(TrueName))
                 {
-                    JournalQuery = JournalQuery.Where(p => p.Users.TrueName.Contains(TrueName));
+                    //JournalQuery = JournalQuery.Where(p => p.Users.TrueName.Contains(TrueName));
                 }
                 if (JournalType > 0)
                 {
@@ -111,11 +111,11 @@ namespace SDMS.Service.Service
                 }
                 if (!string.IsNullOrEmpty(UserCode))
                 {
-                    JournalQuery = JournalQuery.Where(p => p.Users.UserCode.Contains(UserCode));
+                    //JournalQuery = JournalQuery.Where(p => p.Users.UserCode.Contains(UserCode));
                 }
                 if (!string.IsNullOrEmpty(TrueName))
                 {
-                    JournalQuery = JournalQuery.Where(p => p.Users.TrueName.Contains(TrueName));
+                    //JournalQuery = JournalQuery.Where(p => p.Users.TrueName.Contains(TrueName));
                 }
                 if (JournalType > 0)
                 {
@@ -152,8 +152,8 @@ namespace SDMS.Service.Service
             jourDTO.Journal05 = journal.Journal05;
             jourDTO.Journal06 = journal.Journal06;
             jourDTO.Journal07 = journal.Journal07;
-            jourDTO.UserCode = journal.Users.UserCode;
-            jourDTO.TrueName = journal.Users.TrueName;
+            //jourDTO.UserCode = journal.Users.UserCode;
+            //jourDTO.TrueName = journal.Users.TrueName;
             jourDTO.CurrencyName = journal.Currencys.CurrencyName;
             jourDTO.CurrencyNameEn = journal.Currencys.CurrencyNameEn;
 

@@ -9,7 +9,7 @@ namespace SDMS.Web.Common
 {
     public class ViewFind
     {
-
+        /*
         private int _ParentID;
         private int _Location;
         public ViewFind(int _ParentID)
@@ -194,6 +194,6 @@ namespace SDMS.Web.Common
                 return view;
             }
         }
+        */
     }
-
 }

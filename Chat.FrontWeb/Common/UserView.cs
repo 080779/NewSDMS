@@ -13,7 +13,7 @@ namespace SDMS.Web.Common
 {
     public class UserView
     {
-
+        /*
         public RowView use = new RowView();
         public readonly UserDTO us = new UserDTO();
         private long _ViewID=9;
@@ -353,5 +353,6 @@ namespace SDMS.Web.Common
             sbContent.Append("</table>");
             return sbContent.ToString();
         }
+        */
     }
 }
