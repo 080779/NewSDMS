@@ -9,7 +9,7 @@ namespace SDMS.IService.Interface
 {
     public interface IPowerService:IServiceSupport
     {
-        PowerDTO[] GetByParentID(int id);
-        PowerDTO[] GetByTypeId(int id);
+        PowerDTO[] GetByParentId(int Id);
+        PowerDTO[] GetByTypeId(int Id);
     }
 }

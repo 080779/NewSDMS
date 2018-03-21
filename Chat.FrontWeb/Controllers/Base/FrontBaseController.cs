@@ -14,7 +14,6 @@ namespace SDMS.Web.Controllers.Base
     /// </summary>
     public class FrontBaseController : Controller
     {
-        public IUserService userService { get; set; }
         public int pageIndex = 1;
         public int pageSize = 5;
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -51,15 +50,6 @@ namespace SDMS.Web.Controllers.Base
             {
                 return 0;
             }
-        }
-        
-        public UserDTO GetUserInfo()
-        {
-            if(GetLoginID()==0)
-            {
-                return null;
-            }
-            return userService.GetModel(GetLoginID());
         }
     }
 }

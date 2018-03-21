@@ -13,24 +13,23 @@ namespace SDMS.Service.Service
 {
     public class AdminService : IAdminService
     {
-        public long AddNew(string userName, string pwd, string spwd, string tpwd, long?[] roleIds)
+        public long AddNew(string userName, string pwd, long?[] roleIds)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<RoleEntity> cs = new CommonService<RoleEntity>(dbc);
                 AdminEntity admin = new AdminEntity();
-                admin.UserName = userName;
-                admin.Password = CommonHelper.GetMD5(pwd);
-                admin.SecondPassword = CommonHelper.GetMD5(spwd);
+                admin.Name = userName;
+                admin.PasswordHash = CommonHelper.GetMD5(pwd);
                 //admin.ThirdPassword = CommonHelper.GetMD5(tpwd);
-                var roles= cs.GetAll().Where(r => roleIds.Contains(r.ID));
+                var roles= cs.GetAll().Where(r => roleIds.Contains(r.Id));
                 foreach(var role in roles)
                 {
                     admin.Roles.Add(role);
                 } 
                 dbc.Admin.Add(admin);
                 dbc.SaveChanges();
-                return admin.ID;
+                return admin.Id;
             }
         }
 
@@ -39,36 +38,32 @@ namespace SDMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<AdminEntity> acs = new CommonService<AdminEntity>(dbc);
-                return acs.GetAll().Any(a => a.UserName == userName);
+                return acs.GetAll().Any(a => a.Name == userName);
             }
         }
 
-        public bool Update(long id,string userName, string pwd, string spwd, string tpwd, long?[] roleIds)
+        public bool Update(long Id,string userName, string pwd, long?[] roleIds)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<RoleEntity> cs = new CommonService<RoleEntity>(dbc);
                 CommonService<AdminEntity> acs = new CommonService<AdminEntity>(dbc);
-                AdminEntity admin = acs.GetAll().SingleOrDefault(a=>a.ID==id);
+                AdminEntity admin = acs.GetAll().SingleOrDefault(a=>a.Id==Id);
                 if(admin==null)
                 {
                     return false;
                 }
-                admin.UserName = userName;
+                admin.Name = userName;
                 if(!string.IsNullOrEmpty(pwd))
                 {
-                    admin.Password = CommonHelper.GetMD5(pwd);
-                }
-                if (!string.IsNullOrEmpty(spwd))
-                {
-                    admin.SecondPassword = CommonHelper.GetMD5(spwd);
+                    admin.PasswordHash = CommonHelper.GetMD5(pwd);
                 }
                 //if (!string.IsNullOrEmpty(tpwd))
                 //{
                 //    admin.ThirdPassword = CommonHelper.GetMD5(tpwd);
                 //}
                 admin.Roles.Clear();
-                var roles = cs.GetAll().Where(r => roleIds.Contains(r.ID));
+                var roles = cs.GetAll().Where(r => roleIds.Contains(r.Id));
                 foreach (var role in roles)
                 {
                     admin.Roles.Add(role);
@@ -78,31 +73,31 @@ namespace SDMS.Service.Service
             }
         }
 
-        public AdminEditDTO GetById(long id)
+        public AdminEditDTO GetById(long Id)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<AdminEntity> cs = new CommonService<AdminEntity>(dbc);
-                var admin = cs.GetAll().SingleOrDefault(a=>a.ID==id);
+                var admin = cs.GetAll().SingleOrDefault(a=>a.Id==Id);
                 if(admin==null)
                 {
                     return null;
                 }
-                return new AdminEditDTO { CreateTime = admin.CreateTime, ID = admin.ID, UserName = admin.UserName, RoleIds = admin.Roles.Select(r => new RoleIdDTO { ID=r.ID}).ToArray() };
+                return new AdminEditDTO { CreateTime = admin.CreateTime, Id = admin.Id, UserName = admin.Name, RoleIds = admin.Roles.Select(r => new RoleIdDTO { Id=r.Id}).ToArray() };
             }
         }
 
-        public AdminDTO GetByAdminId(long id)
+        public AdminDTO GetByAdminId(long Id)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<AdminEntity> cs = new CommonService<AdminEntity>(dbc);
-                var admin = cs.GetAll().SingleOrDefault(a => a.ID == id);
+                var admin = cs.GetAll().SingleOrDefault(a => a.Id == Id);
                 if (admin == null)
                 {
                     return null;
                 }
-                return new AdminDTO { CreateTime = admin.CreateTime, ID = admin.ID, UserName = admin.UserName, TrueName = admin.TrueName, Password = admin.Password, SecondPassword = admin.SecondPassword };
+                return new AdminDTO { CreateTime = admin.CreateTime, Id = admin.Id, UserName = admin.Name, TrueName = admin.TrueName};
             }
         }
 
@@ -111,12 +106,12 @@ namespace SDMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<AdminEntity> cs = new CommonService<AdminEntity>(dbc);
-                var admin = cs.GetAll().SingleOrDefault(a => a.UserName == userName);
+                var admin = cs.GetAll().SingleOrDefault(a => a.Name == userName);
                 if (admin == null)
                 {
                     return 0;
                 }
-                return admin.ID;
+                return admin.Id;
             }
         }
 
@@ -131,19 +126,19 @@ namespace SDMS.Service.Service
                 {
                     return result;
                 }
-                admins = admins.Where(a => a.UserName != "admin");
+                admins = admins.Where(a => a.Name != "admin");
                 result.TotalCount = admins.LongCount();
-                result.AdminList = admins.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList().Select(a => new AdminListDTO { ID = a.ID, CreateTime = a.CreateTime, UserName = a.UserName }).ToArray();
+                result.AdminList = admins.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList().Select(a => new AdminListDTO { Id = a.Id, CreateTime = a.CreateTime, UserName = a.Name }).ToArray();
                 return result;
             }
         }
 
-        public bool Delete(long id)
+        public bool Delete(long Id)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<AdminEntity> cs = new CommonService<AdminEntity>(dbc);
-                var user = cs.GetAll().SingleOrDefault(u => u.ID == id);
+                var user = cs.GetAll().SingleOrDefault(u => u.Id == Id);
                 if(user==null)
                 {
                     return false;
@@ -159,7 +154,7 @@ namespace SDMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<AdminEntity> cs = new CommonService<AdminEntity>(dbc);
-                var user = cs.GetAll().Include(u => u.Roles).AsNoTracking().SingleOrDefault(u => u.ID == adminUserId);
+                var user = cs.GetAll().Include(u => u.Roles).AsNoTracking().SingleOrDefault(u => u.Id == adminUserId);
                 if (user == null)
                 {
                     return false;
@@ -173,16 +168,16 @@ namespace SDMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<AdminEntity> cs = new CommonService<AdminEntity>(dbc);
-                var admin = cs.GetAll().SingleOrDefault(a => a.UserName == usercode);
+                var admin = cs.GetAll().SingleOrDefault(a => a.Name == usercode);
                 if (admin == null)
                 {
                     return 0;//账户不存在
                 }
-                if (admin.Password != CommonHelper.GetMD5(password))
+                if (admin.PasswordHash != CommonHelper.GetMD5(password))
                 {
                     return -1;//密码错误
                 }
-                return admin.ID;
+                return admin.Id;
             }
         }
     }

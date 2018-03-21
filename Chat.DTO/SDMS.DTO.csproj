@@ -42,38 +42,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseDTO.cs" />
-    <Compile Include="DTO\AccountDTO.cs" />
     <Compile Include="DTO\AdminDTO.cs" />
-    <Compile Include="DTO\AgentDTO.cs" />
-    <Compile Include="DTO\BankNameDTO.cs" />
-    <Compile Include="DTO\BonusDTO.cs" />
-    <Compile Include="DTO\BonusTypeDTO.cs" />
-    <Compile Include="DTO\ChangeDTO.cs" />
-    <Compile Include="DTO\ChangeTypeDTO.cs" />
-    <Compile Include="DTO\CityDTO.cs" />
-    <Compile Include="DTO\CurrencyNameDTO.cs" />
+    <Compile Include="DTO\HolderDTO.cs" />
     <Compile Include="DTO\JournalDTO.cs" />
-    <Compile Include="DTO\LeaveMsgDTO.cs" />
-    <Compile Include="DTO\LeaveReMsgDTO.cs" />
-    <Compile Include="DTO\LevelDTO.cs" />
-    <Compile Include="DTO\MemberDTO.cs" />
-    <Compile Include="DTO\Member_LevelDTO.cs" />
-    <Compile Include="DTO\GlobeParamDTO.cs" />
     <Compile Include="DTO\PermissionDTO.cs" />
     <Compile Include="DTO\NewsDTO.cs" />
     <Compile Include="DTO\PowerDTO.cs" />
-    <Compile Include="DTO\RechargeDTO.cs" />
-    <Compile Include="DTO\RemitDTO.cs" />
     <Compile Include="DTO\RoleDTO.cs" />
-    <Compile Include="DTO\StockDTO.cs" />
-    <Compile Include="DTO\SystemBankDTO.cs" />
-    <Compile Include="DTO\TakeMoneyDTO.cs" />
-    <Compile Include="DTO\UserDTO.cs" />
-    <Compile Include="DTO\UserProDTO.cs" />
     <Compile Include="ExportExcelNameAttribute.cs" />
+    <Compile Include="Model\HolderSvcModel.cs" />
     <Compile Include="Model\UserRegCount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

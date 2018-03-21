@@ -11,25 +11,25 @@ namespace SDMS.Service.Service
 {
     public class PowerService : IPowerService
     {
-        public PowerDTO[] GetByParentID(int id)
+        public PowerDTO[] GetByParentId(int Id)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<PowerEntity> cs = new CommonService<PowerEntity>(dbc);
-                return cs.GetAll().Where(p => p.ParentID == 0).ToList().Select(p => new PowerDTO { CreateTime = p.CreateTime, ID = p.ID, ParentID = p.ParentID, MenuName = p.MenuName, TypeID = p.TypeID, URL = p.URL }).ToArray();
+                return cs.GetAll().Where(p => p.ParentId == 0).ToList().Select(p => new PowerDTO { CreateTime = p.CreateTime, Id = p.Id, ParentId = p.ParentId, MenuName = p.MenuName, TypeId = p.TypeId, URL = p.URL }).ToArray();
             }
         }
 
-        public PowerDTO[] GetByTypeId(int id)
+        public PowerDTO[] GetByTypeId(int Id)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<PowerEntity> cs = new CommonService<PowerEntity>(dbc);
-                if(!cs.GetAll().Any(p=>p.ParentID==id))
+                if(!cs.GetAll().Any(p=>p.ParentId==Id))
                 {
                     return null;
                 }
-                return cs.GetAll().Where(p => p.ParentID ==id ).ToList().Select(p => new PowerDTO { CreateTime = p.CreateTime, ID = p.ID, ParentID = p.ParentID, MenuName = p.MenuName, TypeID = p.TypeID, URL = p.URL }).ToArray();
+                return cs.GetAll().Where(p => p.ParentId ==Id ).ToList().Select(p => new PowerDTO { CreateTime = p.CreateTime, Id = p.Id, ParentId = p.ParentId, MenuName = p.MenuName, TypeId = p.TypeId, URL = p.URL }).ToArray();
             }
         }
     }

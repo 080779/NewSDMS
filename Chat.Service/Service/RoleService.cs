@@ -19,24 +19,24 @@ namespace SDMS.Service.Service
                 RoleEntity role = new RoleEntity();
                 role.Name = name;
                 role.Description = description;
-                var permissions = cs.GetAll().Where(p => permissionIds.Contains(p.ID));
+                var permissions = cs.GetAll().Where(p => permissionIds.Contains(p.Id));
                 foreach (var permission in permissions)
                 {
                     role.Permissions.Add(permission);
                 }
                 dbc.Role.Add(role);
                 dbc.SaveChanges();
-                return role.ID;
+                return role.Id;
             }
         }
 
-        public bool Update(long id, string name, string description, long?[] permissionIds)
+        public bool Update(long Id, string name, string description, long?[] permissionIds)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<RoleEntity> rcs = new CommonService<RoleEntity>(dbc);
                 CommonService<PermissionEntity> cs = new CommonService<PermissionEntity>(dbc);
-                RoleEntity role = rcs.GetAll().SingleOrDefault(r => r.ID == id);
+                RoleEntity role = rcs.GetAll().SingleOrDefault(r => r.Id == Id);
                 if(role==null)
                 {
                     return false;
@@ -44,7 +44,7 @@ namespace SDMS.Service.Service
                 role.Name = name;
                 role.Description = description;
                 role.Permissions.Clear();
-                var permissions = cs.GetAll().Where(p => permissionIds.Contains(p.ID));
+                var permissions = cs.GetAll().Where(p => permissionIds.Contains(p.Id));
                 foreach (var permission in permissions)
                 {
                     role.Permissions.Add(permission);
@@ -54,12 +54,12 @@ namespace SDMS.Service.Service
             }
         }
 
-        public int Delete(long id)
+        public int Delete(long Id)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<RoleEntity> cs = new CommonService<RoleEntity>(dbc);
-                var role=cs.GetAll().SingleOrDefault(r => r.ID == id);
+                var role=cs.GetAll().SingleOrDefault(r => r.Id == Id);
                 if(role==null)
                 {
                     return 1;//删除的数据不存在
@@ -79,21 +79,21 @@ namespace SDMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<RoleEntity> cs = new CommonService<RoleEntity>(dbc);
-                return cs.GetAll().OrderByDescending(r => r.CreateTime).ToList().Select(r => new RoleDTO {CreateTime=r.CreateTime,Description=r.Description,ID=r.ID,Name=r.Name }).ToArray();
+                return cs.GetAll().OrderByDescending(r => r.CreateTime).ToList().Select(r => new RoleDTO {CreateTime=r.CreateTime,Description=r.Description,Id=r.Id,Name=r.Name }).ToArray();
             }
         }
 
-        public RoleDTO GetById(long id)
+        public RoleDTO GetById(long Id)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<RoleEntity> cs = new CommonService<RoleEntity>(dbc);
-                var role = cs.GetAll().SingleOrDefault(r => r.ID == id);
+                var role = cs.GetAll().SingleOrDefault(r => r.Id == Id);
                 if(role==null)
                 {
                     return null;
                 }
-                return new RoleDTO { CreateTime = role.CreateTime, Description = role.Description, ID = role.ID, Name = role.Name };
+                return new RoleDTO { CreateTime = role.CreateTime, Description = role.Description, Id = role.Id, Name = role.Name };
             }
         }
     }

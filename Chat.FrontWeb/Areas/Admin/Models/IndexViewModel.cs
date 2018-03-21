@@ -15,6 +15,6 @@ namespace SDMS.Web.Areas.Admin.Models
     public class IndexViewModel
     {
         public List<ParentModel> MenuList { get; set; }
-        public long ID { get; set; }
+        public long Id { get; set; }
     }
 }

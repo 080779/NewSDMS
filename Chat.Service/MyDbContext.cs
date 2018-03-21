@@ -31,10 +31,13 @@ namespace SDMS.Service
 
         public DbSet<AdminEntity> Admin { get; set; }        
         public DbSet<HolderEntity> Holder { get; set; }
-        public DbSet<JournalEntity> Journal { get; set; }        
-        public DbSet<NewsEntity> News { get; set; }        
-        public DbSet<PowerEntity> Power { get; set; }        
+        public DbSet<JournalEntity> Journal { get; set; }       
+        public DbSet<JournalTypeEntity> JournalTypes { get; set; }
+        public DbSet<NewsEntity> News { get; set; }
+        public DbSet<MessageEntity> Messages { get; set; }
+        public DbSet<PowerEntity> Power { get; set; }
         public DbSet<RoleEntity> Role { get; set; }
         public DbSet<PermissionEntity> Permission { get; set; }
+        public DbSet<StockItemEntity> StockItems { get; set; }
     }
 }

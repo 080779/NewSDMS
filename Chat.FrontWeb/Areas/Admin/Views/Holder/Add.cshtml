@@ -1,0 +1,119 @@
+﻿@model SDMS.DTO.DTO.RoleDTO[]
+@{
+    ViewBag.Title = "添加管理员";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+}
+<div class="operation">
+    <fieldset class="fieldset">
+        <table>
+            <tr>                
+                <td align="right">
+                    <p style="color:Red">*</p> 姓名：
+                </td>
+                <td>
+                    <input type="text" id="txtUserName" class="input_select" />
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    <p style="color:Red">*</p> 登录密码：
+                </td>
+                <td>
+                    <input type="password" id="txtPwd" class="input_select" />
+                </td>
+                <td align="right">
+                    <p style="color:Red">*</p> 确认登录密码：
+                </td>
+                <td>
+                    <input type="password" id="txtPwd1" class="input_select" />
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    <p style="color:Red">*</p> 二级密码：
+                </td>
+                <td>
+                    <input type="password" id="txtsPwd" class="input_select" />
+                </td>
+                <td align="right">
+                    <p style="color:Red">*</p> 确认二级密码：
+                </td>
+                <td>
+                    <input type="password" id="txtsPwd1" class="input_select" />
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    <p style="color:Red">*</p> 三级密码：
+                </td>
+                <td>
+                    <input type="password" id="txttPwd" class="input_select" />
+                </td>
+                <td align="right">
+                    <p style="color:Red">*</p> 确认三级密码：
+                </td>
+                <td>
+                    <input type="password" id="txttPwd1" class="input_select" />
+                </td>
+            </tr>
+        </table>
+    </fieldset><br />
+    <fieldset class="fieldset">
+        <div>
+            @foreach (var role in Model)
+            {
+                <input type="checkbox" class="role" value="@role.ID" /><label>@role.Name</label>
+            }            
+        </div>
+    </fieldset><br />
+    <fieldset class="fieldset">
+        <a class="easyui-linkbutton" id="btnSave" >提交</a>
+    </fieldset>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#btnSave").click(function () {
+            var roleIds = new Array();
+            var userName = $("#txtUserName").val();
+            var pwd = $("#txtPwd").val();
+            var spwd = $("#txtsPwd").val();
+            var tpwd = $("#txttPwd").val();
+            var pwd1 = $("#txtPwd1").val();
+            var spwd1 = $("#txtsPwd1").val();
+            var tpwd1 = $("#txttPwd1").val();
+            if (pwd !== pwd1)
+            {
+                alert('两次输入的登录密码不一致');
+                return;
+            }
+            if (spwd !== spwd1) {
+                alert('两次输入的二级密码不一致');
+                return;
+            }
+            if (tpwd !== tpwd1) {
+                alert('两次输入的三级密码不一致');
+                return;
+            }
+            $(".role").each(function () {
+                if($(this).is(":checked"))
+                {
+                    roleIds.push($(this).val());
+                }
+            });
+            $.ajax({
+                url: "/admin/system/adminadd", type: "post", data: {userName:userName,pwd:pwd,spwd:spwd,tpwd:tpwd,roleIds:roleIds},
+                success: function (result) {
+                    if(result.status=="1")
+                    {
+                        window.location.href = result.data;
+                    }
+                    else if(result.status=="0")
+                    {
+                        alert(result.msg);
+                    }
+                },
+                error: function () { alert("网络错误");}
+            });
+        });
+    });
+</script>

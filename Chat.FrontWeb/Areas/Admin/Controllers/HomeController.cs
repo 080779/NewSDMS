@@ -2,7 +2,6 @@
 using SDMS.Web.App_Start;
 using SDMS.Web.Areas.Admin.Controllers.Base;
 using SDMS.Web.Areas.Admin.Models;
-using SDMS.Web.Areas.Admin.Models.User;
 using SDMS.IService.Interface;
 using SDMS.Service.Service;
 using SDMS.Common;
@@ -27,19 +26,20 @@ namespace SDMS.Web.Areas.Admin.Controllers
             IndexViewModel model = new IndexViewModel();
             
             List<ParentModel> MenuList = new List<ParentModel>();
-            foreach (var parent in powerService.GetByParentID(0))
+            foreach (var parent in powerService.GetByParentId(0))
             {
                 ParentModel parentList = new ParentModel();
                 parentList.Parent = parent;
-                if(powerService.GetByTypeId((int)parent.TypeID)==null)
+                if(powerService.GetByTypeId((int)parent.TypeId)==null)
                 {
                     continue;
                 }
-                parentList.Child = powerService.GetByTypeId((int)parent.TypeID);
+                parentList.Child = powerService.GetByTypeId((int)parent.TypeId);
                 MenuList.Add(parentList);
             }
             model.MenuList = MenuList;
-            model.ID = GetLoginID();
+            model.Id = GetLoginID();
+            Session["Test"] = "数据库session";
             return View(model);
         }
 

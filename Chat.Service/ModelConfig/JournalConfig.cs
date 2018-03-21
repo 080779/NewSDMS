@@ -13,13 +13,9 @@ namespace SDMS.Service.ModelConfig
         public JournalConfig()
         {
             ToTable("T_Journal");
-
             Property(u => u.Remark).HasMaxLength(50);
-            Property(u => u.RemarkEn).HasMaxLength(50);
-            Property(u => u.Journal03).HasMaxLength(50);
-            Property(u => u.Journal04).HasMaxLength(50);
-            //HasRequired(b => b.Users).WithMany().HasForeignKey(b => b.UserID).WillCascadeOnDelete(false);
-            //HasRequired(b => b.Currencys).WithMany().HasForeignKey(b => b.JournalType).WillCascadeOnDelete(false);
+            HasRequired(j => j.Holder).WithMany().HasForeignKey(j => j.HolderId).WillCascadeOnDelete(false);
+            HasRequired(j => j.JournalType).WithMany().HasForeignKey(j => j.JournalTypeId).WillCascadeOnDelete(false);
         }
     }
 }

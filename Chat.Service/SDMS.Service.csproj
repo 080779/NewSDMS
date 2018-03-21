@@ -60,17 +60,23 @@
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\HolderEntity.cs" />
     <Compile Include="Entities\JournalEntity.cs" />
+    <Compile Include="Entities\JournalTypeEntity.cs" />
+    <Compile Include="Entities\MessageEntity.cs" />
     <Compile Include="Entities\NewsEntity.cs" />
     <Compile Include="Entities\PermissionEntity.cs" />
     <Compile Include="Entities\PowerEntity.cs" />
     <Compile Include="Entities\RoleEntity.cs" />
+    <Compile Include="Entities\StockItemEntity.cs" />
     <Compile Include="ModelConfig\AdminConfig.cs" />
     <Compile Include="ModelConfig\HolderConfig.cs" />
     <Compile Include="ModelConfig\JournalConfig.cs" />
+    <Compile Include="ModelConfig\JournalTypeConfig.cs" />
+    <Compile Include="ModelConfig\MessageConfig.cs" />
     <Compile Include="ModelConfig\NewsConfig.cs" />
     <Compile Include="ModelConfig\PermissionConfig.cs" />
     <Compile Include="ModelConfig\PowerConfig.cs" />
     <Compile Include="ModelConfig\RoleConfig.cs" />
+    <Compile Include="ModelConfig\StockItemConfig.cs" />
     <Compile Include="MyDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -80,7 +86,9 @@
     </Compile>
     <Compile Include="Service\AdminLoginServive.cs" />
     <Compile Include="Service\AdminService.cs" />
+    <Compile Include="Service\HolderService.cs" />
     <Compile Include="Service\JournalService.cs" />
+    <Compile Include="Service\NewsService.cs" />
     <Compile Include="Service\PermissionService.cs" />
     <Compile Include="Service\PowerService.cs" />
     <Compile Include="Service\RoleService.cs" />

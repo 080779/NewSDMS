@@ -8,17 +8,17 @@ namespace SDMS.DTO.DTO
 {
     public class PermissionDTO
     {
-        public long ID { get; set; }
+        public long Id { get; set; }
         public string Description { get; set; }
         public string Name { get; set; }
-        public long? TypeID { get; set; }
+        public long? TypeId { get; set; }
         public string URL { get; set; }
         public string MenuName { get; set; }
-        public long? ParentID { get; set; }
+        public long? ParentId { get; set; }
     }
 
     public class PermissionIdsDTO
     {
-        public long ID { get; set; }
+        public long Id { get; set; }
     }
 }

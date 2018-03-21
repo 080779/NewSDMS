@@ -11,50 +11,50 @@ namespace SDMS.Service.Service
 {
     public class PermissionService: IPermissionService
     {
-        public PermissionDTO[] GetByParentId(long id)
+        public PermissionDTO[] GetByParentId(long Id)
         {
             using(MyDbContext dbc=new MyDbContext())
             {
                 CommonService<PermissionEntity> cs = new CommonService<PermissionEntity>(dbc);
-                return cs.GetAll().Where(p => p.ParentID == id).ToList().Select(p => new PermissionDTO { Description = p.Description, ID = p.ID, MenuName = p.MenuName, Name = p.Name, ParentID = p.ParentID, TypeID = p.TypeID, URL = p.URL }).ToArray();
+                return cs.GetAll().Where(p => p.ParentId == Id).ToList().Select(p => new PermissionDTO { Description = p.Description, Id = p.Id, MenuName = p.MenuName, Name = p.Name, ParentId = p.ParentId, TypeId = p.TypeId, URL = p.URL }).ToArray();
             }           
         }
 
-        public List<long> GetByRoleId(long id)
+        public List<long> GetByRoleId(long Id)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<RoleEntity> cs = new CommonService<RoleEntity>(dbc);
-                var role = cs.GetAll().SingleOrDefault(r => r.ID == id);
+                var role = cs.GetAll().SingleOrDefault(r => r.Id == Id);
                 if(role==null)
                 {
                     role = new RoleEntity();
                 }
-                PermissionIdsDTO[] roleIds = role.Permissions.Where(p => p.IsDeleted == false).ToList().Select(p => new PermissionIdsDTO { ID = p.ID }).ToArray();
+                PermissionIdsDTO[] roleIds = role.Permissions.Where(p => p.IsDeleted == false).ToList().Select(p => new PermissionIdsDTO { Id = p.Id }).ToArray();
                 List<long> lists = new List<long>();
-                foreach(var roleid in roleIds)
+                foreach(var roleId in roleIds)
                 {
-                    lists.Add(roleid.ID);
+                    lists.Add(roleId.Id);
                 }
                 return lists;
             }
         }
 
-        public List<long> GetByAdminId(long id)
+        public List<long> GetByAdminId(long Id)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<AdminEntity> cs = new CommonService<AdminEntity>(dbc);
-                var admin = cs.GetAll().SingleOrDefault(a => a.ID == id);
+                var admin = cs.GetAll().SingleOrDefault(a => a.Id == Id);
                 if (admin == null)
                 {
                     admin = new AdminEntity();
                 }
-                PermissionIdsDTO[] permissionIds= admin.Roles.Where(p => p.IsDeleted == false).SelectMany(r => r.Permissions).Where(p => p.IsDeleted == false).Distinct().Select(p => new PermissionIdsDTO { ID = p.ID }).ToArray();
+                PermissionIdsDTO[] permissionIds= admin.Roles.Where(p => p.IsDeleted == false).SelectMany(r => r.Permissions).Where(p => p.IsDeleted == false).Distinct().Select(p => new PermissionIdsDTO { Id = p.Id }).ToArray();
                 List<long> lists = new List<long>();
                 foreach(var permissionId in permissionIds)
                 {
-                    lists.Add(permissionId.ID);
+                    lists.Add(permissionId.Id);
                 }
                 return lists;
             }

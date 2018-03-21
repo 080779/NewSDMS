@@ -16,13 +16,8 @@ namespace SDMS.Web.Areas.Admin.Controllers
     
     public class SystemController : AdminBaseController
     {
-        //public IAdminService adminService { get; set; }
         public IRoleService roleService { get; set; }
         public IPermissionService permissionService { get; set; }
-        public IGlobeParamService paramService { get; set; }
-        public IDataBaseService databaseService { get; set; }
-        public IBankNameService banknameService { get; set; }
-        public ISystemBankService sysbankService { get; set; }
 
         #region 管理员管理
         public ActionResult AdminManager()
@@ -87,7 +82,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
             {
                 return Json(new AjaxResult { Status = "0", Msg = "角色必须选择" });
             }
-            long id=adminService.AddNew(userName, pwd, spwd, tpwd, roleIds);
+            long id=adminService.AddNew(userName, pwd, roleIds);
             if(id<=0)
             {
                 return Json(new AjaxResult { Status = "0", Msg = "管理员用户添加失败" });
@@ -103,7 +98,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
             List<long> lists = new List<long>();
             foreach(var role in model.Admin.RoleIds)
             {
-                lists.Add(role.ID);
+                lists.Add(role.Id);
             }
             model.RoleIds = lists;
             return View(model);
@@ -120,7 +115,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
             {
                 return Json(new AjaxResult { Status = "0", Msg = "角色必须选择" });
             }
-            if (!adminService.Update(id, userName, pwd, spwd, tpwd, roleIds))
+            if (!adminService.Update(id, userName, pwd, roleIds))
             {
                 return Json(new AjaxResult { Status = "0", Msg = "管理员用户编辑失败" });
             }
@@ -153,11 +148,11 @@ namespace SDMS.Web.Areas.Admin.Controllers
             {
                 Permissions parentList = new Permissions();
                 parentList.Parent = parent;
-                if (permissionService.GetByParentId((long)parent.TypeID) == null)
+                if (permissionService.GetByParentId((long)parent.TypeId) == null)
                 {
                     continue;
                 }
-                parentList.Child = permissionService.GetByParentId((long)parent.TypeID);
+                parentList.Child = permissionService.GetByParentId((long)parent.TypeId);
                 MenuList.Add(parentList);
             }
             model.PermissionList = MenuList;
@@ -195,11 +190,11 @@ namespace SDMS.Web.Areas.Admin.Controllers
             {
                 Permissions parentList = new Permissions();
                 parentList.Parent = parent;
-                if (permissionService.GetByParentId((long)parent.TypeID) == null)
+                if (permissionService.GetByParentId((long)parent.TypeId) == null)
                 {
                     continue;
                 }
-                parentList.Child = permissionService.GetByParentId((long)parent.TypeID);
+                parentList.Child = permissionService.GetByParentId((long)parent.TypeId);
                 MenuList.Add(parentList);
             }
             model.PermissionList = MenuList;     
@@ -251,220 +246,6 @@ namespace SDMS.Web.Areas.Admin.Controllers
             }
             return Json(new AjaxResult { Status = "1", Data = "/admin/system/rolemanager" });
         }
-        #endregion
-
-        #region 参数设置
-        public ActionResult ParamManager()
-        {
-            var paramlist= paramService.GetAll();
-            return View(paramlist);
-        }
-
-        public ActionResult ParamEdit(long? id, string paramVarchar)
-        {
-            if (id == null)
-            {
-                return Json(new AjaxResult { Status = "0", Msg = "数据不存在" });
-            }
-            if (string.IsNullOrEmpty(paramVarchar))
-            {
-                return Json(new AjaxResult { Status = "0", Msg = "参数不能为空" });
-            }
-            GlobeParamDTO dto = paramService.GetById(id);
-            string strRemark = dto.Remark.Replace("</font>", "").Replace("<font style=\"color:#FF0000;\">", "").Replace("&gt;", ">");
-            decimal d;
-            int i;
-            if (dto.ParamType == 1)
-            {
-                if(!decimal.TryParse(paramVarchar,out d))
-                {
-                    return Json(new AjaxResult { Status = "0", Msg = "参数格式错误[" + strRemark + "]" ,Data=dto.ParamVarchar });                                       
-                }
-                if (d < 0)
-                {
-                    return Json(new AjaxResult { Status = "0", Msg = "请输入大于等于0的参数[" + strRemark + "]" , Data = dto.ParamVarchar });
-                }
-            }
-            else if (dto.ParamType == 2)
-            {
-                if (!int.TryParse(paramVarchar, out i))
-                {
-                    return Json(new AjaxResult { Status = "0", Msg = "请输入整数[" + strRemark + "]", Data = dto.ParamVarchar });
-                }
-                if(i<0)
-                {
-                    return Json(new AjaxResult { Status = "0", Msg = "请输入大于等于0的参数[" + strRemark + "]", Data = dto.ParamVarchar });
-                }
-            }
-            else if (dto.ParamType == 3)
-            {
-                if (!decimal.TryParse(paramVarchar, out d))
-                {
-                    return Json(new AjaxResult { Status = "0", Msg = "参数格式错误[" + strRemark + "]", Data = dto.ParamVarchar });
-                }
-                if(d>100)
-                {
-                    return Json(new AjaxResult { Status = "0", Msg = "比率不能大于100%的参数[" + strRemark + "]", Data = dto.ParamVarchar });
-                }
-                if (d < 0)
-                {
-                    return Json(new AjaxResult { Status = "0", Msg = "请输入大于等于0的参数[" + strRemark + "]", Data = dto.ParamVarchar });
-                }
-            }
-            else if (dto.ParamType == 4)
-            {
-                
-            }
-            if (!paramService.Update(id, paramVarchar))
-            {
-                return Json(new AjaxResult { Status = "0", Msg = "参数更新出错" });
-            }
-            return Json(new AjaxResult { Status = "1", Data = "/admin/system/parammanager" });
-        }
-
-        public ActionResult ParamEditAll(string[]  paramList)
-        {
-            foreach(var param in paramList)
-            {
-                string[] paramStrs = param.Split('^');
-                long id = Convert.ToInt64(paramStrs[0]);
-                string paramVarchar = paramStrs[1];
-
-                GlobeParamDTO dto = paramService.GetById(id);
-                string strRemark = dto.Remark.Replace("</font>", "").Replace("<font style=\"color:#FF0000;\">", "").Replace("&gt;", ">");
-                decimal d;
-                int i;
-                if (dto.ParamType == 1)
-                {
-                    if (!decimal.TryParse(paramVarchar, out d))
-                    {
-                        return Json(new AjaxResult { Status = "0", Msg = "参数格式错误[" + strRemark + "]", Data = new { Id=id,ParamVarchar= dto.ParamVarchar } });
-                    }
-                    if (d < 0)
-                    {
-                        return Json(new AjaxResult { Status = "0", Msg = "请输入大于等于0的参数[" + strRemark + "]", Data = new { Id=id,ParamVarchar= dto.ParamVarchar } });
-                    }
-                }
-                else if (dto.ParamType == 2)
-                {
-                    if (!int.TryParse(paramVarchar, out i))
-                    {
-                        return Json(new AjaxResult { Status = "0", Msg = "请输入整数[" + strRemark + "]", Data = new { Id=id,ParamVarchar= dto.ParamVarchar } });
-                    }
-                    if (i < 0)
-                    {
-                        return Json(new AjaxResult { Status = "0", Msg = "请输入大于等于0的参数[" + strRemark + "]", Data = new { Id=id,ParamVarchar= dto.ParamVarchar } });
-                    }
-                }
-                else if (dto.ParamType == 3)
-                {
-                    if (!decimal.TryParse(paramVarchar, out d))
-                    {
-                        return Json(new AjaxResult { Status = "0", Msg = "参数格式错误[" + strRemark + "]", Data = new { Id=id,ParamVarchar= dto.ParamVarchar } });
-                    }
-                    if (d > 100)
-                    {
-                        return Json(new AjaxResult { Status = "0", Msg = "比率不能大于100%的参数[" + strRemark + "]", Data = new { Id=id,ParamVarchar= dto.ParamVarchar } });
-                    }
-                    if (d < 0)
-                    {
-                        return Json(new AjaxResult { Status = "0", Msg = "请输入大于等于0的参数[" + strRemark + "]", Data = new { Id=id,ParamVarchar= dto.ParamVarchar } });
-                    }
-                }
-                else if (dto.ParamType == 4)
-                {
-
-                }
-
-                if (!paramService.Update(id, paramVarchar))
-                {
-                    return Json(new AjaxResult { Status = "0", Msg = "参数更新出错" });
-                }
-            }            
-            return Json(new AjaxResult { Status = "1", Data = "/admin/system/parammanager" });
-        }
-        #endregion
-
-        #region 数据库设置
-        public ActionResult DataBaseManager()
-        {
-            return View();
-        }
-
-        public ActionResult Clear()
-        {
-            if(databaseService.DataBaseClear()<0)
-            {
-                return Json(new AjaxResult { Status = "0",Msg="清空失败" });
-            }
-            return Json(new AjaxResult { Status = "1"});
-        }
-        #endregion
-
-        #region 银行设置
-        public ActionResult BankNameManage()
-        {
-            BankNameListModel model = new BankNameListModel();
-            model.bankList = banknameService.GetList();
-            return View(model);
-        }
-
-        public ActionResult AddBankName(string bankname, string banknameen)
-        {
-            long id = banknameService.AddBankName(bankname, banknameen);
-            if (id > 0)
-            {
-                return Json(new AjaxResult { Status = "0", Msg = "添加失败" });
-            }
-            return Json(new AjaxResult { Status = "1", Data = "/admin/system/BankNameManage" });
-        }
-
-        public ActionResult BankNameDel(long id)
-        {
-            long i = banknameService.Delete(id);
-            if (i == 1)
-            {
-                return Json(new AjaxResult { Status = "0", Msg = "删除失败" });
-            }
-            else if (i == 2)
-            {
-                return Json(new AjaxResult { Status = "0", Msg = "已删除" });
-            }
-            return Json(new AjaxResult { Status = "1", Data = "/admin/system/BankNameManage" });
-        }
-        #endregion
-
-        #region 系统账户设置
-        public ActionResult SystemBankManage()
-        {
-            SystemBankListModel model = new SystemBankListModel();
-            model.sysbankList = sysbankService.GetList();
-            return View(model);
-        }
-
-        public ActionResult AddSystemBank(string bankname, string bankaccount, string bankaccountuser)
-        {
-            long id = sysbankService.AddSystemBank(bankname, bankaccount, bankaccountuser, "", 0);
-            if (id > 0)
-            {
-                return Json(new AjaxResult { Status = "0", Msg = "添加失败" });
-            }
-            return Json(new AjaxResult { Status = "1", Data = "/admin/system/SystemBankManage" });
-        }
-
-        public ActionResult SystemBankDel(long id)
-        {
-            long i = sysbankService.Delete(id);
-            if (i == 1)
-            {
-                return Json(new AjaxResult { Status = "0", Msg = "删除失败" });
-            }
-            else if (i == 2)
-            {
-                return Json(new AjaxResult { Status = "0", Msg = "已删除" });
-            }
-            return Json(new AjaxResult { Status = "1", Data = "/admin/system/SystemBankManage" });
-        }
-        #endregion
+        #endregion                
     }
 }

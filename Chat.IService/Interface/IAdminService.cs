@@ -9,14 +9,14 @@ namespace SDMS.IService.Interface
 {
     public interface IAdminService:IServiceSupport
     {
-        long AddNew(string userName, string pwd, string spwd, string tpwd, long?[] roleIds);
+        long AddNew(string userName, string pwd, long?[] roleIds);
         bool CheckUserName(string userName);
-        bool Update(long id, string userName, string pwd, string spwd, string tpwd, long?[] roleIds);
-        AdminEditDTO GetById(long id);
-        AdminDTO GetByAdminId(long id);
+        bool Update(long Id, string userName, string pwd, long?[] roleIds);
+        AdminEditDTO GetById(long Id);
+        AdminDTO GetByAdminId(long Id);
         long GetIdByName(string userName);
         AdminSearchResult GetPageList(int pageIndex, int pageSize);
-        bool Delete(long id);
+        bool Delete(long Id);
         bool HasPermission(long adminUserId, string permissionName);
         long CheckLogin(string usercode, string password);
     }

@@ -9,7 +9,7 @@ namespace SDMS.DTO
     [Serializable]
     public abstract class BaseDTO
     {
-        public long ID { get; set; }
+        public long Id { get; set; }
         public DateTime CreateTime { get; set; }
     }
 }

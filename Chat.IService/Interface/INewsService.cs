@@ -19,7 +19,7 @@ namespace SDMS.IService.Interface
         /// <param name="PageSize"></param>
         /// <returns></returns>
         NewsPageResult GetPageList(int PageIndex, int PageSize);
-        ///获取id
+        ///获取Id
         NewsDTO GetModel(long Id);
         //更新
         bool Update(NewsDTO hh);

@@ -14,6 +14,6 @@ namespace SDMS.DTO.DTO
 
     public class RoleIdDTO
     {
-        public long ID { get; set; }
+        public long Id { get; set; }
     }
 }

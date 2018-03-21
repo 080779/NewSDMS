@@ -12,7 +12,7 @@ namespace SDMS.IService.Interface
         /// <summary>
         /// 添加账户明细记录
         /// </summary>
-        /// <param name="UserID"></param>
+        /// <param name="UserId"></param>
         /// <param name="InAmount"></param>
         /// <param name="OutAmount"></param>
         /// <param name="Balance"></param>
@@ -20,7 +20,7 @@ namespace SDMS.IService.Interface
         /// <param name="Remark"></param>
         /// <param name="RemarkEn"></param>
         /// <returns></returns>
-        long Add(long UserID, decimal InAmount, decimal OutAmount, decimal Balance, int JournalType, string Remark, string RemarkEn);
+        long Add(long UserId, decimal InAmount, decimal OutAmount, decimal Balance, int JournalType, string Remark, string RemarkEn);
 
         /// <summary>
         /// 获取列表
@@ -31,7 +31,7 @@ namespace SDMS.IService.Interface
         /// <summary>
         /// 分页查询
         /// </summary>
-        /// <param name="UserID"></param>
+        /// <param name="UserId"></param>
         /// <param name="UserCode"></param>
         /// <param name="TrueName"></param>
         /// <param name="JournalType"></param>
@@ -40,9 +40,9 @@ namespace SDMS.IService.Interface
         /// <param name="PageIndex"></param>
         /// <param name="PageSize"></param>
         /// <returns></returns>
-        JournalPageResult GetPageList(long UserID, string UserCode, string TrueName, int JournalType, DateTime? StartTime, DateTime? EndTime, int PageIndex, int PageSize);
+        JournalPageResult GetPageList(long UserId, string UserCode, string TrueName, int JournalType, DateTime? StartTime, DateTime? EndTime, int PageIndex, int PageSize);
 
-        List<JournalDTO> GetPageListTest(long UserID, string UserCode, string TrueName, int JournalType, DateTime? StartTime, DateTime? EndTime, int PageIndex, int PageSize);
+        List<JournalDTO> GetPageListTest(long UserId, string UserCode, string TrueName, int JournalType, DateTime? StartTime, DateTime? EndTime, int PageIndex, int PageSize);
     }
 
     public class JournalPageResult

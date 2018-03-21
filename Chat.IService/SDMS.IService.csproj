@@ -49,34 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interface\IAccountService.cs" />
-    <Compile Include="Interface\IChangeTypeService.cs" />
     <Compile Include="Interface\IAdminLoginService.cs" />
     <Compile Include="Interface\IAdminService.cs" />
-    <Compile Include="Interface\IAgentServeice.cs" />
-    <Compile Include="Interface\IBankNameService.cs" />
-    <Compile Include="Interface\IBonusService.cs" />
-    <Compile Include="Interface\IBonusTypeService.cs" />
-    <Compile Include="Interface\IChangeService.cs" />
-    <Compile Include="Interface\ICityService.cs" />
-    <Compile Include="Interface\IDataBaseService.cs" />
+    <Compile Include="Interface\IHolderService.cs" />
     <Compile Include="Interface\IJournalService.cs" />
-    <Compile Include="Interface\ICurrencyNameService.cs" />
-    <Compile Include="Interface\ILeavewordsService.cs" />
-    <Compile Include="Interface\ILevelService.cs" />
-    <Compile Include="Interface\IMemberLevelService.cs" />
-    <Compile Include="Interface\IMemberService.cs" />
-    <Compile Include="Interface\ILoginService.cs" />
-    <Compile Include="Interface\IGlobeParamService.cs" />
     <Compile Include="Interface\IPermissionService.cs" />
     <Compile Include="Interface\INewsService.cs" />
     <Compile Include="Interface\IPowerService.cs" />
-    <Compile Include="Interface\IRechargeService.cs" />
-    <Compile Include="Interface\IRemitService.cs" />
-    <Compile Include="Interface\IStockService.cs" />
-    <Compile Include="Interface\ISystemBankService.cs" />
-    <Compile Include="Interface\ITakeMoneyService.cs" />
-    <Compile Include="Interface\IUserService.cs" />
     <Compile Include="Interface\IRoleService.cs" />
     <Compile Include="IServiceSupport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

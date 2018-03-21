@@ -53,7 +53,7 @@ namespace SDMS.Service
         /// <returns></returns>
         public T GetById(long id)
         {
-            return GetAll().Where(e => e.ID == id).SingleOrDefault();
+            return GetAll().Where(e => e.Id == id).SingleOrDefault();
         }
         /// <summary>
         /// 软删除

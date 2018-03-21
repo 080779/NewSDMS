@@ -13,6 +13,7 @@ namespace SDMS.Service.ModelConfig
         public HolerConfig()
         {
             ToTable("T_Holer");
+            //HasRequired(h => h.StockItem).WithMany().HasForeignKey(h => h.StockItemId).WillCascadeOnDelete(false);
         }
     }
 }

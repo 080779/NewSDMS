@@ -9,9 +9,9 @@ namespace SDMS.IService.Interface
 {
     public interface IPermissionService:IServiceSupport
     {
-        PermissionDTO[] GetByParentId(long id);
-        List<long> GetByRoleId(long id);
-        List<long> GetByAdminId(long id);
+        PermissionDTO[] GetByParentId(long Id);
+        List<long> GetByRoleId(long Id);
+        List<long> GetByAdminId(long Id);
         string GetByName(string name);
     }
 }

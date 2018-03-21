@@ -8,9 +8,9 @@ namespace SDMS.DTO.DTO
 {
     public class PowerDTO:BaseDTO
     {
-        public int? TypeID { get; set; }
+        public int? TypeId { get; set; }
         public string URL { get; set; }
         public string MenuName { get; set; }
-        public int? ParentID { get; set; }
+        public int? ParentId { get; set; }
     }
 }

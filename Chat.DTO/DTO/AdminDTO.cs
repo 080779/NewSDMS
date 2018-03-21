@@ -27,7 +27,7 @@ namespace SDMS.DTO.DTO
     {
         //[ExportExcelName("编号")]对应生成excel表的列名，必须要有这个attribute
         [ExportExcelName("编号")]
-        public long ID { get; set; }
+        public long Id { get; set; }
         [ExportExcelName("姓名")]
         public string UserName { get; set; }
         [ExportExcelName("创建时间")]

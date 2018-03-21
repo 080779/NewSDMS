@@ -8,7 +8,7 @@ namespace SDMS.DTO.DTO
 {
     public class JournalDTO : BaseDTO
     {
-        public long? UserID { get; set; }
+        public long? UserId { get; set; }
         public string Remark { get; set; }
         public string RemarkEn { get; set; }
         public decimal? InAmount { get; set; }
