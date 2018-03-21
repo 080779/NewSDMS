@@ -45,10 +45,13 @@
     <Compile Include="DTO\AdminDTO.cs" />
     <Compile Include="DTO\HolderDTO.cs" />
     <Compile Include="DTO\JournalDTO.cs" />
+    <Compile Include="DTO\JournalTypeDTO.cs" />
+    <Compile Include="DTO\MessageDTO.cs" />
     <Compile Include="DTO\PermissionDTO.cs" />
     <Compile Include="DTO\NewsDTO.cs" />
     <Compile Include="DTO\PowerDTO.cs" />
     <Compile Include="DTO\RoleDTO.cs" />
+    <Compile Include="DTO\StockItemDTO.cs" />
     <Compile Include="ExportExcelNameAttribute.cs" />
     <Compile Include="Model\HolderSvcModel.cs" />
     <Compile Include="Model\UserRegCount.cs" />

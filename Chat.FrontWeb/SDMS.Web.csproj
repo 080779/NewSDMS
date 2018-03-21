@@ -542,6 +542,7 @@
     <Compile Include="App_Start\SYSAuthorizationFilter.cs" />
     <Compile Include="App_Start\SYSExceptionFilter.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\ApiController.cs" />
     <Compile Include="Areas\Admin\Controllers\Base\AdminBaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\HolderController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
@@ -619,6 +620,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\Message\" />
     <Folder Include="Areas\Admin\Models\Statistical\" />
+    <Folder Include="Areas\Admin\Views\Api\" />
     <Folder Include="Areas\Admin\Views\Message\" />
     <Folder Include="Models\" />
     <Folder Include="Upload\VerifyCode\Admin\" />

@@ -53,10 +53,13 @@
     <Compile Include="Interface\IAdminService.cs" />
     <Compile Include="Interface\IHolderService.cs" />
     <Compile Include="Interface\IJournalService.cs" />
+    <Compile Include="Interface\IMessageService.cs" />
     <Compile Include="Interface\IPermissionService.cs" />
     <Compile Include="Interface\INewsService.cs" />
     <Compile Include="Interface\IPowerService.cs" />
     <Compile Include="Interface\IRoleService.cs" />
+    <Compile Include="Interface\IJournalTypeService.cs" />
+    <Compile Include="Interface\IStockItemService.cs" />
     <Compile Include="IServiceSupport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

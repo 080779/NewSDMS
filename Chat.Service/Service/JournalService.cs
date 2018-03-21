@@ -10,52 +10,21 @@ using SDMS.Service.Entities;
 namespace SDMS.Service.Service
 {
     public class JournalService : IJournalService
-    {
-        #region 添加账户明细记录
-        /// <summary>
-        /// 添加账户明细记录
-        /// </summary>
-        /// <param name="UserId"></param>
-        /// <param name="Amount"></param>
-        /// <param name="JournalType"></param>
-        /// <param name="iStyle">1：增加，2：减少</param>
-        /// <returns></returns>
-        public long Add(long UserId, decimal InAmount, decimal OutAmount, decimal Balance, int JournalType, string Remark, string RemarkEn)
-        {
-            using (MyDbContext dbcontext = new MyDbContext())
-            {
-                JournalEntity jModel = new JournalEntity();
-                //jModel.UserId = UserId;
-                //jModel.JournalType = JournalType;
-                jModel.InAmount = InAmount;
-                jModel.OutAmount = OutAmount;
-                jModel.BalanceAmount = Balance;
-                jModel.Remark = Remark;
-                dbcontext.Journal.Add(jModel);
-                dbcontext.SaveChanges();
-                return jModel.Id;
-            }
-        }
-        #endregion
-
-        #region 获取列表
-        /// <summary>
-        /// 获取列表
-        /// </summary>
-        /// <returns></returns>
-        public List<JournalDTO> GetList()
-        {
-            using (MyDbContext dbcontext = new MyDbContext())
-            {
-                CommonService<JournalEntity> csr = new CommonService<JournalEntity>(dbcontext);
-                return csr.GetAll().ToList().Select(p => ToDTO(p)).ToList();
-            }
-        }
-        #endregion
-
+    {       
         #region 分页查询
-        
-        public JournalPageResult GetPageList(long UserId, string UserCode, string TrueName, int JournalType, DateTime? StartTime, DateTime? EndTime, int PageIndex, int PageSize)
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="holderId"></param>
+        /// <param name="mobile"></param>
+        /// <param name="name"></param>
+        /// <param name="journalTypeId"></param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public JournalPageResult GetPageList(long? holderId, string mobile, string name, long? journalTypeId, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
         {
             using (MyDbContext dbcontext = new MyDbContext())
             {
@@ -63,88 +32,55 @@ namespace SDMS.Service.Service
                 JournalPageResult PageResult = new JournalPageResult();
                 var JournalQuery = csr.GetAll();
 
-                //if (UserId > 0)
-                //{
-                //    JournalQuery = JournalQuery.Where(p => p.UserId == UserId);
-                //}
-                if (!string.IsNullOrEmpty(UserCode))
+                if (holderId!=null)
                 {
-                    //JournalQuery = JournalQuery.Where(p => p.Users.UserCode.Contains(UserCode));
+                    JournalQuery = JournalQuery.Where(p => p.HolderId == holderId);
                 }
-                if (!string.IsNullOrEmpty(TrueName))
+                if (!string.IsNullOrEmpty(mobile))
                 {
-                    //JournalQuery = JournalQuery.Where(p => p.Users.TrueName.Contains(TrueName));
+                    JournalQuery = JournalQuery.Where(p => p.Holder.Mobile.Contains(mobile));
                 }
-                //if (JournalType > 0)
-                //{
-                //    JournalQuery = JournalQuery.Where(p => p.JournalType == JournalType);
-                //}
-                if (StartTime != null)
+                if (!string.IsNullOrEmpty(name))
                 {
-                    JournalQuery = JournalQuery.Where(p => p.CreateTime >= StartTime);
+                    JournalQuery = JournalQuery.Where(p => p.Holder.Name.Contains(name));
                 }
-                if (EndTime != null)
+                if (journalTypeId != null)
                 {
-                    JournalQuery = JournalQuery.Where(p => p.CreateTime <= EndTime);
+                    JournalQuery = JournalQuery.Where(p => p.JournalTypeId == journalTypeId);
                 }
-                PageResult.Journals = JournalQuery.OrderByDescending(p => p.CreateTime).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList().Select(p => ToDTO(p)).ToArray();
+                if (startTime != null)
+                {
+                    JournalQuery = JournalQuery.Where(p => p.CreateTime >= startTime);
+                }
+                if (endTime != null)
+                {
+                    JournalQuery = JournalQuery.Where(p => p.CreateTime <= endTime);
+                }
                 PageResult.TotalCount = JournalQuery.LongCount();
+                PageResult.Journals = JournalQuery.OrderByDescending(p => p.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList().Select(p => ToDTO(p)).ToArray();                
 
                 return PageResult;
             }
         }
         #endregion
 
-        public List<JournalDTO> GetPageListTest(long UserId, string UserCode, string TrueName, int JournalType, DateTime? StartTime, DateTime? EndTime, int PageIndex, int PageSize)
-        {
-            using (MyDbContext dbcontext = new MyDbContext())
-            {
-                CommonService<JournalEntity> csr = new CommonService<JournalEntity>(dbcontext);
-                
-                var JournalQuery = csr.GetAll();
-
-                //if (UserId > 0)
-                //{
-                //    JournalQuery = JournalQuery.Where(p => p.UserId == UserId);
-                //}
-                if (!string.IsNullOrEmpty(UserCode))
-                {
-                    //JournalQuery = JournalQuery.Where(p => p.Users.UserCode.Contains(UserCode));
-                }
-                if (!string.IsNullOrEmpty(TrueName))
-                {
-                    //JournalQuery = JournalQuery.Where(p => p.Users.TrueName.Contains(TrueName));
-                }
-                if (JournalType > 0)
-                {
-                    //JournalQuery = JournalQuery.Where(p => p.JournalType == JournalType);
-                }
-                if (StartTime != null)
-                {
-                    JournalQuery = JournalQuery.Where(p => p.CreateTime >= StartTime);
-                }
-                if (EndTime != null)
-                {
-                    JournalQuery = JournalQuery.Where(p => p.CreateTime <= EndTime);
-                }
-                List<JournalDTO> lj = JournalQuery.OrderByDescending(p => p.CreateTime).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList().Select(p => ToDTO(p)).ToList();
-                
-                return lj;
-            }
-        }
-
+        #region ToDTO
         public JournalDTO ToDTO(JournalEntity journal)
         {
             JournalDTO jourDTO = new JournalDTO();
             jourDTO.Id = journal.Id;
-            //jourDTO.UserId = journal.UserId;
-            //jourDTO.JournalType = journal.JournalType;
+            jourDTO.CreateTime = journal.CreateTime;
+            jourDTO.HolderId = journal.HolderId;
+            jourDTO.HolderName = journal.Holder.Name;
+            jourDTO.JournalTypeId = journal.JournalTypeId;
+            jourDTO.JournalTypeName = journal.JournalType.Name;
+            jourDTO.Remark = journal.Remark;
             jourDTO.InAmount = journal.InAmount;
             jourDTO.OutAmount = journal.OutAmount;
             jourDTO.BalanceAmount = journal.BalanceAmount;
 
             return jourDTO;
         }
-
+        #endregion
     }
 }
