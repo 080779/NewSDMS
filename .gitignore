@@ -11,6 +11,7 @@
 *.log
 !packages.config
 !web.config
+!App.config
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
