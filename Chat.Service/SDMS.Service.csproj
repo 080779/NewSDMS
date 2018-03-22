@@ -66,7 +66,9 @@
     <Compile Include="Entities\PermissionEntity.cs" />
     <Compile Include="Entities\PowerEntity.cs" />
     <Compile Include="Entities\RoleEntity.cs" />
+    <Compile Include="Entities\SetShareBonusEntity.cs" />
     <Compile Include="Entities\StockItemEntity.cs" />
+    <Compile Include="Entities\TakeCashEntity.cs" />
     <Compile Include="ModelConfig\AdminConfig.cs" />
     <Compile Include="ModelConfig\HolderConfig.cs" />
     <Compile Include="ModelConfig\JournalConfig.cs" />
@@ -94,7 +96,10 @@
     <Compile Include="Service\PermissionService.cs" />
     <Compile Include="Service\PowerService.cs" />
     <Compile Include="Service\RoleService.cs" />
+    <Compile Include="Service\SetShareBonusService.cs" />
+    <Compile Include="Service\ShareBonusService.cs" />
     <Compile Include="Service\StockItemService.cs" />
+    <Compile Include="Service\TakeCashService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Chat.DTO\SDMS.DTO.csproj">

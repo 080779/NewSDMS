@@ -10,10 +10,6 @@ namespace SDMS.Service.Entities
     {
         public string Description { get; set; }
         public string Name { get; set; }
-        public long? TypeId { get; set; }
-        public string URL { get; set; }
-        public string MenuName { get; set; }
-        public long? ParentId { get; set; }
         public virtual ICollection<RoleEntity> Roles { get; set; } = new List<RoleEntity>();
     }
 }

@@ -51,6 +51,7 @@
     <Compile Include="DTO\NewsDTO.cs" />
     <Compile Include="DTO\PowerDTO.cs" />
     <Compile Include="DTO\RoleDTO.cs" />
+    <Compile Include="DTO\SetShareBonusDTO.cs" />
     <Compile Include="DTO\StockItemDTO.cs" />
     <Compile Include="ExportExcelNameAttribute.cs" />
     <Compile Include="Model\HolderSvcModel.cs" />

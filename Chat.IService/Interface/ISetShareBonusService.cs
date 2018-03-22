@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace SDMS.IService.Interface
 {
-    public interface IPermissionService:IServiceSupport
+    public interface ISetShareBonusService:IServiceSupport
     {
-        List<long> GetByRoleId(long Id);
-        List<long> GetByAdminId(long Id);
-        string GetByName(string name);
+        SetShareBonusDTO GetById(long id);
+        bool Update(long id, decimal rate);
     }
 }

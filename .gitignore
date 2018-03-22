@@ -155,6 +155,9 @@ publish/
 csx/
 *.build.csdef
 
+# NuGet Packages
+**/packages/*
+
 # Windows Store app package directory
 AppPackages/
 
@@ -212,11 +215,3 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
-/Web/Upload/20160912092403.jpg
-/Web/Upload/20160912092348.jpg
-/Web/Upload/20160912092332.jpg
-/Web/Upload/20160912092311.jpg
-/Web/Upload/20160912092232.jpg
-/Web/Upload/20160912091424.jpg
-/Web/Upload/credence/201709
-/Web/Upload

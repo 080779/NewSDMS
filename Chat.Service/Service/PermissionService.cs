@@ -11,15 +11,6 @@ namespace SDMS.Service.Service
 {
     public class PermissionService: IPermissionService
     {
-        public PermissionDTO[] GetByParentId(long Id)
-        {
-            using(MyDbContext dbc=new MyDbContext())
-            {
-                CommonService<PermissionEntity> cs = new CommonService<PermissionEntity>(dbc);
-                return cs.GetAll().Where(p => p.ParentId == Id).ToList().Select(p => new PermissionDTO { Description = p.Description, Id = p.Id, MenuName = p.MenuName, Name = p.Name, ParentId = p.ParentId, TypeId = p.TypeId, URL = p.URL }).ToArray();
-            }           
-        }
-
         public List<long> GetByRoleId(long Id)
         {
             using (MyDbContext dbc = new MyDbContext())

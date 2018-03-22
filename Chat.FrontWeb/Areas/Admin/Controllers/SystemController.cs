@@ -143,19 +143,19 @@ namespace SDMS.Web.Areas.Admin.Controllers
         {
             RoleAddViewModel model = new RoleAddViewModel();
 
-            List<Permissions> MenuList = new List<Permissions>();
-            foreach (var parent in permissionService.GetByParentId(0))
-            {
-                Permissions parentList = new Permissions();
-                parentList.Parent = parent;
-                if (permissionService.GetByParentId((long)parent.TypeId) == null)
-                {
-                    continue;
-                }
-                parentList.Child = permissionService.GetByParentId((long)parent.TypeId);
-                MenuList.Add(parentList);
-            }
-            model.PermissionList = MenuList;
+            //List<Permissions> MenuList = new List<Permissions>();
+            //foreach (var parent in permissionService.GetByParentId(0))
+            //{
+            //    Permissions parentList = new Permissions();
+            //    parentList.Parent = parent;
+            //    if (permissionService.GetByParentId((long)parent.TypeId) == null)
+            //    {
+            //        continue;
+            //    }
+            //    parentList.Child = permissionService.GetByParentId((long)parent.TypeId);
+            //    MenuList.Add(parentList);
+            //}
+            //model.PermissionList = MenuList;
             return View(model);
         }
 
@@ -186,17 +186,17 @@ namespace SDMS.Web.Areas.Admin.Controllers
             RoleEditViewModel model = new RoleEditViewModel();
 
             List<Permissions> MenuList = new List<Permissions>();
-            foreach (var parent in permissionService.GetByParentId(0))
-            {
-                Permissions parentList = new Permissions();
-                parentList.Parent = parent;
-                if (permissionService.GetByParentId((long)parent.TypeId) == null)
-                {
-                    continue;
-                }
-                parentList.Child = permissionService.GetByParentId((long)parent.TypeId);
-                MenuList.Add(parentList);
-            }
+            //foreach (var parent in permissionService.GetByParentId(0))
+            //{
+            //    Permissions parentList = new Permissions();
+            //    parentList.Parent = parent;
+            //    if (permissionService.GetByParentId((long)parent.TypeId) == null)
+            //    {
+            //        continue;
+            //    }
+            //    parentList.Child = permissionService.GetByParentId((long)parent.TypeId);
+            //    MenuList.Add(parentList);
+            //}
             model.PermissionList = MenuList;     
             model.PermissionIds = permissionService.GetByRoleId(id);
             model.Role = roleService.GetById(id);

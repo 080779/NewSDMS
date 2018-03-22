@@ -22,6 +22,7 @@ namespace SDMS.Service.Service
                 {
                     return -1;
                 }
+
                 HolderEntity entity = new HolderEntity();
                 entity.Amount = model.Amount;
                 entity.BankAccount = model.BankAccount;
@@ -33,7 +34,15 @@ namespace SDMS.Service.Service
                 entity.Proportion = model.Amount / stockItem.TotalAmount;
                 entity.TotalAssets = model.Amount;
                 entity.Password = model.Password;
+                
+                JournalEntity journal = new JournalEntity();
+                journal.BalanceAmount = entity.TotalAssets;
+                journal.InAmount = entity.Amount;
+                journal.JournalTypeId = 1;
+                journal.Remark = "后台添加股东";
+
                 dbc.Holder.Add(entity);
+                dbc.Journal.Add(journal);
                 dbc.SaveChanges();
                 return entity.Id;
             }
@@ -54,16 +63,47 @@ namespace SDMS.Service.Service
                 {
                     return false;
                 }
-                holder.Amount = holder.Amount + model.Amount;
-                holder.BankAccount = model.BankAccount;
-                holder.BankName = model.BankName;
-                holder.Contact = model.Contact;
-                holder.IdNumber = model.IdNumber;
-                holder.Mobile = model.Mobile;
-                holder.Name = model.Name;
-                holder.Password = model.Password;
-                holder.Proportion = holder.Amount / stockItem.TotalAmount;
-                holder.TotalAssets = holder.Amount + holder.TotalBonus - holder.HaveBonus;
+                JournalEntity journal = new JournalEntity();
+                if (model.Flag)
+                {
+                    holder.Amount = holder.Amount + model.Amount;
+                    holder.BankAccount = model.BankAccount;
+                    holder.BankName = model.BankName;
+                    holder.Contact = model.Contact;
+                    holder.IdNumber = model.IdNumber;
+                    holder.Mobile = model.Mobile;
+                    holder.Name = model.Name;
+                    holder.Password = model.Password;
+                    holder.Proportion = holder.Amount / stockItem.TotalAmount;
+                    holder.TotalAssets = holder.Amount + holder.TotalBonus - holder.HaveBonus;
+                    holder.TakeBonus = holder.TotalBonus - holder.HaveBonus;
+                    
+                    journal.BalanceAmount = holder.TotalAssets;
+                    journal.InAmount = model.Amount;
+                    journal.JournalTypeId = 1;
+                    journal.Remark = "后台编辑添加股东股份";
+                }
+                else
+                {
+                    holder.Amount = holder.Amount - model.Amount;
+                    holder.BankAccount = model.BankAccount;
+                    holder.BankName = model.BankName;
+                    holder.Contact = model.Contact;
+                    holder.IdNumber = model.IdNumber;
+                    holder.Mobile = model.Mobile;
+                    holder.Name = model.Name;
+                    holder.Password = model.Password;
+                    holder.Proportion = holder.Amount / stockItem.TotalAmount;
+                    holder.TotalAssets = holder.Amount + holder.TotalBonus - holder.HaveBonus;
+                    holder.TakeBonus = holder.TotalBonus - holder.HaveBonus;
+
+                    journal.BalanceAmount = holder.TotalAssets;
+                    journal.InAmount = model.Amount;
+                    journal.JournalTypeId = 1;
+                    journal.Remark = "后台编辑减少股东股份";
+                }
+
+                dbc.Journal.Add(journal);
                 dbc.SaveChanges();
                 return true;
             }

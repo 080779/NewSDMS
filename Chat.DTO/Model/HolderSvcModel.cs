@@ -48,5 +48,7 @@ namespace SDMS.DTO.Model
         /// 联系电话
         /// </summary>
         public string Contact { get; set; }
+
+        public bool Flag { get; set; }
     }
 }

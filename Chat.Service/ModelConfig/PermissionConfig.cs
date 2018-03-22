@@ -15,8 +15,6 @@ namespace SDMS.Service.ModelConfig
             ToTable("T_Permission");
             Property(p => p.Description).HasMaxLength(1024).IsRequired();
             Property(p => p.Name).HasMaxLength(50).IsRequired();
-            Property(p => p.URL).HasMaxLength(100).IsRequired();
-            Property(p => p.MenuName).HasMaxLength(50).IsRequired();
         }
     }
 }
