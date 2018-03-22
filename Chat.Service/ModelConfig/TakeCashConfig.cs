@@ -14,6 +14,8 @@ namespace SDMS.Service.ModelConfig
         {
             ToTable("T_TakeCashs");
             HasRequired(t => t.Holder).WithMany().HasForeignKey(t => t.HolderId).WillCascadeOnDelete(false);
+            Property(t => t.ImgUrl).HasMaxLength(50);
+            Property(t => t.Message).HasMaxLength(50);
         }
     }
 }

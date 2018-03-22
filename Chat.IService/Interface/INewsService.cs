@@ -9,24 +9,12 @@ namespace SDMS.IService.Interface
 {
     public interface INewsService : IServiceSupport
     {
-        //增加公告
-        long Add(string Title, int dropNewType, string Context, DateTime Time);
-
-        /// <summary>
-        /// 分页
-        /// </summary>
-        /// <param name="PageIndex"></param>
-        /// <param name="PageSize"></param>
-        /// <returns></returns>
-        NewsPageResult GetPageList(int PageIndex, int PageSize);
-        ///获取Id
-        NewsDTO GetModel(long Id);
-        //更新
-        bool Update(NewsDTO hh);
-        //前台列表
-        NewsPageResult GetNewsList(int NewType,string Title, DateTime? Strat, DateTime? End, int PageIndex, int PageSize);
+        long AddNew(long adminId,string title,string content,string imgUrl);
+        bool Update(long id, string title, string content, string imgUrl);
+        bool Delete(long id);
+        NewsSearchResult GetPageList(string title,DateTime? startTime,DateTime? endTime,int pageIndex,int pageSize);
     }
-    public class NewsPageResult
+    public class NewsSearchResult
     {
         public long TotalCount { get; set; }
         public NewsDTO[] News { get; set; }

@@ -28,7 +28,7 @@ namespace SDMS.Service.Service
                 TakeCashEntity entity = new TakeCashEntity();
                 entity.Amount = Amount;
                 entity.HolderId = holderId;
-                dbc.TakeCashes.Add(entity);
+                dbc.TakeCashs.Add(entity);
                 dbc.SaveChanges();
                 return entity.Id;
             }

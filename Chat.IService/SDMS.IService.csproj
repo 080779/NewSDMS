@@ -58,6 +58,7 @@
     <Compile Include="Interface\IPermissionService.cs" />
     <Compile Include="Interface\INewsService.cs" />
     <Compile Include="Interface\IPowerService.cs" />
+    <Compile Include="Interface\IReadNumberService.cs" />
     <Compile Include="Interface\IRoleService.cs" />
     <Compile Include="Interface\IJournalTypeService.cs" />
     <Compile Include="Interface\ISetShareBonusService.cs" />

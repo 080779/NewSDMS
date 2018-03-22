@@ -58,7 +58,9 @@
     <Compile Include="CommonService.cs" />
     <Compile Include="Entities\AdminEntity.cs" />
     <Compile Include="Entities\AdminLogEntity.cs" />
-    <Compile Include="Entities\AdminLogService.cs" />
+    <Compile Include="Entities\ReadNumberEntity.cs" />
+    <Compile Include="ModelConfig\ReadNumberConfig.cs" />
+    <Compile Include="Service\AdminLogService.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\HolderEntity.cs" />
     <Compile Include="Entities\JournalEntity.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="Service\NewsService.cs" />
     <Compile Include="Service\PermissionService.cs" />
     <Compile Include="Service\PowerService.cs" />
+    <Compile Include="Service\ReadNumberService.cs" />
     <Compile Include="Service\RoleService.cs" />
     <Compile Include="Service\SetShareBonusService.cs" />
     <Compile Include="Service\SettingsService.cs" />

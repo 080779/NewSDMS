@@ -13,6 +13,8 @@ namespace SDMS.Service.ModelConfig
         public PowerConfig()
         {
             ToTable("T_Power");
+            Property(p => p.MenuName).HasMaxLength(50);
+            Property(p => p.URL).HasMaxLength(50);
         }
     }
 }

@@ -13,6 +13,9 @@ namespace SDMS.Service.ModelConfig
         public AdminLogConfig()
         {
             ToTable("T_AdminLogs");
+            HasRequired(a => a.AdminUser).WithMany().HasForeignKey(a => a.AdminUserId).WillCascadeOnDelete(false);
+            Property(a => a.IpAddress).HasMaxLength(20).IsUnicode();
+            Property(a => a.Message).HasMaxLength(256);
         }
     }
 }

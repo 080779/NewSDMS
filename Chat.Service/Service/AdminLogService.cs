@@ -1,5 +1,6 @@
 ﻿using SDMS.DTO.DTO;
 using SDMS.IService.Interface;
+using SDMS.Service.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SDMS.Service.Entities
+namespace SDMS.Service.Service
 {
     public class AdminLogService : IAdminLogService
     {

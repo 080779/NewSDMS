@@ -13,7 +13,7 @@ namespace SDMS.Service.ModelConfig
         public MessageConfig()
         {
             ToTable("T_Message");
-            Property(m => m.Content).HasMaxLength(1024).IsRequired();
+            Property(m => m.Content).HasMaxLength(1024);
             HasRequired(m => m.Holder).WithMany().HasForeignKey(m => m.HolderId).WillCascadeOnDelete(false);
         }
     }
