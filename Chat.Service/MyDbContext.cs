@@ -40,5 +40,6 @@ namespace SDMS.Service
         public DbSet<PermissionEntity> Permission { get; set; }
         public DbSet<StockItemEntity> StockItems { get; set; }
         public DbSet<SetShareBonusEntity> SetShareBonus { get; set; }
+        public DbSet<TakeCashEntity> TakeCashes { get; set; }
     }
 }

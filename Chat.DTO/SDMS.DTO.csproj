@@ -53,6 +53,7 @@
     <Compile Include="DTO\RoleDTO.cs" />
     <Compile Include="DTO\SetShareBonusDTO.cs" />
     <Compile Include="DTO\StockItemDTO.cs" />
+    <Compile Include="DTO\TakeCashDTO.cs" />
     <Compile Include="ExportExcelNameAttribute.cs" />
     <Compile Include="Model\HolderSvcModel.cs" />
     <Compile Include="Model\UserRegCount.cs" />
