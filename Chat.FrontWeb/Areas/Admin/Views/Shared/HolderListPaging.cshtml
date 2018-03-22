@@ -1,5 +1,4 @@
-﻿
-@model SDMS.Web.Areas.Admin.Models.System.AdminListViewModel
+﻿@model SDMS.Web.Areas.Admin.Models.Holder.HolderListViewModel
 <div class="dataTable">
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="t1">
         <thead>
@@ -11,15 +10,15 @@
             </tr>
         </thead>
         <tbody id="pagerList">
-            @foreach (var admin in Model.AdminList)
+            @foreach (var holder in Model.Holders)
             {
                 <tr>
-                    <td align="center">@admin.ID</td>
-                    <td align="center">@admin.UserName</td>
-                    <td align="center">@admin.CreateTime</td>
+                    <td align="center">@holder.Id</td>
+                    <td align="center">@holder.Name</td>
+                    <td align="center">@holder.CreateTime</td>
                     <td align="center">
-                        <a class="easyui-linkbutton" href="/admin/system/adminedit?id=@admin.ID" iconcls="icon-edit">编辑</a>
-                        <a class="easyui-linkbutton del" iconcls="icon-remove" value="@admin.ID">删除</a>
+                        <a class="easyui-linkbutton" href="/admin/system/adminedit?id=@holder.Id" iconcls="icon-edit">编辑</a>
+                        <a class="easyui-linkbutton del" iconcls="icon-remove" value="@holder.Id">删除</a>
                     </td>
                 </tr>
             }

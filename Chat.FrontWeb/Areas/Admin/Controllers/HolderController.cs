@@ -1,5 +1,7 @@
 ﻿using SDMS.Common;
+using SDMS.IService.Interface;
 using SDMS.Web.Areas.Admin.Controllers.Base;
+using SDMS.Web.Areas.Admin.Models.Holder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +16,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
     public class HolderController : AdminBaseController
     {
         #region 属性注入
-
+        public IHolderService holderService { get; set; }
         #endregion
 
         #region 列表
@@ -24,27 +26,26 @@ namespace SDMS.Web.Areas.Admin.Controllers
         }
         public PartialViewResult ListGetPage(int pageIndex = 1)
         {
-            //int pageSize = 3;
-            //AdminListViewModel model = new AdminListViewModel();
-            //AdminSearchResult result = adminService.GetPageList(pageIndex, pageSize);
-            //model.AdminList = result.AdminList;
+            int pageSize = 3;
+            HolderListViewModel model = new HolderListViewModel();
+            HolderSearchResult result = holderService.GetPageList(pageIndex, pageSize);
+            model.Holders = result.Holders;
 
-            ////分页
-            //Pagination pager = new Pagination();
-            //pager.PageIndex = pageIndex;
-            //pager.PageSize = pageSize;
-            //pager.TotalCount = result.TotalCount;
+            //分页
+            Pagination pager = new Pagination();
+            pager.PageIndex = pageIndex;
+            pager.PageSize = pageSize;
+            pager.TotalCount = result.TotalCount;
 
-            //if (result.TotalCount <= pageSize)
-            //{
-            //    model.Page = "";
-            //}
-            //else
-            //{
-            //    model.Page = pager.GetPagerHtml();
-            //}
-            //return PartialView("HolderListPaging", model);
-            return PartialView("HolderListPaging");
+            if (result.TotalCount <= pageSize)
+            {
+                model.Page = "";
+            }
+            else
+            {
+                model.Page = pager.GetPagerHtml();
+            }
+            return PartialView("HolderListPaging", model);
         }
         #endregion
 

@@ -1,20 +1,19 @@
 ﻿@{
-    ViewBag.Title = "管理员列表";
+    ViewBag.Title = "股东列表";
     Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
 }
 <br />
-<a class="easyui-linkbutton" iconcls="icon-add" href="/admin/system/adminadd">添加管理员</a>
-<a class="easyui-linkbutton" iconcls="icon-edit" href="/admin/system/rolemanager">角色列表</a>
+<a class="easyui-linkbutton" iconcls="icon-add" href="/admin/holder/add">添加股东</a>
 <div id="load">
     @{
-        Html.RenderAction("AdminManagerGetPage");
+        Html.RenderAction("ListGetPage");
     }
 </div>
 @section FooterScript
 {
     <script type="text/javascript">
     function getPage(pageIndex) {
-        $("#load").load("/admin/system/AdminManagerGetPage?pageIndex=" + pageIndex, function () {
+        $("#load").load("/admin/holder/ListGetPage?pageIndex=" + pageIndex, function () {
             $.parser.parse($('#load'));
         });
     }
@@ -29,7 +28,7 @@
         $(".del").click(function () {
             var id = $(this).attr("value");
             $.ajax({
-                url: "/admin/system/AdminDel?id=" + id, type: "post",
+                url: "/admin/holder/del?id=" + id, type: "post",
                 success: function (result) {
                     if (result.status == 1) {
                         alert("删除成功")

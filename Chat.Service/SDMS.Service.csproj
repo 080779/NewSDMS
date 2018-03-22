@@ -57,6 +57,8 @@
   <ItemGroup>
     <Compile Include="CommonService.cs" />
     <Compile Include="Entities\AdminEntity.cs" />
+    <Compile Include="Entities\AdminLogEntity.cs" />
+    <Compile Include="Entities\AdminLogService.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\HolderEntity.cs" />
     <Compile Include="Entities\JournalEntity.cs" />
@@ -67,9 +69,11 @@
     <Compile Include="Entities\PowerEntity.cs" />
     <Compile Include="Entities\RoleEntity.cs" />
     <Compile Include="Entities\SetShareBonusEntity.cs" />
+    <Compile Include="Entities\SettingsEntity.cs" />
     <Compile Include="Entities\StockItemEntity.cs" />
     <Compile Include="Entities\TakeCashEntity.cs" />
     <Compile Include="ModelConfig\AdminConfig.cs" />
+    <Compile Include="ModelConfig\AdminLogConfig.cs" />
     <Compile Include="ModelConfig\HolderConfig.cs" />
     <Compile Include="ModelConfig\JournalConfig.cs" />
     <Compile Include="ModelConfig\JournalTypeConfig.cs" />
@@ -79,6 +83,7 @@
     <Compile Include="ModelConfig\PowerConfig.cs" />
     <Compile Include="ModelConfig\RoleConfig.cs" />
     <Compile Include="ModelConfig\SetShareBonusConfig.cs" />
+    <Compile Include="ModelConfig\SettingsConfig.cs" />
     <Compile Include="ModelConfig\StockItemConfig.cs" />
     <Compile Include="ModelConfig\TakeCashConfig.cs" />
     <Compile Include="MyDbContext.cs" />
@@ -99,6 +104,7 @@
     <Compile Include="Service\PowerService.cs" />
     <Compile Include="Service\RoleService.cs" />
     <Compile Include="Service\SetShareBonusService.cs" />
+    <Compile Include="Service\SettingsService.cs" />
     <Compile Include="Service\ShareBonusService.cs" />
     <Compile Include="Service\StockItemService.cs" />
     <Compile Include="Service\TakeCashService.cs" />

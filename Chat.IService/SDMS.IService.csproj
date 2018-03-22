@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interface\IAdminLoginService.cs" />
+    <Compile Include="Interface\IAdminLogService.cs" />
     <Compile Include="Interface\IAdminService.cs" />
     <Compile Include="Interface\IHolderService.cs" />
     <Compile Include="Interface\IJournalService.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Interface\IRoleService.cs" />
     <Compile Include="Interface\IJournalTypeService.cs" />
     <Compile Include="Interface\ISetShareBonusService.cs" />
+    <Compile Include="Interface\ISettingsService.cs" />
     <Compile Include="Interface\IShareBonusService.cs" />
     <Compile Include="Interface\IStockItemService.cs" />
     <Compile Include="Interface\ITakeCashService.cs" />
