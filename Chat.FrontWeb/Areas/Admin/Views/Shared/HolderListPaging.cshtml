@@ -3,24 +3,40 @@
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="t1">
         <thead>
             <tr>
-                <th>管理员编号</th>
                 <th>姓名</th>
-                <th>注册日期</th>
+                <th>手机号码</th>
+                <th>身份证号</th>
+                <th>注册时间</th>
+                <th>分红提现账号</th>
+                <th>总资产</th>
+                <th>本金</th>
+                <th>累计分红</th>
+                <th>本金占股比例</th>
+                <th>可提现分红</th>
+                <th>联系电话</th>
                 <th>操作</th>
             </tr>
         </thead>
         <tbody id="pagerList">
             @foreach (var holder in Model.Holders)
             {
-                <tr>
-                    <td align="center">@holder.Id</td>
-                    <td align="center">@holder.Name</td>
-                    <td align="center">@holder.CreateTime</td>
-                    <td align="center">
-                        <a class="easyui-linkbutton" href="/admin/system/adminedit?id=@holder.Id" iconcls="icon-edit">编辑</a>
-                        <a class="easyui-linkbutton del" iconcls="icon-remove" value="@holder.Id">删除</a>
-                    </td>
-                </tr>
+            <tr>
+                <td align="center">@holder.Name</td>
+                <td align="center">@holder.Mobile</td>
+                <td align="center">@holder.IdNumber</td>
+                <td align="center">@holder.CreateTime</td>
+                <td align="center">@holder.BankAccount</td>
+                <td align="center">@holder.TotalAssets</td>
+                <td align="center">@holder.Amount</td>
+                <td align="center">@holder.TotalBonus</td>
+                <td align="center">@holder.Proportion</td>
+                <td align="center">@holder.TakeBonus</td>
+                <td align="center">@holder.Contact</td>
+                <td align="center">
+                    <a class="easyui-linkbutton" href="/admin/holder/edit?id=@holder.Id" iconcls="icon-edit">编辑</a>
+                    <a class="easyui-linkbutton del" iconcls="icon-remove" value="@holder.Id">删除</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

@@ -14,8 +14,10 @@ namespace SDMS.Service.ModelConfig
         {
             ToTable("T_Holer");
             //HasRequired(h => h.StockItem).WithMany().HasForeignKey(h => h.StockItemId).WillCascadeOnDelete(false);
+            Property(h => h.Proportion).HasPrecision(18, 4);
             Property(h => h.Name).HasMaxLength(50);
             Property(h => h.BankName).HasMaxLength(50);
+            Property(h => h.Address).HasMaxLength(100);
             Property(h => h.BankAccount).HasMaxLength(50);
             Property(h => h.Contact).HasMaxLength(50);
             Property(h => h.IdNumber).HasMaxLength(50);

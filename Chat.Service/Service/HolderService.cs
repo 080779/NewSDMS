@@ -31,6 +31,7 @@ namespace SDMS.Service.Service
                 entity.IdNumber = model.IdNumber;
                 entity.Mobile = model.Mobile;
                 entity.Name = model.Name;
+                entity.Gender = model.Gender;
                 entity.Proportion = model.Amount / stockItem.TotalAmount;
                 entity.TotalAssets = model.Amount;
                 entity.Password = model.Password;
@@ -108,7 +109,7 @@ namespace SDMS.Service.Service
                 return true;
             }
         }
-        public HolderSearchResult GetPageList(int pageIndex, int pageSize)
+        public HolderSearchResult GetPageList(string name, string mobile, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
@@ -118,6 +119,22 @@ namespace SDMS.Service.Service
                 if(holders==null)
                 {
                     return result;
+                }
+                if(!string.IsNullOrEmpty(name))
+                {
+                    holders = holders.Where(h => h.Name.Contains(name));
+                }
+                if (!string.IsNullOrEmpty(mobile))
+                {
+                    holders = holders.Where(h => h.Mobile.Contains(mobile));
+                }
+                if(startTime!=null)
+                {
+                    holders = holders.Where(h => h.CreateTime>=startTime);
+                }
+                if (endTime != null)
+                {
+                    holders = holders.Where(h => h.CreateTime<=endTime);
                 }
                 result.TotalCount = holders.LongCount();
                 result.Holders = holders.OrderByDescending(h => h.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList().Select(h => ToDTO(h)).ToArray();
@@ -143,8 +160,32 @@ namespace SDMS.Service.Service
             dto.TotalAssets = entity.TotalAssets;
             dto.TotalBonus = entity.TotalBonus;
             dto.TradePassword = entity.TradePassword;
+            dto.Address = entity.Address;
+            dto.Gender = entity.Gender;
             return dto;
         }
-        
+
+        public bool Delete(long id)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<HolderEntity> cs = new CommonService<HolderEntity>(dbc);
+                return true;
+            }
+        }
+
+        public decimal ClacAmount(long id,long copies)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<StockItemEntity> cs = new CommonService<StockItemEntity>(dbc);
+                var stock = cs.GetAll().SingleOrDefault(h=>h.Id==id);
+                if(stock == null)
+                {
+                    return -1;
+                }
+                return stock.UnitPrice * copies;
+            }
+        }
     }
 }

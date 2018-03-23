@@ -10,6 +10,8 @@ namespace SDMS.DTO.DTO
     {
         public string Name { get; set; }
         public string Mobile { get; set; }
+        public bool Gender { get; set; }
+        public string Address { get; set; }
         /// <summary>
         /// 分红提现账号
         /// </summary>

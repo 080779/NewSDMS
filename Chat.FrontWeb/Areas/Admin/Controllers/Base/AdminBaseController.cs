@@ -15,8 +15,6 @@ namespace SDMS.Web.Areas.Admin.Controllers.Base
     public class AdminBaseController : Controller
     {
         public IAdminService adminService { get; set; }
-        public int pageIndex = 1;
-        public int pageSize = 5;
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             //if (filterContext.HttpContext.Request.Cookies["A128076_admin"] == null)
@@ -30,14 +28,14 @@ namespace SDMS.Web.Areas.Admin.Controllers.Base
             //        filterContext.Result = new RedirectResult("/admin/user/login");
             //    }
             //}
-            if (Request.Params["pageIndex"] != null)
-            {
-                pageIndex = Convert.ToInt32(Request.Params["pageIndex"]);
-            }
-            if (Request.Params["pageSize"] != null)
-            {
-                pageSize = Convert.ToInt32(Request.Params["pageSize"]);
-            }
+            //if (Request.Params["pageIndex"] != null)
+            //{
+            //    pageIndex = Convert.ToInt32(Request.Params["pageIndex"]);
+            //}
+            //if (Request.Params["pageSize"] != null)
+            //{
+            //    pageSize = Convert.ToInt32(Request.Params["pageSize"]);
+            //}
             base.OnActionExecuting(filterContext);
         }
 

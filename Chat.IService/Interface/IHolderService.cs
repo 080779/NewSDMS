@@ -12,7 +12,9 @@ namespace SDMS.IService.Interface
     {
         long AddNew(HolderSvcModel model);
         bool Update(HolderSvcModel model);
-        HolderSearchResult GetPageList(int pageIndex,int pageSize);
+        bool Delete(long id);
+        decimal ClacAmount(long id, long copies);
+        HolderSearchResult GetPageList(string name, string mobile, DateTime? startTime, DateTime? endTime, int pageIndex,int pageSize);
     } 
 
     public class HolderSearchResult

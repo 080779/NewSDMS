@@ -1,4 +1,5 @@
 ﻿using SDMS.Common;
+using SDMS.DTO.Model;
 using SDMS.IService.Interface;
 using SDMS.Web.Areas.Admin.Controllers.Base;
 using SDMS.Web.Areas.Admin.Models.Holder;
@@ -17,18 +18,20 @@ namespace SDMS.Web.Areas.Admin.Controllers
     {
         #region 属性注入
         public IHolderService holderService { get; set; }
+        public IStockItemService stockService { get; set; }
         #endregion
 
         #region 列表
         public ActionResult List()
         {
+            //stockService.AddNew("股票", "gupn", 1000000, 10000, 5000);
             return View();
         }
-        public PartialViewResult ListGetPage(int pageIndex = 1)
+        public PartialViewResult ListGetPage(string name,string mobile,DateTime? startTime,DateTime? endTime,int pageIndex = 1)
         {
             int pageSize = 3;
             HolderListViewModel model = new HolderListViewModel();
-            HolderSearchResult result = holderService.GetPageList(pageIndex, pageSize);
+            HolderSearchResult result = holderService.GetPageList(name,mobile,startTime,endTime,pageIndex, pageSize);
             model.Holders = result.Holders;
 
             //分页
@@ -50,22 +53,38 @@ namespace SDMS.Web.Areas.Admin.Controllers
         #endregion
 
         #region 添加
+        [HttpGet]
         public ActionResult Add()
         {
             return View();
         }
-
-        public ActionResult Add(string a)
+        [HttpPost]
+        public ActionResult Add(HolderAddModel model)
         {
-            return Json(new AjaxResult { Status = "1" });
+            if(model.Amount<=0)
+            {
+                return Json(new AjaxResult { Status = "0",Msg="认购金额不能为空" });
+            }
+            HolderSvcModel holder = new HolderSvcModel();
+            holder.Amount = model.Amount;
+            holder.Gender = model.Gender;
+            holder.IdNumber = model.IdNumber;
+            holder.Mobile = model.Mobile;
+            holder.Name = model.Name;
+            holder.Password = model.Password;
+            holder.StockItemId = 1;
+            long id= holderService.AddNew(holder);
+            return Json(new AjaxResult { Status = "1", Data = id });
         }
         #endregion
 
         #region 修改
+        [HttpGet]
         public ActionResult Edit(long id)
         {
             return View();
         }
+        [HttpPost]
         public ActionResult Edit(long id,string a)
         {
             return Json(new AjaxResult { Status="1"});
@@ -73,6 +92,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
         #endregion
 
         #region 删除
+        [HttpPost]
         public ActionResult Del(long id)
         {
             return Json(new AjaxResult { Status = "1" });
@@ -80,13 +100,22 @@ namespace SDMS.Web.Areas.Admin.Controllers
         #endregion
 
         #region 统计
+        [HttpGet]
         public ActionResult Clac()
         {
             return View();
         }
+        [HttpPost]
         public ActionResult Clac(string s)
         {
             return Json(new AjaxResult { Status = "1" });
+        }
+        #endregion
+        #region 确认计算认购金额
+        public ActionResult ClacAmount(long copies)
+        {
+            decimal Copies= holderService.ClacAmount(1, copies);
+            return Json(new AjaxResult { Status = "1",Data= Copies });
         }
         #endregion
     }
