@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model long
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -78,7 +79,7 @@
                     <input type="text" id="copies" class="form-control" />
                 </div>
                 <label class="col-sm-2 control-label" style="text-align:left">
-                    最大可认购份数：15000
+                    可认购份数：@Model
                 </label>
                 <div class="col-sm-1">
                     <input type="button" id="btnCopies" class="form-control" value="确认" />
@@ -132,8 +133,9 @@
                 var idNumber = $("#idNumber").val();
                 var password = $("#password").val();
                 var amount = $("#amount").val();
+                var copies = $("#copies").val();
                 $.ajax({
-                    url: "/admin/holder/add", type: "post", data: { name: name, gender: gender, mobile: mobile, idNumber: idNumber, password: password, amount: amount },
+                    url: "/admin/holder/add", type: "post", data: { name: name, gender: gender, mobile: mobile, idNumber: idNumber, password: password, amount: amount, copies: copies },
                     success: function (result) {
                         if (result.status == "1") {
                             alert(result.data);

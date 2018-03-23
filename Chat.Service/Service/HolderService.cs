@@ -35,6 +35,8 @@ namespace SDMS.Service.Service
                 entity.Proportion = model.Amount / stockItem.TotalAmount;
                 entity.TotalAssets = model.Amount;
                 entity.Password = model.Password;
+
+                stockItem.HaveCopies = stockItem.HaveCopies - model.Copies;
                 
                 JournalEntity journal = new JournalEntity();
                 journal.BalanceAmount = entity.TotalAssets;

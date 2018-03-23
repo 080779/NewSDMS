@@ -156,7 +156,7 @@ csx/
 *.build.csdef
 
 # NuGet Packages
-**/packages/*
+packages
 
 # Windows Store app package directory
 AppPackages/

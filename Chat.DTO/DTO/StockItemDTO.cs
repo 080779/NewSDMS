@@ -26,5 +26,6 @@ namespace SDMS.DTO.DTO
         /// 每份单价
         /// </summary>
         public decimal UnitPrice { get; set; }
+        public long HaveCopies { get; set; }
     }
 }

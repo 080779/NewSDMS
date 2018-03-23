@@ -52,5 +52,6 @@ namespace SDMS.DTO.Model
         public string Contact { get; set; }
 
         public bool Flag { get; set; }
+        public long Copies { get; set; }
     }
 }

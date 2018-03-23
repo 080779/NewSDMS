@@ -19,5 +19,6 @@ namespace SDMS.Web.Areas.Admin.Models.Holder
         /// </summary>
         public decimal Amount { get; set; }
         public string Password { get; set; }
+        public long Copies { get; set; }
     }
 }

@@ -56,7 +56,8 @@ namespace SDMS.Web.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Add()
         {
-            return View();
+            long num = stockService.GetById(1).HaveCopies;
+            return View(num);
         }
         [HttpPost]
         public ActionResult Add(HolderAddModel model)
@@ -73,6 +74,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
             holder.Name = model.Name;
             holder.Password = model.Password;
             holder.StockItemId = 1;
+            holder.Copies = model.Copies;
             long id= holderService.AddNew(holder);
             return Json(new AjaxResult { Status = "1", Data = id });
         }

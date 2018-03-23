@@ -54,7 +54,7 @@ namespace SDMS.Service.Service
                 {
                     return null;
                 }
-                return new StockItemDTO { CreateTime = entity.CreateTime, Description = entity.Description, Id = entity.Id, IssueCopies = entity.IssueCopies, Name = entity.Name, TotalAmount = entity.TotalAmount, TotalCopies = entity.TotalCopies, UnitPrice = entity.UnitPrice };
+                return new StockItemDTO { CreateTime = entity.CreateTime, Description = entity.Description, Id = entity.Id, IssueCopies = entity.IssueCopies, Name = entity.Name, TotalAmount = entity.TotalAmount, TotalCopies = entity.TotalCopies, UnitPrice = entity.UnitPrice, HaveCopies=entity.HaveCopies};
             }
         }
 
