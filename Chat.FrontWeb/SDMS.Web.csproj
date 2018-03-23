@@ -387,6 +387,7 @@
     <Content Include="css\font-awesome.css" />
     <Content Include="css\indexcss.css" />
     <Content Include="css\pagination.css" />
+    <Content Include="css\style.css" />
     <Content Include="css\webarch.css" />
     <Content Include="Global.asax" />
     <Content Include="Areas\Admin\Views\Home\memberline.cshtml" />
@@ -413,11 +414,35 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="images\arrow-grey.png" />
+    <Content Include="images\arrow-white.png" />
+    <Content Include="images\icon-eye.png" />
+    <Content Include="images\icon-feedback.png" />
+    <Content Include="images\icon-information.png" />
+    <Content Include="images\icon-password.png" />
+    <Content Include="images\icon-weixin.png" />
+    <Content Include="images\icon_pwd.png" />
+    <Content Include="images\icon_tel.png" />
+    <Content Include="images\logo.png" />
+    <Content Include="images\menu-bonus-a.png" />
+    <Content Include="images\menu-bonus.png" />
+    <Content Include="images\menu-home-a.png" />
+    <Content Include="images\menu-home.png" />
+    <Content Include="images\menu-user-a.png" />
+    <Content Include="images\menu-user.png" />
+    <Content Include="images\menu-withdrawals-a.png" />
+    <Content Include="images\menu-withdrawals.png" />
+    <Content Include="images\pwdtotxt-off.png" />
+    <Content Include="images\pwdtotxt.png" />
     <Content Include="js\checkdata.js" />
     <Content Include="js\echarts.min.js" />
     <Content Include="js\jquery-1.10.2.min.js" />
+    <Content Include="js\jquery.js" />
     <Content Include="js\PageComm.js" />
     <Content Include="js\pagination.min.js" />
+    <Content Include="js\swiper.min.js" />
+    <Content Include="pic\01.jpg" />
+    <Content Include="pic\banner01.jpg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -447,6 +472,10 @@
     <Compile Include="Areas\Admin\Models\System\RoleAddViewModel.cs" />
     <Compile Include="Areas\Admin\Models\System\RoleEditViewModel.cs" />
     <Compile Include="Controllers\Base\FrontBaseController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MyInfoController.cs" />
+    <Compile Include="Controllers\SystemController.cs" />
+    <Compile Include="Controllers\TakeCashController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -473,30 +502,15 @@
     <Content Include="Areas\Admin\Views\Shared\AdminManagerPaging.cshtml" />
     <None Include="Properties\PublishProfiles\Answer.pubxml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\User\Login.cshtml" />
-    <Content Include="Views\Member\Member.cshtml" />
-    <Content Include="Views\Member\MemberList.cshtml" />
-    <Content Include="Views\Share\_Layout2.cshtml" />
-    <Content Include="Views\Share\_LeftMenuControl.cshtml" />
-    <Content Include="Views\Member\RegisterList.cshtml" />
-    <Content Include="Views\Finance\RemitList.cshtml" />
-    <Content Include="Views\MemberLevel\MemberLevel.cshtml" />
-    <Content Include="Views\Finance\AddTakeMoney.cshtml" />
-    <Content Include="Views\Finance\AddRemit.cshtml" />
-    <Content Include="Views\Team\MemberTree.cshtml" />
-    <Content Include="Views\Finance\TakeMoneyList.cshtml" />
-    <Content Include="Views\MemberLevel\AgentLevel.cshtml" />
-    <Content Include="Views\Team\Register.cshtml" />
-    <Content Include="Views\Team\PersonalInfo.cshtml" />
-    <Content Include="Views\Finance\JournalList.cshtml" />
-    <Content Include="Views\Finance\BonusList.cshtml" />
-    <Content Include="Views\Team\RecommendTree.cshtml" />
-    <Content Include="Views\Finance\AddChange.cshtml" />
-    <Content Include="Views\Finance\ChangeList.cshtml" />
-    <Content Include="Views\Message\Leavewords.cshtml" />
-    <Content Include="Views\Message\LeaveOut.cshtml" />
-    <Content Include="Views\Message\LeaveMsg.cshtml" />
-    <Content Include="Views\Message\LeaveWordsDetail.cshtml" />
+    <Content Include="Views\Home\Details.cshtml" />
+    <Content Include="Views\System\Login.cshtml" />
+    <Content Include="Views\System\SetPwd.cshtml" />
+    <Content Include="Views\TakeCash\Apply.cshtml" />
+    <Content Include="Views\TakeCash\List.cshtml" />
+    <Content Include="Views\MyInfo\List.cshtml" />
+    <Content Include="Views\MyInfo\Info.cshtml" />
+    <Content Include="Views\Home\Message.cshtml" />
+    <Content Include="Views\Home\Share.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -513,6 +527,7 @@
     <Folder Include="Models\" />
     <Folder Include="Upload\VerifyCode\Admin\" />
     <Folder Include="Upload\VerifyCode\Front\" />
+    <Folder Include="Views\Share\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Chat.DTO\SDMS.DTO.csproj">

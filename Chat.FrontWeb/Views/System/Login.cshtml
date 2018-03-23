@@ -1,0 +1,50 @@
+﻿
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <title>登录</title>
+</head>
+<body>
+    <div class="login">
+        <img src="~/images/logo.png" alt="" class="logo" />
+        <div class="logoform">
+            <ul>
+                <li>
+                    <label for="tels">手机号</label>
+                    <input type="text" name="tels" id="tels" value="" />
+                </li>
+                <li>
+                    <label for="passwords">密码</label>
+                    <input type="password" name="passwords" id="passwords" value="" />
+                    <span class="pwdbtn off"></span>
+                </li>
+            </ul>
+            <div class="formbtn">
+                <input type="submit" name="submit" id="submit" value="登录" />
+            </div>
+            <div class="moreinfo">
+                <span>立即注册</span>|<span>忘记密码</span>
+            </div>
+        </div>
+    </div>
+    <script src="~/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".pwdbtn").click(function () {
+                var oPre = $(this).prev();
+                if (oPre.attr('type') == 'text') {
+                    oPre.attr('type', 'password');
+                    $(this).addClass("off");
+                } else {
+                    oPre.attr('type', 'text');
+                    $(this).removeClass("off");
+                }
+            });
+        })
+    </script>
+</body>
+</html>
