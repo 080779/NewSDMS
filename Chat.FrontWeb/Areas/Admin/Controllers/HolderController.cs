@@ -62,7 +62,17 @@ namespace SDMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Add(HolderAddModel model)
         {
-            if(model.Amount<=0)
+            if (!ModelState.IsValid)
+            {
+                return Json(MVCHelper.GetJsonValidMsg(ModelState));
+            }
+
+            if (string.IsNullOrEmpty(model.Name))
+            {
+                ModelState.AddModelError("Name", "姓名不能为空");
+            }
+            
+            if (model.Amount<=0)
             {
                 return Json(new AjaxResult { Status = "0",Msg="认购金额不能为空" });
             }

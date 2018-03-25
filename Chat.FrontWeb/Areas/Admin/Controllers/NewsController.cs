@@ -1,4 +1,5 @@
 ﻿using SDMS.Common;
+using SDMS.IService.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
     public class NewsController : Controller
     {
         #region 属性注入
-
+        public INewsService newService { get; set; }
         #endregion
 
         #region 列表
@@ -48,11 +49,12 @@ namespace SDMS.Web.Areas.Admin.Controllers
         #endregion
 
         #region 添加
+        [HttpGet]
         public ActionResult Add()
         {
             return View();
         }
-
+        [HttpPost]
         public ActionResult Add(string a)
         {
             return Json(new AjaxResult { Status = "1" });
@@ -60,10 +62,12 @@ namespace SDMS.Web.Areas.Admin.Controllers
         #endregion
 
         #region 修改
+        [HttpGet]
         public ActionResult Edit(long id)
         {
             return View();
         }
+        [HttpPost]
         public ActionResult Edit(long id, string a)
         {
             return Json(new AjaxResult { Status = "1" });
@@ -71,6 +75,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
         #endregion
 
         #region 删除
+        [HttpPost]
         public ActionResult Del(long id)
         {
             return Json(new AjaxResult { Status = "1" });

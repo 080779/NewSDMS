@@ -33,6 +33,24 @@ namespace SDMS.Common
             }
             return builer.ToString();
         }
+        public static AjaxResult GetJsonValidMsg(ModelStateDictionary modelSatae)
+        {
+            AjaxResult result = new AjaxResult();
+            result.Status = "0";
+            foreach (var propName in modelSatae.Keys)
+            {
+                if (modelSatae[propName].Errors.Count <= 0)
+                {
+                    continue;
+                }
+                foreach (ModelError modelError in modelSatae[propName].Errors)
+                {
+                    result.Msg = modelError.ErrorMessage;
+                    break;                
+                }
+            }
+            return result;   
+        }
         #endregion
 
         #region 获取客户端IP地址  
