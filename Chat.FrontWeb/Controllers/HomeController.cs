@@ -1,6 +1,10 @@
-﻿using SDMS.IService.Interface;
+﻿using SDMS.Common;
+using SDMS.DTO.DTO;
+using SDMS.IService.Interface;
+using SDMS.Web.Models.Home;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,18 +14,54 @@ namespace SDMS.Web.Controllers
     public class HomeController : Controller
     {
         public INewsService newsService { get; set; }
-        public ActionResult Index()
+        public IMessageService messageService { get; set; }
+        public ActionResult Index(int pageIndex=1)
         {
-            var model = newsService.GetPageList(null, null, null, 1, 3);
-            return View();
+            int pageSize = 5;
+            NewsListViewModel model = new NewsListViewModel();
+            NewsSearchResult result = newsService.GetPageList(null, null, null, pageIndex, pageSize);
+            model.News = result.News;
+
+            //分页
+            Pagination pager = new Pagination();
+            pager.PageIndex = pageIndex;
+            pager.PageSize = pageSize;
+            pager.TotalCount = result.TotalCount;
+
+            if (result.TotalCount <= pageSize)
+            {
+                model.Page = "";
+            }
+            else
+            {
+                model.Page = pager.GetPagerHtml();
+            }
+
+            return View(model);
         }
-        public ActionResult Details()
+        public ActionResult Details(long id)
         {
-            return View();
+            var dto = newsService.GetById(id);
+            if(dto==null)
+            {
+                dto = new NewsDTO();
+            }
+            return View(dto);
         }
-        public ActionResult Message()
+        [HttpGet]
+        public ActionResult Message(long id)
         {
-            return View();
+            return View(id);
+        }
+        [HttpPost]
+        public ActionResult Message(long id,string contents)
+        {
+            if(string.IsNullOrEmpty(contents))
+            {
+                return Json(new AjaxResult { Status="0",Msg="消息不能为空"});
+            }
+            long bid= messageService.AddNew(2,id, contents);
+            return Json(new AjaxResult { Status = "1",Data= bid });
         }
         public ActionResult Share()
         {

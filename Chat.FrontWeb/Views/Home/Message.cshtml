@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model long
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -8,14 +9,38 @@
 </head>
 <body class="bgcolor">
     <div class="message">
-        <textarea name="" rows="" cols="" placeholder="请输入留言"></textarea>
+        <input type="hidden" id="id" value="@Model" />
+        <textarea id="contents" rows="100" cols="100" placeholder="请输入留言"></textarea>
         <div class="message-wordnum">
             <b>12</b><span>/200</span>
         </div>
     </div>
     <div class="form-btn">
-        <a href="#">提交</a>
+        <button id="btnRefer">提交</button>
     </div>
     <script src="~/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnRefer").click(function () {
+                var contents = $("#contents").val();
+                var id = $("#id").val();
+                $.ajax({
+                    url: "/home/message", type: "post", data: { id:id, contents: contents },
+                    success: function (result) {
+                        if (result.status == "1") {
+                            window.location.href = "/";
+                        }
+                        else if (result.status == "0") {
+                            alert(result.msg);
+                        }
+                        else {
+                            alert("未知错误");
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

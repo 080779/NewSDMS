@@ -1,4 +1,5 @@
-﻿using SDMS.DTO.DTO;
+﻿using SDMS.Common;
+using SDMS.DTO.DTO;
 using SDMS.IService.Interface;
 using SDMS.Service.Entities;
 using System;
@@ -12,15 +13,18 @@ namespace SDMS.Service.Service
 {
     public class NewsService : INewsService
     {
-        public long AddNew(long adminId, string title, string content, string imgUrl)
+        public long AddNew(long adminId, string title, string imgUrl, string contents)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 NewsEntity entity = new NewsEntity();
                 entity.AdminId = adminId;
                 entity.Title = title;
-                entity.Content = content;
+                entity.Contents = contents;
+                entity.Preview = CommonHelper.NoHTML(contents);
                 entity.ImgURL = imgUrl;
+                entity.Rate = 0;
+                entity.Click = 0;
                 dbc.News.Add(entity);
                 dbc.SaveChanges();
                 return entity.Id;
@@ -43,6 +47,19 @@ namespace SDMS.Service.Service
             }
         }
 
+        public NewsDTO GetById(long id)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<NewsEntity> cs = new CommonService<NewsEntity>(dbc);
+                var news = cs.GetAll().SingleOrDefault(n => n.Id == id);
+                if(news==null)
+                {
+                    return null;
+                }
+                return ToDTO(news);
+            }
+        }
         public NewsSearchResult GetPageList(string title, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
         {
             using (MyDbContext dbc = new MyDbContext())
@@ -83,7 +100,7 @@ namespace SDMS.Service.Service
                     return false;
                 }
                 news.Title = title;
-                news.Content = content;
+                news.Contents = content;
                 news.ImgURL = imgUrl;
                 dbc.SaveChanges();
                 return true;
@@ -95,7 +112,7 @@ namespace SDMS.Service.Service
             NewsDTO dto = new NewsDTO();
             dto.AdminId = entity.AdminId;
             dto.Click = entity.Click;
-            dto.Content = entity.Content;
+            dto.Content = entity.Contents;
             dto.CreateTime = entity.CreateTime;
             dto.Id = entity.Id;
             dto.ImgURL = entity.ImgURL;
@@ -103,6 +120,7 @@ namespace SDMS.Service.Service
             dto.Publisher = entity.Admin.Name;
             dto.Rate = entity.Rate;
             dto.Title = entity.Title;
+            dto.Preview = entity.Preview;
             return dto;
         }
     }

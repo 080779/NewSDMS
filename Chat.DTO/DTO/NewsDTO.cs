@@ -10,6 +10,10 @@ namespace SDMS.DTO.DTO
     {
         public string Title { get; set; }
         public string Content { get; set; }
+        /// <summary>
+        /// 预览内容
+        /// </summary>
+        public string Preview { get; set; }
         public long? NewsTypeId { get; set; }
         /// <summary>
         /// 公告图片地址

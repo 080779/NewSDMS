@@ -9,6 +9,7 @@ namespace SDMS.IService.Interface
 {
     public interface IMessageService:IServiceSupport
     {
+        long AddNew(long holderId, long newsId, string Content);
         MessageSearchResult GetPageList(long? holderId, string name,string mobile, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize);
     }
     public class MessageSearchResult

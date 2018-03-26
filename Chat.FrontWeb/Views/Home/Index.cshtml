@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model SDMS.Web.Models.Home.NewsListViewModel
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -23,60 +24,23 @@
     <div class="index-notice">
         <div class="index-notice-h">
             <span>公告</span>
-            <a href="#" class="more">更多</a>
+            @*<a href="#" class="more">更多</a>*@
         </div>
         <div class="index-notice-list">
             <ul>
-                <li class="index-notice-li">
-                    <a href="#" class="">
-                        <div class="index-notice-img">
-                            <img src="/pic/01.jpg" />
-                        </div>
-                        <div class="index-notice-tit">友爱立交汽车精洗护理店</div>
-                        <div class="index-notice-dec">友爱立交汽车精洗护理店友爱立交汽车精洗护理店友爱立交汽车精洗护理店友爱立交汽车精洗护理店</div>
-                        <span class="index-notice-sx">内容预览>></span>
-                    </a>
-                </li>
-                <li class="index-notice-li">
-                    <a href="#" class="">
-                        <div class="index-notice-img">
-                            <img src="/pic/01.jpg" />
-                        </div>
-                        <div class="index-notice-tit">友爱立交汽车精洗护理店</div>
-                        <div class="index-notice-dec">友爱立交汽车精洗护理店友爱立交汽车精洗护理店友爱立交汽车精洗护理店友爱立交汽车精洗护理店</div>
-                        <span class="index-notice-sx">内容预览>></span>
-                    </a>
-                </li>
-                <li class="index-notice-li">
-                    <a href="#" class="">
-                        <div class="index-notice-img">
-                            <img src="/pic/01.jpg" />
-                        </div>
-                        <div class="index-notice-tit">友爱立交汽车精洗护理店</div>
-                        <div class="index-notice-dec">友爱立交汽车精洗护理店友爱立交汽车精洗护理店友爱立交汽车精洗护理店友爱立交汽车精洗护理店</div>
-                        <span class="index-notice-sx">内容预览>></span>
-                    </a>
-                </li>
-                <li class="index-notice-li">
-                    <a href="#" class="">
-                        <div class="index-notice-img">
-                            <img src="/pic/01.jpg" />
-                        </div>
-                        <div class="index-notice-tit">友爱立交汽车精洗护理店</div>
-                        <div class="index-notice-dec">友爱立交汽车精洗护理店友爱立交汽车精洗护理店友爱立交汽车精洗护理店友爱立交汽车精洗护理店</div>
-                        <span class="index-notice-sx">内容预览>></span>
-                    </a>
-                </li>
-                <li class="index-notice-li">
-                    <a href="#" class="">
-                        <div class="index-notice-img">
-                            <img src="/pic/01.jpg" />
-                        </div>
-                        <div class="index-notice-tit">友爱立交汽车精洗护理店</div>
-                        <div class="index-notice-dec">友爱立交汽车精洗护理店友爱立交汽车精洗护理店友爱立交汽车精洗护理店友爱立交汽车精洗护理店</div>
-                        <span class="index-notice-sx">内容预览>></span>
-                    </a>
-                </li>
+                @foreach (var news in Model.News)
+                {
+            <li class="index-notice-li">
+                <a href="/home/details/@news.Id" class="">
+                    <div class="index-notice-img">
+                        <img src="@news.ImgURL" />
+                    </div>
+                    <div class="index-notice-tit">@news.Title</div>
+                    <div class="index-notice-dec">阅读人数：@news.Click 阅读比例：@news.Rate</div>
+                    <span class="index-notice-sx">@news.Preview</span>
+                </a>
+            </li>
+                }
             </ul>
         </div>
     </div>

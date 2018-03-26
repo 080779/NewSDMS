@@ -46,10 +46,10 @@ namespace SDMS.Common
                 foreach (ModelError modelError in modelSatae[propName].Errors)
                 {
                     result.Msg = modelError.ErrorMessage;
-                    break;                
+                    return result;
                 }
             }
-            return result;   
+            return result;
         }
         #endregion
 

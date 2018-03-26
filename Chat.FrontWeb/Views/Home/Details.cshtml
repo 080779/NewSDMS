@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model SDMS.DTO.DTO.NewsDTO
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -9,14 +10,14 @@
 </head>
 <body class="bgcolor">
     <div class="notice">
-        <h1 class="notice-title">建军大业</h1>
-        <div class="notice-con">南昌起义的同意口令是？</div>
+        <h1 class="notice-title">@Model.Title</h1>
+        <div class="notice-con">@Html.Raw(Model.Content)</div>
         <div class="notice-bt">
-            <a href="#" class="bd-browse">2324</a>
+            <a href="#" class="bd-browse">@Model.Click</a>
         </div>
     </div>
     <div class="form-btn">
-        <a href="#">留言反馈</a>
+        <a href="/home/message/@Model.Id">留言反馈</a>
     </div>
 </body>
 </html>

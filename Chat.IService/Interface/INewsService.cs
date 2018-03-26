@@ -9,10 +9,11 @@ namespace SDMS.IService.Interface
 {
     public interface INewsService : IServiceSupport
     {
-        long AddNew(long adminId,string title,string content,string imgUrl);
+        long AddNew(long adminId, string title, string imgUrl, string contents);
         bool Update(long id, string title, string content, string imgUrl);
         bool Delete(long id);
         NewsSearchResult GetPageList(string title,DateTime? startTime,DateTime? endTime,int pageIndex,int pageSize);
+        NewsDTO GetById(long id);
     }
     public class NewsSearchResult
     {

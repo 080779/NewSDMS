@@ -11,6 +11,19 @@ namespace SDMS.Service.Service
 {
     public class MessageService : IMessageService
     {
+        public long AddNew(long holderId,long newsId, string Content)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                MessageEntity entity = new MessageEntity();
+                entity.Content = Content;
+                entity.HolderId = holderId;
+                entity.NewsId = newsId;
+                dbc.Messages.Add(entity);
+                dbc.SaveChanges();
+                return entity.Id;
+            }
+        }
         public MessageSearchResult GetPageList(long? holderId, string name, string mobile, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
         {
             using (MyDbContext dbc = new MyDbContext())
@@ -59,6 +72,7 @@ namespace SDMS.Service.Service
             dto.Id = entity.Id;
             dto.Mobile = entity.Holder.Mobile;
             dto.Name = entity.Holder.Name;
+            dto.NewsId = entity.NewsId;
             return dto;
         }
     }

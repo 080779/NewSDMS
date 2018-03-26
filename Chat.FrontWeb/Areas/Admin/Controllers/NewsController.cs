@@ -1,7 +1,11 @@
-﻿using SDMS.Common;
+﻿using CodeCarvings.Piczard;
+using SDMS.Common;
 using SDMS.IService.Interface;
+using SDMS.Web.Areas.Admin.Models.News;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -55,9 +59,42 @@ namespace SDMS.Web.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Add(string a)
+        [ValidateInput(false)]
+        public ActionResult Add(NewsAddModel model)
         {
-            return Json(new AjaxResult { Status = "1" });
+            if (!ModelState.IsValid)
+            {
+                return Json(MVCHelper.GetJsonValidMsg(ModelState));
+            }
+
+            string[] strs = model.ImgURL.Split(',');
+            string[] formats = strs[0].Replace(";base64", "").Split(':');
+            string img = strs[1];
+            string format = formats[1];
+            string[] imgFormats = { "image/png", "image/jpg", "image/jpeg", "image/bmp", "IMAGE/PNG", "IMAGE/JPG", "IMAGE/JPEG", "IMAGE/BMP" };
+            byte[] imgBytes;
+            if (!imgFormats.Contains(format))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "请选择正确的图片格式，支持png、jpg、jpeg、png格式" });
+            }
+            string ext = "." + format.Split('/')[1];
+            try
+            {
+                imgBytes = Convert.FromBase64String(img);
+            }
+            catch (Exception ex)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "图片解密错误" });
+            }
+            try
+            {
+                long id = newService.AddNew(1, model.Title, SaveImg(imgBytes, ext), model.Contents);
+            }
+            catch(DbEntityValidationException ex)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = ex.Message });
+            }
+            return Json(new AjaxResult { Status = "1", Data = 0 });
         }
         #endregion
 
@@ -79,6 +116,37 @@ namespace SDMS.Web.Areas.Admin.Controllers
         public ActionResult Del(long id)
         {
             return Json(new AjaxResult { Status = "1" });
+        }
+        #endregion
+                
+        public ActionResult UpImg(HttpPostedFileBase file)
+        {
+            string md5 = CommonHelper.GetMD5(file.InputStream);
+            string ext = Path.GetExtension(file.FileName);
+            string path = "/upload/" + DateTime.Now.ToString("yyyy/MM/dd") + "/" + md5 + ext;
+            string fullPath = HttpContext.Server.MapPath("~" + path);
+            new FileInfo(fullPath).Directory.Create();
+
+            file.InputStream.Position = 0;
+            ImageProcessingJob jobNormal = new ImageProcessingJob();
+            jobNormal.Filters.Add(new FixedResizeConstraint(750, 1334));//限制图片的大小，避免生成
+            jobNormal.SaveProcessedImageToFileSystem(file.InputStream, fullPath);
+            string[] paths = { path };
+
+            return Json(new { errno = "0", Data = paths });
+        }
+
+        #region 二进制图片保存，返回地址
+        private string SaveImg(byte[] imgBytes, string ext)
+        {
+            string md5 = CommonHelper.GetMD5(imgBytes);
+            string path = "/upload/" + DateTime.Now.ToString("yyyy/MM/dd") + "/" + md5 + ext;
+            string fullPath = HttpContext.Server.MapPath("" + path);
+            new FileInfo(fullPath).Directory.Create();
+            ImageProcessingJob jobNormal = new ImageProcessingJob();
+            jobNormal.Filters.Add(new FixedResizeConstraint(750, 1334));//限制图片的大小，避免生成
+            jobNormal.SaveProcessedImageToFileSystem(imgBytes, fullPath);
+            return path;
         }
         #endregion
     }

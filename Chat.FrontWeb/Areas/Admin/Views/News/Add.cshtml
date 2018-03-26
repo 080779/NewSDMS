@@ -21,7 +21,7 @@
                     <input type="text" id="title" class="form-control" />
                 </div>
             </div>
-        </div>        
+        </div>
         <div class="form-group fast">
             <div class="form-horizontal col-md-12">
                 <label class="col-sm-2 control-label">
@@ -29,6 +29,7 @@
                     公告图片：
                 </label>
                 <div class="col-sm-4">
+                    <img src="" id="news_img" alt="" style="margin-top: 10px; max-width: 100px; max-height: 400px;" />
                     <input type="file" id="imgURL" class="form-control" />
                 </div>
             </div>
@@ -39,11 +40,10 @@
                     <span class="text-danger">*</span>
                     公告内容：
                 </label>
-                <div class="col-sm-4">
-                    <textarea id="content" class="form-control"></textarea>
+                <div id="contents" class="col-sm-6">
                 </div>
             </div>
-        </div>        
+        </div>
         <div class="form-group fast">
             <div class="form-horizontal col-md-12">
                 <label class="col-sm-2 control-label">
@@ -56,14 +56,36 @@
     </div>
     <script src="~/js/jquery-1.10.2.min.js"></script>
     <script src="~/js/checkdata.js"></script>
+    <script src="~/js/admin/jquery.uploadimg.js"></script>
+    <script src="~/js/admin/wangEditor.min.js"></script>
     <script type="text/javascript">
         $(function () {
+
+            var E = window.wangEditor
+            var editor = new E('#contents')
+            editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024
+            editor.customConfig.uploadImgMaxLength = 1
+            editor.customConfig.uploadFileName = 'file'
+            editor.customConfig.uploadImgServer = '/news/upimg'
+            editor.create()
+
+            uploadpic("#imgURL", "#news_img");
+            function uploadpic(fileid, img) {
+                var oUpload = new UploadPic();
+                oUpload.init({
+                    input: $(fileid)[0],
+                    callback: function (base64) {
+                        $(img).attr('src', base64);
+                    }
+                });
+            }
+
             $("#btnSave").click(function () {
                 var title = $("#title").val();
-                var imgURL = $("#imgURL").val();
-                var content = $("#content").val();
+                var imgURL = $("#news_img").attr("src");
+                var contents = editor.txt.html();
                 $.ajax({
-                    url: "/admin/news/add", type: "post", data: { title: title, imgURL: imgURL, content: content },
+                    url: "/admin/news/add", type: "post", data: { title: title, imgURL: imgURL, contents: contents },
                     success: function (result) {
                         if (result.status == "1") {
                             alert(result.data);
