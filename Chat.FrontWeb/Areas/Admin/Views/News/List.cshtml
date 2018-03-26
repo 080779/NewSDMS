@@ -1,47 +1,70 @@
 ﻿@{
-    ViewBag.Title = "管理员列表";
+    ViewBag.Title = "公告列表";
     Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
 }
 <br />
-<a class="easyui-linkbutton" iconcls="icon-add" href="/admin/system/adminadd">添加管理员</a>
-<a class="easyui-linkbutton" iconcls="icon-edit" href="/admin/system/rolemanager">角色列表</a>
+<div style="margin-bottom:20px">
+    <a class="easyui-linkbutton" iconcls="icon-add" href="/admin/news/add">添加公告</a>
+</div>
+<div style="margin-bottom:20px">
+    <fieldset class="fieldset">
+        公告标题：<input id="title" class="input_select" type="text" />
+        注册日期： <input tip="输入注册日期" class="input_select" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" id="startTime" />至
+        <input tip="输入注册日期" class="input_select" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" id="endTime" />
+        <a class="easyui-linkbutton" iconcls="icon-search" id="search">查询</a>
+    </fieldset>
+</div>
 <div id="load">
     @{
-        Html.RenderAction("AdminManagerGetPage");
+        Html.RenderAction("ListGetPage");
     }
 </div>
 @section FooterScript
 {
+    <script src="~/Areas/Admin/Scripts/jquery.parser.js"></script>
+    <script src="~/Areas/Admin/Scripts/jquery.easyui.min.js"></script>
     <script type="text/javascript">
-    function getPage(pageIndex) {
-        $("#load").load("/admin/system/AdminManagerGetPage?pageIndex=" + pageIndex, function () {
-            $.parser.parse($('#load'));
-        });
-    }
+        function getPage(pageIndex) {
+            var title = $("#title").val();
+            var startTime = $("#startTime").val();
+            var endTime = $("#endTime").val();
+            $("#load").load("/admin/news/ListGetPage", { pageIndex: pageIndex, title: title, startTime: startTime, endTime: endTime }, function () {
+                $.parser.parse($('#load'));
+            });
+        }
 
-    $(function () {
-        $('body').on('click', '#go', function () {
-            var page = $("#txtPage").val();
-            getPage(page);
-        });
+        $(function () {
+            $('body').on('click', '#go', function () {
+                var page = $("#txtPage").val();
+                getPage(page);
+            });
 
-        //删除
-        $(".del").click(function () {
-            var id = $(this).attr("value");
-            $.ajax({
-                url: "/admin/system/AdminDel?id=" + id, type: "post",
-                success: function (result) {
-                    if (result.status == 1) {
-                        alert("删除成功")
-                        window.location.href = result.data;
-                    }
-                    else if (result.status == 0) {
-                        alert(result.msg);
-                    }
-                },
-                error: function () { alert("网络错误"); }
+            $("#search").click(function () {
+                $("#load").empty();
+                var page = $("#txtPage").val();
+                getPage(page);
+            });
+
+            //删除
+            $(".del").click(function () {
+                var id = $(this).attr("value");
+                $.ajax({
+                    url: "/admin/news/del?id=" + id, type: "post",
+                    success: function (result) {
+                        if (result.status == 1) {
+                            alert("删除成功")
+                            window.location.href = result.data;
+                        }
+                        else if (result.status == 0) {
+                            alert(result.msg);
+                        }
+                        else {
+                            alert("未知错误");
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
             });
         });
-    });
     </script>
 }

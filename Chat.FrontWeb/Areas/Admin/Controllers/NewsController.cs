@@ -26,29 +26,28 @@ namespace SDMS.Web.Areas.Admin.Controllers
         {
             return View();
         }
-        public PartialViewResult ListGetPage(int pageIndex = 1)
+        public PartialViewResult ListGetPage(string title, DateTime? startTime, DateTime? endTime, int pageIndex = 1)
         {
-            //int pageSize = 3;
-            //AdminListViewModel model = new AdminListViewModel();
-            //AdminSearchResult result = adminService.GetPageList(pageIndex, pageSize);
-            //model.AdminList = result.AdminList;
+            int pageSize = 3;
+            NewsListViewModel model = new NewsListViewModel();
+            NewsSearchResult result = newService.GetPageList(title, startTime, endTime, pageIndex, pageSize);
+            model.News = result.News;
 
-            ////分页
-            //Pagination pager = new Pagination();
-            //pager.PageIndex = pageIndex;
-            //pager.PageSize = pageSize;
-            //pager.TotalCount = result.TotalCount;
+            //分页
+            Pagination pager = new Pagination();
+            pager.PageIndex = pageIndex;
+            pager.PageSize = pageSize;
+            pager.TotalCount = result.TotalCount;
 
-            //if (result.TotalCount <= pageSize)
-            //{
-            //    model.Page = "";
-            //}
-            //else
-            //{
-            //    model.Page = pager.GetPagerHtml();
-            //}
-            //return PartialView("NewsListPaging", model);
-            return PartialView("NewsListPaging");
+            if (result.TotalCount <= pageSize)
+            {
+                model.Page = "";
+            }
+            else
+            {
+                model.Page = pager.GetPagerHtml();
+            }
+            return PartialView("NewsListPaging", model);
         }
         #endregion
 
@@ -102,7 +101,8 @@ namespace SDMS.Web.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Edit(long id)
         {
-            return View();
+            var dto= newService.GetById(id);
+            return View(dto);
         }
         [HttpPost]
         public ActionResult Edit(long id, string a)
@@ -149,5 +149,10 @@ namespace SDMS.Web.Areas.Admin.Controllers
             return path;
         }
         #endregion
+
+        public ActionResult Link()
+        {
+            return View();
+        }
     }
 }

@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseDTO.cs" />
+    <Compile Include="DTO\AdImgLinkDTO.cs" />
     <Compile Include="DTO\AdminDTO.cs" />
     <Compile Include="DTO\AdminLogDTO.cs" />
     <Compile Include="DTO\HolderDTO.cs" />

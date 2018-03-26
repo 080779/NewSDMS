@@ -28,19 +28,19 @@
         </div>
         <div class="index-notice-list">
             <ul>
-                @foreach (var news in Model.News)
-                {
-            <li class="index-notice-li">
-                <a href="/home/details/@news.Id" class="">
-                    <div class="index-notice-img">
-                        <img src="@news.ImgURL" />
-                    </div>
-                    <div class="index-notice-tit">@news.Title</div>
-                    <div class="index-notice-dec">阅读人数：@news.Click 阅读比例：@news.Rate</div>
-                    <span class="index-notice-sx">@news.Preview</span>
-                </a>
-            </li>
-                }
+            @foreach (var news in Model.News)
+            {
+                <li class="index-notice-li">
+                    <a href="/home/details/@news.Id" class="">
+                        <div class="index-notice-img">
+                            <img src="@news.ImgURL" />
+                        </div>
+                        <div class="index-notice-tit">@news.Title</div>
+                        <div class="index-notice-dec">阅读人数：@news.Click 阅读比例：@news.Rate</div>
+                        <span class="index-notice-sx">@news.Preview</span>
+                    </a>
+                </li>
+            }
             </ul>
         </div>
     </div>

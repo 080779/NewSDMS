@@ -444,6 +444,7 @@
     <Compile Include="Areas\Admin\Models\Holder\HolderListViewModel.cs" />
     <Compile Include="Areas\Admin\Models\IndexViewModel.cs" />
     <Compile Include="Areas\Admin\Models\News\NewsAddModel.cs" />
+    <Compile Include="Areas\Admin\Models\News\NewsListViewModel.cs" />
     <Compile Include="Areas\Admin\Models\System\AdminEditViewModel.cs" />
     <Compile Include="Areas\Admin\Models\System\AdminListViewModel.cs" />
     <Compile Include="Areas\Admin\Models\System\RoleAddViewModel.cs" />

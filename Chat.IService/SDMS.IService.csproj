@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\IAdImgLinkService.cs" />
     <Compile Include="Interface\IAdminLoginService.cs" />
     <Compile Include="Interface\IAdminLogService.cs" />
     <Compile Include="Interface\IAdminService.cs" />

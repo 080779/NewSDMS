@@ -44,5 +44,6 @@ namespace SDMS.Service
         public DbSet<SettingsEntity> Settings { get; set; }
         public DbSet<AdminLogEntity> AdminLogs { get; set; }
         public DbSet<ReadNumberEntity> ReadNumbers { get; set; }
+        public DbSet<AdImgLinkEntity> AdImgLinks { get; set; }
     }
 }

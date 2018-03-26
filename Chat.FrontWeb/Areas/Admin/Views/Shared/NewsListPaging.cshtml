@@ -1,27 +1,28 @@
-﻿
-@model SDMS.Web.Areas.Admin.Models.System.AdminListViewModel
+﻿@model SDMS.Web.Areas.Admin.Models.News.NewsListViewModel
 <div class="dataTable">
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="t1">
         <thead>
             <tr>
-                <th>管理员编号</th>
-                <th>姓名</th>
-                <th>注册日期</th>
+                <th>公告标题</th>
+                <th>公告点击量</th>
+                <th>点击量占比</th>
+                <th>发布时间</th>
                 <th>操作</th>
             </tr>
         </thead>
         <tbody id="pagerList">
-            @foreach (var admin in Model.AdminList)
+            @foreach (var news in Model.News)
             {
-                <tr>
-                    <td align="center">@admin.ID</td>
-                    <td align="center">@admin.UserName</td>
-                    <td align="center">@admin.CreateTime</td>
-                    <td align="center">
-                        <a class="easyui-linkbutton" href="/admin/system/adminedit?id=@admin.ID" iconcls="icon-edit">编辑</a>
-                        <a class="easyui-linkbutton del" iconcls="icon-remove" value="@admin.ID">删除</a>
-                    </td>
-                </tr>
+            <tr>
+                <td align="center">@news.Title</td>
+                <td align="center">@news.Click</td>
+                <td align="center">@news.Rate</td>
+                <td align="center">@news.CreateTime</td>
+                <td align="center">
+                    <a class="easyui-linkbutton" href="/admin/news/edit/@news.Id" iconcls="icon-edit">编辑</a>
+                    <a class="easyui-linkbutton del" iconcls="icon-remove" value="@news.Id">删除</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
