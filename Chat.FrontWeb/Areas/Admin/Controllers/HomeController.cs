@@ -20,6 +20,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
         //public IUserService userService { get; set; }
         //adminService已经在AdminBaseController中定义
         public IPowerService powerService { get; set; }
+        public IShareBonusService shareBonusService { get; set; }
 
         public ActionResult Index()
         {
@@ -51,9 +52,15 @@ namespace SDMS.Web.Areas.Admin.Controllers
 
         public ActionResult ZhuYe()
         {
+            //shareBonusService.Average(1000);
             return View();
         }
-
+        public ActionResult fh(long id)
+        {
+            //shareBonusService.Average(amount);
+            shareBonusService.Directional(id);
+            return Json(new AjaxResult { Status="1"});
+        }
         public ActionResult MemberLine()
         {
             return View();

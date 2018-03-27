@@ -13,6 +13,8 @@ namespace SDMS.Service.ModelConfig
         public SetShareBonusConfig()
         {
             ToTable("T_SetShareBonus");
+            Property(s => s.Rate).HasPrecision(18, 4);
+            Property(s => s.OldRate).HasPrecision(18, 4);
         }
     }
 }

@@ -14,6 +14,8 @@ namespace SDMS.Web.Controllers
     public class HomeController : Controller
     {
         public INewsService newsService { get; set; }
+        public IHolderService holderService { get; set; }
+        public IJournalService journalService { get; set; }
         public IMessageService messageService { get; set; }
         public ActionResult Index(int pageIndex=1)
         {
@@ -65,7 +67,11 @@ namespace SDMS.Web.Controllers
         }
         public ActionResult Share()
         {
-            return View();
+            ShareBonusViewModel model = new ShareBonusViewModel();
+            model.Holder = holderService.GetById(2);
+            model.YesterdayBonus = journalService.YesterdayBonus(2);
+            model.Journals = journalService.GetBonusList(2, 5);
+            return View(model);
         }
     }
 }

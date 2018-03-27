@@ -144,6 +144,20 @@ namespace SDMS.Service.Service
             }
         }
 
+        public HolderDTO GetById(long id)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<HolderEntity> cs = new CommonService<HolderEntity>(dbc);
+                var holder = cs.GetAll().SingleOrDefault(h=>h.Id==id);
+                if(holder==null)
+                {
+                    return null;
+                }
+                return ToDTO(holder);
+            }
+        }
+
         public HolderDTO ToDTO(HolderEntity entity)
         {
             HolderDTO dto = new HolderDTO();
@@ -164,6 +178,9 @@ namespace SDMS.Service.Service
             dto.TradePassword = entity.TradePassword;
             dto.Address = entity.Address;
             dto.Gender = entity.Gender;
+            dto.UrgencyContact = entity.UrgencyContact;
+            dto.UrgencyName = entity.UrgencyName;
+            dto.OpenId = entity.OpenId;
             return dto;
         }
 
@@ -187,6 +204,41 @@ namespace SDMS.Service.Service
                     return -1;
                 }
                 return stock.UnitPrice * copies;
+            }
+        }
+
+        public bool Update(long id, string address, string contact, string bankAccount, string urgencyName, string urgencyContact)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<HolderEntity> cs = new CommonService<HolderEntity>(dbc);
+                var holder = cs.GetAll().SingleOrDefault(h => h.Id == id);
+                if (holder == null)
+                {
+                    return false;
+                }
+                if(!string.IsNullOrEmpty(address))
+                {
+                    holder.Address = address;
+                }
+                if (!string.IsNullOrEmpty(contact))
+                {
+                    holder.Contact = contact;
+                }
+                if (!string.IsNullOrEmpty(bankAccount))
+                {
+                    holder.BankAccount = bankAccount;
+                }
+                if (!string.IsNullOrEmpty(urgencyName))
+                {
+                    holder.UrgencyName = urgencyName;
+                }
+                if (!string.IsNullOrEmpty(urgencyContact))
+                {
+                    holder.UrgencyContact = urgencyContact;
+                }                
+                dbc.SaveChanges();
+                return true;
             }
         }
     }

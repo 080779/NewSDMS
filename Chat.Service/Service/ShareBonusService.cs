@@ -27,9 +27,10 @@ namespace SDMS.Service.Service
                     holder.TakeBonus = holder.TotalBonus - holder.HaveBonus;
 
                     JournalEntity journal = new JournalEntity();
+                    journal.HolderId = holder.Id;
                     journal.BalanceAmount = holder.TotalAssets;
                     journal.InAmount = Amount * holder.Proportion;
-                    journal.JournalTypeId = 1;
+                    journal.JournalTypeId = 7;
                     journal.Remark = "获得平均分红";
                     dbc.Journal.Add(journal);
                 }
@@ -54,7 +55,7 @@ namespace SDMS.Service.Service
                     return false;
                 }
                 decimal rate=set.Rate;
-                if(set.ChangeTime.AddDays(1).Date==DateTime.Now.Date)
+                if(set.ChangeTime.AddDays(1).Date>=DateTime.Now.Date)
                 {
                     rate = set.OldRate;
                 }
@@ -65,9 +66,10 @@ namespace SDMS.Service.Service
                     holder.TakeBonus = holder.TotalBonus - holder.HaveBonus;
 
                     JournalEntity journal = new JournalEntity();
+                    journal.HolderId = holder.Id;
                     journal.BalanceAmount = holder.TotalAssets;
                     journal.InAmount = holder.Amount * rate;
-                    journal.JournalTypeId = 1;
+                    journal.JournalTypeId = 5;
                     journal.Remark = "获得定向分红";
                     dbc.Journal.Add(journal);
                 }

@@ -13,9 +13,9 @@ namespace SDMS.Service.Entities
         public decimal? InAmount { get; set; }
         public decimal? OutAmount { get; set; }
         public decimal? BalanceAmount { get; set; }
-        public JournalTypeEntity JournalType { get; set; }
+        public virtual JournalTypeEntity JournalType { get; set; }
         public long JournalTypeId { get; set; }
-        public HolderEntity Holder { get; set; }
+        public virtual HolderEntity Holder { get; set; }
         public long HolderId { get; set; }
     }
 }

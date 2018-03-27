@@ -11,6 +11,7 @@ namespace SDMS.DTO.DTO
         public string Name { get; set; }
         public string Mobile { get; set; }
         public bool Gender { get; set; }
+        public string OpenId { get; set; }
         public string Address { get; set; }
         /// <summary>
         /// 分红提现账号
@@ -52,6 +53,14 @@ namespace SDMS.DTO.DTO
         /// 联系电话
         /// </summary>
         public string Contact { get; set; }
+        /// <summary>
+        /// 紧急联系人姓名
+        /// </summary>
+        public string UrgencyName { get; set; }
+        /// <summary>
+        /// 紧急联系人电话
+        /// </summary>
+        public string UrgencyContact { get; set; }
         /// <summary>
         /// 交易密码
         /// </summary>

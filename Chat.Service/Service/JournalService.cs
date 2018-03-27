@@ -63,7 +63,34 @@ namespace SDMS.Service.Service
             }
         }
         #endregion
+        public decimal YesterdayBonus(long id)
+        {
+            using (MyDbContext dbcontext = new MyDbContext())
+            {
+                CommonService<JournalEntity> cs = new CommonService<JournalEntity>(dbcontext);
+                DateTime time = DateTime.Now.AddDays(-1);
+                var bonus = cs.GetAll().Where(j => j.HolderId == id).Where(j => j.CreateTime.Year==time.Year && j.CreateTime.Month==time.Month && j.CreateTime.Day==time.Day).Where(j=>j.JournalTypeId==5 || j.JournalTypeId==7).Sum(j=>j.InAmount);
+                if(bonus==null)
+                {
+                    return 0;
+                }
+                return (decimal)bonus;
+            }
+        }
 
+        public JournalDTO[] GetBonusList(long id, int pageSize)
+        {
+            using (MyDbContext dbcontext = new MyDbContext())
+            {
+                CommonService<JournalEntity> cs = new CommonService<JournalEntity>(dbcontext);
+                var bonus = cs.GetAll().Where(j => j.HolderId == id);
+                if (bonus.Count()<=0)
+                {
+                    return null;
+                }
+                return bonus.OrderByDescending(j => j.CreateTime).Take(pageSize).ToList().Select(j => ToDTO(j)).ToArray();
+            }
+        }
         #region ToDTO
         public JournalDTO ToDTO(JournalEntity journal)
         {
@@ -80,7 +107,7 @@ namespace SDMS.Service.Service
             jourDTO.BalanceAmount = journal.BalanceAmount;
 
             return jourDTO;
-        }
+        }                
         #endregion
     }
 }

@@ -17,6 +17,7 @@ namespace SDMS.Service.ModelConfig
             Property(h => h.Proportion).HasPrecision(18, 4);
             Property(h => h.Name).HasMaxLength(50);
             Property(h => h.BankName).HasMaxLength(50);
+            Property(h => h.OpenId).HasMaxLength(100).IsUnicode();
             Property(h => h.Address).HasMaxLength(100);
             Property(h => h.BankAccount).HasMaxLength(50);
             Property(h => h.Contact).HasMaxLength(50);
@@ -24,6 +25,8 @@ namespace SDMS.Service.ModelConfig
             Property(h => h.Mobile).HasMaxLength(50);
             Property(h => h.Password).HasMaxLength(50);
             Property(h => h.TradePassword).HasMaxLength(50);
+            Property(h => h.UrgencyContact).HasMaxLength(50);
+            Property(h => h.UrgencyName).HasMaxLength(50);
         }
     }
 }

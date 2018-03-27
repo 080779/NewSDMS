@@ -14,6 +14,7 @@ namespace SDMS.Service.Entities
         public string Name { get; set; }
         public bool Gender { get; set; }
         public string Mobile { get; set; }
+        public string OpenId { get; set; }
         public string Address { get; set; }
         /// <summary>
         /// 分红提现账号
@@ -55,6 +56,14 @@ namespace SDMS.Service.Entities
         /// 联系电话
         /// </summary>
         public string Contact { get; set; }
+        /// <summary>
+        /// 紧急联系人姓名
+        /// </summary>
+        public string UrgencyName { get; set; }
+        /// <summary>
+        /// 紧急联系人电话
+        /// </summary>
+        public string UrgencyContact { get; set; }
         public string Password { get; set; }
         /// <summary>
         /// 交易密码
