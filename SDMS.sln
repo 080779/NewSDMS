@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2005
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDMS.Service", "Chat.Service\SDMS.Service.csproj", "{1D7C08A8-8ED2-4A8F-A22B-FE1FEA8C869A}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDMS.Common", "Chat.WebCommon\SDMS.Common.csproj", "{D9BE0C2C-29C7-45A6-9542-1FA31960F500}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDMS.Web", "Chat.FrontWeb\SDMS.Web.csproj", "{16BE9289-29B6-4B93-84CE-4D706406218A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeChat", "WeChat\WeChat.csproj", "{53EA47B9-F914-4B31-84A0-78A7646C19B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{16BE9289-29B6-4B93-84CE-4D706406218A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16BE9289-29B6-4B93-84CE-4D706406218A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16BE9289-29B6-4B93-84CE-4D706406218A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53EA47B9-F914-4B31-84A0-78A7646C19B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53EA47B9-F914-4B31-84A0-78A7646C19B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53EA47B9-F914-4B31-84A0-78A7646C19B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53EA47B9-F914-4B31-84A0-78A7646C19B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
