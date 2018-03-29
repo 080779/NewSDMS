@@ -12,16 +12,16 @@ namespace SDMS.Web.Controllers
 {
     public class MyInfoController : FrontBaseController
     {
-        public IHolderService holderService { get; set; }
+        //public IHolderService holderService { get; set; }
         public ActionResult List()
         {
-            var dto=holderService.GetById(2);
+            var dto=holderService.GetById(UserId);
             return View(dto);
         }
         [HttpGet]
-        public ActionResult Info(long id)
+        public ActionResult Info()
         {
-            var dto = holderService.GetById(id);
+            var dto = holderService.GetById(UserId);
             return View(dto);
         }
         [HttpPost]

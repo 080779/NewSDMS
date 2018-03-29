@@ -8,6 +8,7 @@ namespace SDMS.Service.Entities
 {
     public class SetShareBonusEntity:BaseEntity
     {
+        public string Name { get; set; }
         public decimal Rate { get; set; }
         public decimal OldRate { get; set; }
         public DateTime ChangeTime { get; set; }

@@ -74,6 +74,7 @@ namespace SDMS.Service.Service
                 entity.TotalCopies = totalCopies;
                 entity.IssueCopies = issueCopies;
                 entity.UnitPrice = entity.TotalAmount / entity.TotalCopies;
+                entity.HaveCopies = issueCopies;
                 dbc.SaveChanges();
                 return true;
             }

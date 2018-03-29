@@ -37,15 +37,5 @@ namespace SDMS.Web.Controllers
             Session["UserId"] = id;
             return Json(new AjaxResult { Status = "1", Data = "/home/index" });
         }
-        [HttpGet]
-        public ActionResult SetPwd()
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult SetPwd(long id,string oldTradePwd,string tradePwd)
-        {
-            return Json(new AjaxResult { Status = "1", Data = "/home/index" });
-        }
     }
 }

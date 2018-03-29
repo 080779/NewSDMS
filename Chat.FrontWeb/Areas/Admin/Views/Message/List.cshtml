@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "留言列表";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+}
+<br />
+<div id="load">
+    @{
+        Html.RenderAction("ListGetPage");
+    }
+</div>
+@section FooterScript
+{
+    <script src="/js/admin/jquery.easyui.min.js"></script>
+    <script src="/js/admin/jquery.parser.js"></script>
+    <script type="text/javascript">
+        function getPage(pageIndex) {
+            $("#load").load("/admin/message/ListGetPage", { pageIndex: pageIndex }, function () {
+                $.parser.parse($('#load'));
+            });
+        }
+
+        $(function () {
+            $('body').on('click', '#go', function () {
+                var page = $("#txtPage").val();
+                getPage(page);
+            });            
+        });
+    </script>
+}

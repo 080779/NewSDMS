@@ -21,6 +21,7 @@ namespace SDMS.IService.Interface
         bool CheckOpenId(string openId);
         long GetHoderIdByOpenId(string openId);
         long Login(string mobile, string password, string openId);
+        long SetTradePwd(long id, string oldTradePwd, string tradePwd);
     } 
 
     public class HolderSearchResult

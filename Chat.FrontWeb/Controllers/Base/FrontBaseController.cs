@@ -23,6 +23,7 @@ namespace SDMS.Web.Controllers.Base
         private string appId = "wx4bb5e170640ca437";
         //private string appId = "wx4bb5e170640ca437";
         private string secret = "52622a0a4078040b94d502a145a7b6a7";
+        public long UserId;
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             if (Session["UserId"] == null)
@@ -73,6 +74,7 @@ namespace SDMS.Web.Controllers.Base
                     }
                 }
             }
+            UserId = Convert.ToInt64(Session["UserId"]);
             base.OnActionExecuting(filterContext);
         }
     }

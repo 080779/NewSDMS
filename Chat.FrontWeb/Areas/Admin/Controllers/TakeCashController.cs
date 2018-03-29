@@ -1,4 +1,6 @@
 ﻿using SDMS.Common;
+using SDMS.IService.Interface;
+using SDMS.Web.Areas.Admin.Models.TakeCash;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +15,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
     public class TakeCashController : Controller
     {
         #region 属性注入
-
+        public ITakeCashService takeCashService { get; set; }
         #endregion
 
         #region 提现申请管理
@@ -22,48 +24,49 @@ namespace SDMS.Web.Areas.Admin.Controllers
         {
             return View();
         }
-        public PartialViewResult ApplyGetPage(int pageIndex = 1)
+        public PartialViewResult ApplyGetPage(string name,string mobile,DateTime? startTime,DateTime? endTime,int pageIndex = 1)
         {
-            //int pageSize = 3;
-            //AdminListViewModel model = new AdminListViewModel();
-            //AdminSearchResult result = adminService.GetPageList(pageIndex, pageSize);
-            //model.AdminList = result.AdminList;
+            int pageSize = 3;
+            TakeCashViewModel model = new TakeCashViewModel();
+            TakeCashSearchResult result = takeCashService.GetPageList(name,mobile,startTime,endTime,pageIndex, pageSize);
+            model.TakeCashes = result.TakeCashs;
 
-            ////分页
-            //Pagination pager = new Pagination();
-            //pager.PageIndex = pageIndex;
-            //pager.PageSize = pageSize;
-            //pager.TotalCount = result.TotalCount;
+            //分页
+            Pagination pager = new Pagination();
+            pager.PageIndex = pageIndex;
+            pager.PageSize = pageSize;
+            pager.TotalCount = result.TotalCount;
 
-            //if (result.TotalCount <= pageSize)
-            //{
-            //    model.Page = "";
-            //}
-            //else
-            //{
-            //    model.Page = pager.GetPagerHtml();
-            //}
-            //return PartialView("TakeCashApplyPaging", model);
-            return PartialView("TakeCashApplyPaging");
+            if (result.TotalCount <= pageSize)
+            {
+                model.Page = "";
+            }
+            else
+            {
+                model.Page = pager.GetPagerHtml();
+            }
+            return PartialView("TakeCashApplyPaging", model);
         }
 
         //确认申请
-        public ActionResult Confirm()
+        public ActionResult Confirm(long id)
         {
-            return View();
+            return View(id);
         }
-        public ActionResult Confirm(string s)
+        public ActionResult Confirm(long id,string imgUrl)
         {
+            takeCashService.Confirm(id, imgUrl);
             return Json(new AjaxResult { Status = "1" });
         }
 
         //驳回
-        public ActionResult Reject()
-        {
-            return View();
+        public ActionResult Reject(long id)
+        {            
+            return View(id);
         }
-        public ActionResult Reject(string s)
+        public ActionResult Reject(long id,string message)
         {
+            takeCashService.Reject(id, message);
             return Json(new AjaxResult { Status = "1" });
         }
         #endregion

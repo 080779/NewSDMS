@@ -73,6 +73,8 @@ namespace SDMS.Service.Service
             dto.Mobile = entity.Holder.Mobile;
             dto.Name = entity.Holder.Name;
             dto.NewsId = entity.NewsId;
+            dto.HolderName = entity.Holder.Name;
+            dto.NewsTitle = entity.News.Title;
             return dto;
         }
     }

@@ -8,6 +8,7 @@ namespace SDMS.DTO.DTO
 {
     public class SetShareBonusDTO:BaseDTO
     {
+        public string Name { get; set; }
         public decimal Rate { get; set; }
         public decimal OldRate { get; set; }
         public DateTime ChangeTime { get; set; }

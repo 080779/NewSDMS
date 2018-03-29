@@ -18,6 +18,7 @@ namespace SDMS.Web.Areas.Admin.Controllers.Base
         public IAdminService adminService { get; set; }
         public IPermissionService permissionService { get; set; }
         public IAdminLogService logService { get; set; }
+        public long AdminId;
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             if (Session["AdminId"] == null)
@@ -34,12 +35,12 @@ namespace SDMS.Web.Areas.Admin.Controllers.Base
             else
             {
                 PermissionAttribute[] attributes = (PermissionAttribute[])filterContext.ActionDescriptor.GetCustomAttributes(typeof(PermissionAttribute), false);
-                long id = Convert.ToInt64(Session["AdminId"]);
-                if (attributes.Length > 0)                {
-                    
+                AdminId = Convert.ToInt64(Session["AdminId"]);
+                if (attributes.Length > 0)
+                {                    
                     foreach (var attr in attributes)
                     {
-                        if (!adminService.HasPermission(id, attr.Permission))
+                        if (!adminService.HasPermission(AdminId, attr.Permission))
                         {
                             if (filterContext.HttpContext.Request.IsAjaxRequest())
                             {
@@ -57,7 +58,7 @@ namespace SDMS.Web.Areas.Admin.Controllers.Base
                 {
                     string ipAddress = MVCHelper.GetWebClientIp();
                     string funDescribe = ((ActDescriptionAttribute)attrs[0]).ActDescription;
-                    logService.AddNew(id, ipAddress, "访问执行了" + funDescribe);
+                    logService.AddNew(AdminId, ipAddress, "访问执行了" + funDescribe);
                 }
             }            
             

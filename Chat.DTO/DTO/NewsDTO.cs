@@ -9,7 +9,7 @@ namespace SDMS.DTO.DTO
     public class NewsDTO : BaseDTO
     {
         public string Title { get; set; }
-        public string Content { get; set; }
+        public string Contents { get; set; }
         /// <summary>
         /// 预览内容
         /// </summary>

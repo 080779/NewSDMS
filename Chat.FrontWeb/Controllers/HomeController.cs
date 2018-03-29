@@ -69,9 +69,9 @@ namespace SDMS.Web.Controllers
         public ActionResult Share()
         {
             ShareBonusViewModel model = new ShareBonusViewModel();
-            model.Holder = holderService.GetById(2);
-            model.YesterdayBonus = journalService.YesterdayBonus(2);
-            model.Journals = journalService.GetBonusList(2, 5);
+            model.Holder = holderService.GetById(UserId);
+            model.YesterdayBonus = journalService.YesterdayBonus(UserId);
+            model.Journals = journalService.GetBonusList(UserId, 10);
             return View(model);
         }
 
@@ -81,8 +81,17 @@ namespace SDMS.Web.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult SetPwd(long id, string oldTradePwd, string tradePwd)
+        public ActionResult SetPwd(string oldTradePwd, string tradePwd)
         {
+            long result = holderService.SetTradePwd(UserId, oldTradePwd, tradePwd);
+            if (result<=0)
+            {
+                if(result==-2)
+                {
+                    return Json(new AjaxResult { Status = "0", Msg = "旧交易密码错误" });
+                }
+                return Json(new AjaxResult { Status = "0",Msg="修改失败" });
+            }
             return Json(new AjaxResult { Status = "1", Data = "/home/index" });
         }
     }

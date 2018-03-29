@@ -1,25 +1,30 @@
-﻿
-@model SDMS.Web.Areas.Admin.Models.System.AdminListViewModel
+﻿@model SDMS.Web.Areas.Admin.Models.TakeCash.TakeCashViewModel
 <div class="dataTable">
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="t1">
         <thead>
             <tr>
-                <th>管理员编号</th>
-                <th>姓名</th>
-                <th>注册日期</th>
+                <th>编号</th>
+                <th>提现金额</th>
+                <th>提现消息</th>
+                <th>转账图片</th>
+                <th>是否成功提现</th>
+                <th>提现申请日期</th>
                 <th>操作</th>
             </tr>
         </thead>
         <tbody id="pagerList">
-            @foreach (var admin in Model.AdminList)
+            @foreach (var takeCash in Model.TakeCashes)
             {
                 <tr>
-                    <td align="center">@admin.ID</td>
-                    <td align="center">@admin.UserName</td>
-                    <td align="center">@admin.CreateTime</td>
+                    <td align="center">@takeCash.Id</td>
+                    <td align="center">@takeCash.Amount</td>
+                    <td align="center">@takeCash.Message</td>
+                    <td align="center"><img src="@takeCash.ImgUrl"></td>
+                    <td align="center">@takeCash.TakeCashStateName</td>
+                    <td align="center">@takeCash.CreateTime</td>
                     <td align="center">
-                        <a class="easyui-linkbutton" href="/admin/system/adminedit?id=@admin.ID" iconcls="icon-edit">编辑</a>
-                        <a class="easyui-linkbutton del" iconcls="icon-remove" value="@admin.ID">删除</a>
+                        <a class="easyui-linkbutton" iconcls="icon-edit" href="/admin/takecash/confirm/@takeCash.Id">确认提现</a>
+                        <a class="easyui-linkbutton" iconcls="icon-edit" href="/admin/takecash/reject/@takeCash.Id">驳回</a>
                     </td>
                 </tr>
             }
@@ -29,4 +34,3 @@
 <div class="nextpage">
     @Html.Raw(Model.Page)
 </div>
-

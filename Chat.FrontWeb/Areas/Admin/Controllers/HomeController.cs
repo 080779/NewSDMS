@@ -42,7 +42,6 @@ namespace SDMS.Web.Areas.Admin.Controllers
             model.Name = adminService.GetNameById(Convert.ToInt64(Session["AdminId"]));
             return View(model);
         }
-
         public ActionResult ExportExcel()
         {
             //AdminSearchResult result= adminService.GetPageList(1, 10);            
@@ -54,10 +53,10 @@ namespace SDMS.Web.Areas.Admin.Controllers
             //shareBonusService.Average(1000);
             return View();
         }
-        public ActionResult fh(long id)
+        public ActionResult fh()
         {
-            //shareBonusService.Average(amount);
-            shareBonusService.Directional(id);
+            
+            shareBonusService.Directional();
             return Json(new AjaxResult { Status="1"});
         }
     }

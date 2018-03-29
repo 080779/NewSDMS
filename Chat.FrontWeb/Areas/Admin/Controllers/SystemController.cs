@@ -14,10 +14,10 @@ using System.Web.Mvc;
 namespace SDMS.Web.Areas.Admin.Controllers
 {
     
-    public class SystemController : AdminBaseController
+    public class SystemController : Controller
     {
-        //public IAdminService adminService { get; set; }
-        //public IPermissionService permissionService { get; set; }
+        public IAdminService adminService { get; set; }
+        public IPermissionService permissionService { get; set; }
         public IRoleService roleService { get; set; }
         public IAdminLogService adminLogService { get; set; }
 

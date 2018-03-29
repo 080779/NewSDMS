@@ -38,13 +38,13 @@ namespace SDMS.Service.Service
                 return true;
             }
         }
-        public bool Directional(long setId)
+        public bool Directional()
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<SetShareBonusEntity> cs = new CommonService<SetShareBonusEntity>(dbc);
                 CommonService<HolderEntity> hcs = new CommonService<HolderEntity>(dbc);
-                var set = cs.GetAll().SingleOrDefault(s => s.Id == setId);
+                var set = cs.GetAll().SingleOrDefault(s => s.Id == cs.GetAll().SingleOrDefault(ss=>ss.Name=="bonus").Id);
                 var holders = hcs.GetAll();
                 if(set==null)
                 {

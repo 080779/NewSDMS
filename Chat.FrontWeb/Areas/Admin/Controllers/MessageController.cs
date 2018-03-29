@@ -1,4 +1,7 @@
-﻿using System;
+﻿using SDMS.Common;
+using SDMS.IService.Interface;
+using SDMS.Web.Areas.Admin.Models.Message;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,7 +12,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
     public class MessageController : Controller
     {
         #region 属性注入
-
+        public IMessageService messageService { get; set; }
         #endregion
 
         #region 列表
@@ -17,29 +20,28 @@ namespace SDMS.Web.Areas.Admin.Controllers
         {
             return View();
         }
-        public PartialViewResult ListGetPage(int pageIndex = 1)
+        public PartialViewResult ListGetPage(long? holderId, string name, string mobile, DateTime? startTime, DateTime? endTime, int pageIndex=1)
         {
-            //int pageSize = 3;
-            //AdminListViewModel model = new AdminListViewModel();
-            //AdminSearchResult result = adminService.GetPageList(pageIndex, pageSize);
-            //model.AdminList = result.AdminList;
+            int pageSize = 3;
+            MessageListViewModel model = new MessageListViewModel();
+            MessageSearchResult result = messageService.GetPageList(holderId, name, mobile, startTime, endTime, pageIndex, pageSize);
+            model.Messages = result.Messages;
 
-            ////分页
-            //Pagination pager = new Pagination();
-            //pager.PageIndex = pageIndex;
-            //pager.PageSize = pageSize;
-            //pager.TotalCount = result.TotalCount;
+            //分页
+            Pagination pager = new Pagination();
+            pager.PageIndex = pageIndex;
+            pager.PageSize = pageSize;
+            pager.TotalCount = result.TotalCount;
 
-            //if (result.TotalCount <= pageSize)
-            //{
-            //    model.Page = "";
-            //}
-            //else
-            //{
-            //    model.Page = pager.GetPagerHtml();
-            //}
-            //return PartialView("HolderListPaging", model);
-            return PartialView("HolderListPaging");
+            if (result.TotalCount <= pageSize)
+            {
+                model.Page = "";
+            }
+            else
+            {
+                model.Page = pager.GetPagerHtml();
+            }
+            return PartialView("MessageListPaging", model);
         }
         #endregion
     }

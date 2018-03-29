@@ -68,6 +68,9 @@ namespace SDMS.Service.Service
             using (MyDbContext dbcontext = new MyDbContext())
             {
                 CommonService<JournalEntity> cs = new CommonService<JournalEntity>(dbcontext);
+                CommonService<JournalTypeEntity> jcs = new CommonService<JournalTypeEntity>(dbcontext);
+                long pj = jcs.GetAll().SingleOrDefault(j=>j.Name=="pj").Id;
+                long dx = jcs.GetAll().SingleOrDefault(j => j.Name == "dx").Id;
                 DateTime time = DateTime.Now.AddDays(-1);
                 var bonus = cs.GetAll().Where(j => j.HolderId == id).Where(j => j.CreateTime.Year==time.Year && j.CreateTime.Month==time.Month && j.CreateTime.Day==time.Day).Where(j=>j.JournalTypeId==5 || j.JournalTypeId==7).Sum(j=>j.InAmount);
                 if(bonus==null)

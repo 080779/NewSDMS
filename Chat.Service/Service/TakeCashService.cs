@@ -34,35 +34,38 @@ namespace SDMS.Service.Service
             }
         }
 
-        public int Confirm(long id,string message, string imgUrl, long stateId)
+        public bool Confirm(long id,string imgUrl)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<TakeCashEntity> cs = new CommonService<TakeCashEntity>(dbc);
+                CommonService<TakeCashStateEntity> tcs = new CommonService<TakeCashStateEntity>(dbc);
                 var takeCash = cs.GetAll().SingleOrDefault(t=>t.Id==id);
                 if(takeCash==null)
                 {
-                    return 0;
+                    return false;
                 }
-                if(takeCash.StateId == 1)
+                takeCash.ImgUrl = imgUrl;
+                takeCash.StateId = tcs.GetAll().SingleOrDefault(t => t.Name == "confirm").Id;
+                dbc.SaveChanges();
+                return true;
+            }
+        }
+        public bool Reject(long id, string message)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<TakeCashEntity> cs = new CommonService<TakeCashEntity>(dbc);
+                CommonService<TakeCashStateEntity> tcs = new CommonService<TakeCashStateEntity>(dbc);
+                var takeCash = cs.GetAll().SingleOrDefault(t => t.Id == id);
+                if (takeCash == null)
                 {
-                    return -1;
+                    return false;
                 }
-                if(stateId == 1)
-                {
-                    takeCash.Message = message;
-                    takeCash.StateId = stateId;
-                    dbc.SaveChanges();
-                    return 1;
-                }
-                else if(stateId == 2)
-                {
-                    takeCash.ImgUrl = imgUrl;
-                    takeCash.StateId = stateId;
-                    dbc.SaveChanges();
-                    return 2;
-                }
-                return 1;
+                takeCash.Message = message;
+                takeCash.StateId = tcs.GetAll().SingleOrDefault(t => t.Name == "reject").Id;
+                dbc.SaveChanges();
+                return true;
             }
         }
 

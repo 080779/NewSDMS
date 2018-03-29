@@ -18,6 +18,6 @@ namespace SDMS.IService.Interface
         /// 定向分红
         /// </summary>
         /// <returns></returns>
-        bool Directional(long setId);
+        bool Directional();
     }
 }

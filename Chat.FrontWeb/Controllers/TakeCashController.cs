@@ -17,8 +17,8 @@ namespace SDMS.Web.Controllers
         public ActionResult List()
         {
             TakeCashListViewModel model = new TakeCashListViewModel();
-            model.TakeCashes= takeCashService.GetByHolderId(2);
-            model.Holder = holderService.GetById(2);
+            model.TakeCashes= takeCashService.GetByHolderId(UserId);
+            model.Holder = holderService.GetById(UserId);
             return View(model);
         }
         [HttpGet]
@@ -27,9 +27,9 @@ namespace SDMS.Web.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Apply(long id,decimal amount)
+        public ActionResult Apply(decimal amount)
         {
-            takeCashService.Apply(id, amount);
+            takeCashService.Apply(UserId, amount);
             return Json(new AjaxResult { Status = "1" });
         }
     }

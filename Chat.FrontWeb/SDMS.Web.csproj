@@ -90,17 +90,20 @@
     <Reference Include="Quartz, Version=3.0.4.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
       <HintPath>..\packages\Quartz.3.0.4\lib\net452\Quartz.dll</HintPath>
     </Reference>
-    <Reference Include="Senparc.Weixin">
-      <HintPath>..\..\WeChatDemo\src\Senparc.Weixin\Senparc.Weixin\bin\Debug\Senparc.Weixin.dll</HintPath>
+    <Reference Include="Senparc.Weixin, Version=4.20.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Senparc.Weixin.4.20.2\lib\net45\Senparc.Weixin.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Senparc.Weixin.MP">
-      <HintPath>..\..\WeChatDemo\src\Senparc.Weixin.MP\Senparc.Weixin.MP\obj\Debug\Senparc.Weixin.MP.dll</HintPath>
+    <Reference Include="Senparc.Weixin.MP, Version=14.10.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Senparc.Weixin.MP.14.10.10\lib\net45\Senparc.Weixin.MP.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -658,7 +661,6 @@
     <Content Include="css\style.css" />
     <Content Include="css\webarch.css" />
     <Content Include="Global.asax" />
-    <Content Include="Areas\Admin\Views\Home\memberline.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\HolderListPaging.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\NewsListPaging.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\TakeCashApplyPaging.cshtml" />
@@ -685,6 +687,8 @@
     <Content Include="Areas\Admin\Views\Manager\Login.cshtml" />
     <Content Include="Areas\Admin\Views\System\Log.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\LogListPaging.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\MessageListPaging.cshtml" />
+    <Content Include="Areas\Admin\Views\Message\List.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -752,20 +756,19 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="wechat.ashx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\ActDescriptionAttribute.cs" />
     <Compile Include="Areas\Admin\Controllers\ManagerController.cs" />
     <Compile Include="Areas\Admin\Models\Holder\HolderEditModel.cs" />
+    <Compile Include="Areas\Admin\Models\Message\MessageListViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\News\NewsEditModel.cs" />
+    <Compile Include="Areas\Admin\Models\StockItemModel.cs" />
     <Compile Include="Areas\Admin\Models\System\AdminAddModel.cs" />
     <Compile Include="Areas\Admin\Models\System\AdminEditModel.cs" />
     <Compile Include="Areas\Admin\Models\System\LogListViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\TakeCash\TakeCashViewModel.cs" />
     <Compile Include="Models\TakeCash\TakeCashListViewModel.cs" />
-    <Compile Include="wechat.ashx.cs">
-      <DependentUpon>wechat.ashx</DependentUpon>
-    </Compile>
-    <Compile Include="WeChatController.cs" />
     <Compile Include="App_Start\NoPermissionAttribute.cs" />
     <Compile Include="App_Start\PermissionAttribute.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -842,10 +845,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Models\Message\" />
     <Folder Include="Areas\Admin\Models\Statistical\" />
     <Folder Include="Areas\Admin\Views\Api\" />
-    <Folder Include="Areas\Admin\Views\Message\" />
     <Folder Include="Upload\VerifyCode\Admin\" />
     <Folder Include="Upload\VerifyCode\Front\" />
     <Folder Include="Views\Share\" />

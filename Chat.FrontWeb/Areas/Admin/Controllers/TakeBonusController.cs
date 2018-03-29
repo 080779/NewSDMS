@@ -1,4 +1,5 @@
 ﻿using SDMS.Common;
+using SDMS.IService.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +14,16 @@ namespace SDMS.Web.Areas.Admin.Controllers
     public class TakeBonusController : Controller
     {
         #region 属性注入
-
+        public IShareBonusService shareBonusService { get; set; }
         #endregion
 
         #region 分红设置
+        [HttpGet]
         public ActionResult SetUp()
         {
             return View();
         }
+        [HttpPost]
         public ActionResult SetUp(string s)
         {
             return Json(new AjaxResult { Status = "1" });
@@ -28,12 +31,15 @@ namespace SDMS.Web.Areas.Admin.Controllers
         #endregion
 
         #region 分红发放
+        [HttpGet]
         public ActionResult Issue()
         {
             return View();
         }
-        public ActionResult Issue(string s)
+        [HttpPost]
+        public ActionResult Issue(decimal amount)
         {
+            shareBonusService.Average(amount);
             return Json(new AjaxResult { Status = "1" });
         }
         #endregion

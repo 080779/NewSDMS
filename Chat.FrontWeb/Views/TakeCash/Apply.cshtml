@@ -24,7 +24,6 @@
         <div class="form-lg">
             <span>￥</span>
             <input type="text" id="amount" value="" placeholder="输入提现金额" />
-            <input type="hidden" id="id" value="" />
         </div>
     </div>
     <div class="form">
@@ -87,10 +86,9 @@
     <script type="text/javascript">
         $(function () {
             $("#btnSubmit").click(function () {
-                var id = $("#id").val();
                 var amount = $("#amount").val();
                 $.ajax({
-                    url: "/takecash/apply", type: "post", data: { id: id, amount: amount },
+                    url: "/takecash/apply", type: "post", data: { amount: amount },
                     success: function (result) {
                         if (result.status == "1") {
                             window.location.href = "/";

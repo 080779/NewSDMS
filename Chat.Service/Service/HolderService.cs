@@ -319,5 +319,28 @@ namespace SDMS.Service.Service
                 return holder.Id;
             }
         }
+        public long SetTradePwd(long id, string oldTradePwd, string tradePwd)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<HolderEntity> cs = new CommonService<HolderEntity>(dbc);
+                var holer = cs.GetAll().SingleOrDefault(h => h.Id == id);
+                if (holer == null)
+                {
+                    return -1;
+                }
+                if (string.IsNullOrEmpty(holer.TradePassword))
+                {
+                    holer.TradePassword = tradePwd;
+                }
+                if (holer.TradePassword != oldTradePwd)
+                {
+                    return -2;
+                }
+                holer.TradePassword = tradePwd;
+                dbc.SaveChanges();
+                return 1;
+            }
+        }
     }
 }

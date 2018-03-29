@@ -112,7 +112,7 @@ namespace SDMS.Service.Service
             NewsDTO dto = new NewsDTO();
             dto.AdminId = entity.AdminId;
             dto.Click = entity.Click;
-            dto.Content = entity.Contents;
+            dto.Contents = entity.Contents;
             dto.CreateTime = entity.CreateTime;
             dto.Id = entity.Id;
             dto.ImgURL = entity.ImgURL;

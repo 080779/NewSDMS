@@ -1,6 +1,7 @@
 ﻿using CodeCarvings.Piczard;
 using SDMS.Common;
 using SDMS.IService.Interface;
+using SDMS.Web.Areas.Admin.Controllers.Base;
 using SDMS.Web.Areas.Admin.Models.News;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
     /// <summary>
     /// 公告管理
     /// </summary>
-    public class NewsController : Controller
+    public class NewsController : AdminBaseController
     {
         #region 属性注入
         public INewsService newService { get; set; }
@@ -87,7 +88,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
             }
             try
             {
-                long id = newService.AddNew(1, model.Title, SaveImg(imgBytes, ext), model.Contents);
+                long id = newService.AddNew(AdminId, model.Title, SaveImg(imgBytes, ext), model.Contents);
             }
             catch(DbEntityValidationException ex)
             {
@@ -105,8 +106,40 @@ namespace SDMS.Web.Areas.Admin.Controllers
             return View(dto);
         }
         [HttpPost]
-        public ActionResult Edit(long id, string a)
+        public ActionResult Edit(NewsEditModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return Json(MVCHelper.GetJsonValidMsg(ModelState));
+            }
+
+            string[] strs = model.ImgURL.Split(',');
+            string[] formats = strs[0].Replace(";base64", "").Split(':');
+            string img = strs[1];
+            string format = formats[1];
+            string[] imgFormats = { "image/png", "image/jpg", "image/jpeg", "image/bmp", "IMAGE/PNG", "IMAGE/JPG", "IMAGE/JPEG", "IMAGE/BMP" };
+            byte[] imgBytes;
+            if (!imgFormats.Contains(format))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "请选择正确的图片格式，支持png、jpg、jpeg、png格式" });
+            }
+            string ext = "." + format.Split('/')[1];
+            try
+            {
+                imgBytes = Convert.FromBase64String(img);
+            }
+            catch (Exception ex)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "图片解密错误" });
+            }
+            try
+            {
+                newService.Update(model.Id, model.Title, model.Contents, SaveImg(imgBytes, ext));
+            }
+            catch (DbEntityValidationException ex)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = ex.Message });
+            }
             return Json(new AjaxResult { Status = "1" });
         }
         #endregion
@@ -115,6 +148,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Del(long id)
         {
+            newService.Delete(id);
             return Json(new AjaxResult { Status = "1" });
         }
         #endregion
@@ -151,7 +185,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
         #endregion
 
         public ActionResult Link()
-        {
+        { 
             return View();
         }
     }

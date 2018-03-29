@@ -1,0 +1,28 @@
+﻿
+@model SDMS.Web.Areas.Admin.Models.Message.MessageListViewModel
+<div class="dataTable">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="t1">
+        <thead>
+            <tr>
+                <th>姓名</th>
+                <th>公告标题</th>
+                <th>留言内容</th>
+                <th>留言日期</th>
+            </tr>
+        </thead>
+        <tbody id="pagerList">
+            @foreach (var message in Model.Messages)
+            {
+            <tr>
+                <td align="center">@message.HolderName</td>
+                <td align="center">@message.NewsTitle</td>
+                <td align="center">@message.Contents</td>
+                <td align="center">@message.CreateTime</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="nextpage">
+    @Html.Raw(Model.Page)
+</div>
