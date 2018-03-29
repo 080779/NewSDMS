@@ -6,6 +6,8 @@
             <tr>
                 <th>管理员编号</th>
                 <th>姓名</th>
+                <th>手机号</th>
+                <th>描述</th>
                 <th>注册日期</th>
                 <th>操作</th>
             </tr>
@@ -13,15 +15,17 @@
         <tbody id="pagerList">
             @foreach (var admin in Model.AdminList)
             {
-                <tr>
-                    <td align="center">@admin.ID</td>
-                    <td align="center">@admin.UserName</td>
-                    <td align="center">@admin.CreateTime</td>
-                    <td align="center">
-                        <a class="easyui-linkbutton" href="/admin/system/adminedit?id=@admin.ID" iconcls="icon-edit">编辑</a>
-                        <a class="easyui-linkbutton del" iconcls="icon-remove" value="@admin.ID">删除</a>
-                    </td>
-                </tr>
+            <tr>
+                <td align="center">@admin.Id</td>
+                <td align="center">@admin.Name</td>
+                <td align="center">@admin.Mobile</td>
+                <td align="center">@admin.Description</td>
+                <td align="center">@admin.CreateTime</td>
+                <td align="center">
+                    <a class="easyui-linkbutton" href="/admin/system/adminedit?id=@admin.Id" iconcls="icon-edit">编辑</a>
+                    <a class="easyui-linkbutton del" iconcls="icon-remove" value="@admin.Id">删除</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

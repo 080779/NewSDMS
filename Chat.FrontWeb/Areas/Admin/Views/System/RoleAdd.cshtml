@@ -1,68 +1,97 @@
-﻿@model SDMS.Web.Areas.Admin.Models.System.RoleAddViewModel
-@{
-    ViewBag.Title = "添加角色";
-    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
-}
-<div class="operation">
-    <fieldset class="fieldset">
-        <table>
-            <tr>                
-                <td align="right">
-                    <p style="color:Red">*</p> 角色名：
-                </td>
-                <td>
-                    <input type="text" id="txtName" class="input_select" />
-                </td>
-            </tr>
-            <tr>
-                <td align="right">
-                    <p style="color:Red">*</p> 描述：
-                </td>
-                <td>
-                    <input type="text" id="txtDescription" class="input_select" />
-                </td>
-            </tr>            
-        </table>
-    </fieldset><br />
-    <fieldset class="fieldset">
-        <div class="cdiv" style="padding-left:15px;">
-            @foreach (var father in Model.PermissionList)
-            {
-                @father.Parent.MenuName<input type="checkbox" class="permission" value="@father.Parent.ID" /><br />
-                foreach (var child in father.Child)
-                {
-                    @child.MenuName<input type="checkbox" class="permission" value="@child.ID" />
-                }
-                <br />
-            }
+﻿@model SDMS.DTO.DTO.PermissionDTO[]
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>添加角色</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/font-awesome.css" rel="stylesheet" />
+    <style type="text/css">
+    </style>
+</head>
+<body>
+    <div>
+        <div class="form-group fast">
+            <div class="form-horizontal col-md-12">
+                <label class="col-sm-2 control-label">
+                    <span class="text-danger">*</span>
+                    角色名：
+                </label>
+                <div class="col-sm-4">
+                    <input type="text" id="name" class="form-control" />
+                </div>
+            </div>
         </div>
-    </fieldset>
-    <a class="easyui-linkbutton" id="btnSave" >提交</a>
-</div>
-<script type="text/javascript">
-    $(function () {
-        $("#btnSave").click(function () {
-            var permissionIds = new Array();
-            var name = $("#txtName").val();
-            var description = $("#txtDescription").val();
-            $(".permission").each(function () {
-                if ($(this).is(":checked")) {
-                    permissionIds.push($(this).val());
-                }
-            });
-            $.ajax({
-                url: "/admin/system/roleadd", type: "post", data: { name: name, description: description, permissionIds: permissionIds },
-                success: function (result) {
-                    if (result.status == "1") {
-                        alert("角色添加成功");
-                        window.location.href = result.data;
+        <div class="form-group fast">
+            <div class="form-horizontal col-md-12">
+                <label class="col-sm-2 control-label">
+                    <span class="text-danger">*</span>
+                    描述：
+                </label>
+                <div class="col-sm-4">
+                    <input type="text" id="description" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group fast">
+            <div class="form-horizontal col-md-12">
+                <label class="col-sm-2 control-label">
+                    <span class="text-danger">*</span>
+                    权限：
+                </label>
+                <div class="col-sm-4">
+                    <table>
+                        @foreach (var perm in Model)
+                        {
+                            <tr>
+                                <td><input type="checkbox" value="@perm.Id" class="perm" /></td>
+                                <td>@perm.Name</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="form-group fast">
+            <div class="form-horizontal col-md-12">
+                <label class="col-sm-2 control-label">
+                </label>
+                <div class="col-sm-2">
+                    <input type="button" id="btnSave" class="form-control" value="提交" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnSave").click(function () {
+                var permIds = new Array();
+                var name = $("#name").val();
+                var description = $("#description").val();
+                $(".perm").each(function () {
+                    if ($(this).is(":checked")) {
+                        permIds.push($(this).val());
                     }
-                    else if (result.status == "0") {
-                        alert(result.msg);
-                    }
-                },
-                error: function () { alert("网络错误"); }
+                });
+                $.ajax({
+                    url: "/admin/system/roleadd", type: "post",
+                    data: { name: name, description: description, permIds: permIds },
+                    success: function (result) {
+                        if (result.status == "1") {
+                            alert(result.data);
+                        }
+                        else if (result.status == "0") {
+                            alert(result.msg);
+                        }
+                        else {
+                            alert("未知错误");
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
             });
         });
-    });
-</script>
+    </script>
+</body>
+</html>

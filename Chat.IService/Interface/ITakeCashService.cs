@@ -10,9 +10,9 @@ namespace SDMS.IService.Interface
     public interface ITakeCashService:IServiceSupport
     {
         long Apply(long holderId,decimal Amount);
-        int Confirm(long id, string message, string imgUrl, int flag);
+        int Confirm(long id, string message, string imgUrl, long stateId);
         TakeCashSearchResult GetPageList(string name,string mobile,DateTime? startTime,DateTime? endTime,int pageIndex,int pageSize);
-
+        TakeCashDTO[] GetByHolderId(long id);
     }
     public class TakeCashSearchResult
     {

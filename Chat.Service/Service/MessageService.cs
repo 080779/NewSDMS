@@ -11,12 +11,12 @@ namespace SDMS.Service.Service
 {
     public class MessageService : IMessageService
     {
-        public long AddNew(long holderId,long newsId, string Content)
+        public long AddNew(long holderId,long newsId, string contents)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 MessageEntity entity = new MessageEntity();
-                entity.Content = Content;
+                entity.Contents = contents;
                 entity.HolderId = holderId;
                 entity.NewsId = newsId;
                 dbc.Messages.Add(entity);
@@ -65,7 +65,7 @@ namespace SDMS.Service.Service
         public MessageDTO ToDTO(MessageEntity entity)
         {
             MessageDTO dto = new MessageDTO();
-            dto.Content = entity.Content;
+            dto.Contents = entity.Contents;
             dto.CreateTime = entity.CreateTime;
             dto.Flag = entity.Flag;
             dto.HolderId = entity.HolderId;

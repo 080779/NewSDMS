@@ -8,7 +8,7 @@ namespace SDMS.Web.Areas.Admin.Models.System
 {
     public class AdminListViewModel
     {
-        public AdminListDTO[] AdminList { get; set; }
+        public AdminDTO[] AdminList { get; set; }
         public string Page { get; set; }
     }
 }

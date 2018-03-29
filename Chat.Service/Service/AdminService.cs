@@ -13,17 +13,29 @@ namespace SDMS.Service.Service
 {
     public class AdminService : IAdminService
     {
-        public long AddNew(string userName, string pwd, long?[] roleIds)
+        public long AddNew(string name, string mobile, string description, string password, long?[] roleIds)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<RoleEntity> cs = new CommonService<RoleEntity>(dbc);
+                CommonService<AdminEntity> acs = new CommonService<AdminEntity>(dbc);
+                var entity = acs.GetAll().SingleOrDefault(a => a.Name == name);
+                if(entity!=null)
+                {
+                    return -2;
+                }
                 AdminEntity admin = new AdminEntity();
-                admin.Name = userName;
-                admin.PasswordHash = CommonHelper.GetMD5(pwd);
-                //admin.ThirdPassword = CommonHelper.GetMD5(tpwd);
+                admin.Name = name;
+                admin.Mobile = mobile;
+                admin.Description = description;
+                admin.PasswordSalt = CommonHelper.GetCaptcha(4);
+                admin.PasswordHash = CommonHelper.GetMD5(password + admin.PasswordSalt);
                 var roles= cs.GetAll().Where(r => roleIds.Contains(r.Id));
-                foreach(var role in roles)
+                if (roles == null)
+                {
+                    return -1;
+                }
+                foreach (var role in roles)
                 {
                     admin.Roles.Add(role);
                 } 
@@ -42,7 +54,7 @@ namespace SDMS.Service.Service
             }
         }
 
-        public bool Update(long Id,string userName, string pwd, long?[] roleIds)
+        public bool Update(long Id, string name, string mobile, string description, string password, long?[] roleIds)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
@@ -53,17 +65,19 @@ namespace SDMS.Service.Service
                 {
                     return false;
                 }
-                admin.Name = userName;
-                if(!string.IsNullOrEmpty(pwd))
+                admin.Name = name;
+                admin.Mobile = mobile;
+                admin.Description = description;
+                if(!string.IsNullOrEmpty(password))
                 {
-                    admin.PasswordHash = CommonHelper.GetMD5(pwd);
+                    admin.PasswordHash = CommonHelper.GetMD5(password+admin.PasswordSalt);
                 }
-                //if (!string.IsNullOrEmpty(tpwd))
-                //{
-                //    admin.ThirdPassword = CommonHelper.GetMD5(tpwd);
-                //}
                 admin.Roles.Clear();
                 var roles = cs.GetAll().Where(r => roleIds.Contains(r.Id));
+                if(roles==null)
+                {
+                    return false;
+                }
                 foreach (var role in roles)
                 {
                     admin.Roles.Add(role);
@@ -78,12 +92,12 @@ namespace SDMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<AdminEntity> cs = new CommonService<AdminEntity>(dbc);
-                var admin = cs.GetAll().SingleOrDefault(a=>a.Id==Id);
-                if(admin==null)
+                var admin = cs.GetAll().SingleOrDefault(a => a.Id == Id);
+                if (admin == null)
                 {
                     return null;
                 }
-                return new AdminEditDTO { CreateTime = admin.CreateTime, Id = admin.Id, UserName = admin.Name, RoleIds = admin.Roles.Select(r => new RoleIdDTO { Id=r.Id}).ToArray() };
+                return new AdminEditDTO { Mobile = admin.Mobile, Description = admin.Description, CreateTime = admin.CreateTime, Id = admin.Id, Name = admin.Name, RoleIds = admin.Roles.Select(r => new RoleIdDTO { Id = r.Id }).ToArray() };
             }
         }
 
@@ -97,7 +111,7 @@ namespace SDMS.Service.Service
                 {
                     return null;
                 }
-                return new AdminDTO { CreateTime = admin.CreateTime, Id = admin.Id, UserName = admin.Name, TrueName = admin.TrueName};
+                return new AdminDTO { CreateTime = admin.CreateTime, Id = admin.Id, Name = admin.Name, TrueName = admin.TrueName};
             }
         }
 
@@ -128,7 +142,7 @@ namespace SDMS.Service.Service
                 }
                 admins = admins.Where(a => a.Name != "admin");
                 result.TotalCount = admins.LongCount();
-                result.AdminList = admins.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList().Select(a => new AdminListDTO { Id = a.Id, CreateTime = a.CreateTime, UserName = a.Name }).ToArray();
+                result.AdminList = admins.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList().Select(a => ToDTO(a)).ToArray();
                 return result;
             }
         }
@@ -163,22 +177,47 @@ namespace SDMS.Service.Service
             }
         }
 
-        public long CheckLogin(string usercode, string password)
+        public long CheckLogin(string name, string password)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<AdminEntity> cs = new CommonService<AdminEntity>(dbc);
-                var admin = cs.GetAll().SingleOrDefault(a => a.Name == usercode);
+                var admin = cs.GetAll().SingleOrDefault(a => a.Name == name);
                 if (admin == null)
                 {
                     return 0;//账户不存在
                 }
-                if (admin.PasswordHash != CommonHelper.GetMD5(password))
+                if (admin.PasswordHash != CommonHelper.GetMD5(password+admin.PasswordSalt))
                 {
                     return -1;//密码错误
                 }
                 return admin.Id;
             }
+        }
+
+        public string GetNameById(long id)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<AdminEntity> cs = new CommonService<AdminEntity>(dbc);
+                var admin = cs.GetAll().SingleOrDefault(a => a.Id == id);
+                if (admin == null)
+                {
+                    return null;
+                }
+                return admin.Name;
+            }
+        }
+        public AdminDTO ToDTO(AdminEntity entity)
+        {
+            AdminDTO dto = new AdminDTO();
+            dto.CreateTime = entity.CreateTime;
+            dto.Description = entity.Description;
+            dto.Id = entity.Id;
+            dto.Mobile = entity.Mobile;
+            dto.Name = entity.Name;
+            dto.TrueName = entity.TrueName;
+            return dto;
         }
     }
 }

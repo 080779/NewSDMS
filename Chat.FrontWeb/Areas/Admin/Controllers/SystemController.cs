@@ -16,10 +16,13 @@ namespace SDMS.Web.Areas.Admin.Controllers
     
     public class SystemController : AdminBaseController
     {
+        //public IAdminService adminService { get; set; }
+        //public IPermissionService permissionService { get; set; }
         public IRoleService roleService { get; set; }
-        public IPermissionService permissionService { get; set; }
+        public IAdminLogService adminLogService { get; set; }
 
         #region 管理员管理
+        //[ActDescription("答题活动列表")]
         public ActionResult AdminManager()
         {            
             return View();
@@ -56,35 +59,24 @@ namespace SDMS.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult AdminAdd(string userName,string pwd,string spwd,string tpwd,long?[] roleIds)
+        public ActionResult AdminAdd(AdminAddModel model)
         {
-            if(string.IsNullOrEmpty(userName))
+            if(string.IsNullOrEmpty(model.Name))
             {
-                return Json(new AjaxResult { Status = "0",Msg="用户名不能为空"});
+                return Json(new AjaxResult { Status = "0",Msg="管理员名不能为空"});
             }
-            if(adminService.CheckUserName(userName))
-            {
-                return Json(new AjaxResult { Status = "0", Msg = "用户名已经存在" });
-            }
-            if (string.IsNullOrEmpty(pwd))
-            {
-                return Json(new AjaxResult { Status = "0", Msg = "登录密码不能为空" });
-            }
-            if (string.IsNullOrEmpty(spwd))
-            {
-                return Json(new AjaxResult { Status = "0", Msg = "二级密码不能为空" });
-            }
-            if (string.IsNullOrEmpty(tpwd))
-            {
-                return Json(new AjaxResult { Status = "0", Msg = "三级密码不能为空" });
-            }
-            if (roleIds==null)
+            
+            if (model.RoleIds==null)
             {
                 return Json(new AjaxResult { Status = "0", Msg = "角色必须选择" });
             }
-            long id=adminService.AddNew(userName, pwd, roleIds);
+            long id=adminService.AddNew(model.Name,model.Mobile,model.Description,model.Password,model.RoleIds);
             if(id<=0)
             {
+                if(id==-2)
+                {
+                    return Json(new AjaxResult { Status = "0", Msg = "管理员已经存在" });
+                }
                 return Json(new AjaxResult { Status = "0", Msg = "管理员用户添加失败" });
             }
             return Json(new AjaxResult { Status = "1", Data = "/admin/system/adminmanager" });
@@ -105,17 +97,17 @@ namespace SDMS.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult AdminEdit(long id, string userName, string pwd, string spwd, string tpwd, long?[] roleIds)
+        public ActionResult AdminEdit(AdminEditModel model)
         {
-            if (string.IsNullOrEmpty(userName))
+            if (string.IsNullOrEmpty(model.Name))
             {
                 return Json(new AjaxResult { Status = "0", Msg = "用户名不能为空" });
             }
-            if(roleIds==null)
+            if(model.RoleIds==null)
             {
                 return Json(new AjaxResult { Status = "0", Msg = "角色必须选择" });
             }
-            if (!adminService.Update(id, userName, pwd, roleIds))
+            if (!adminService.Update(model.Id,model.Name,model.Mobile,model.Description,model.Password,model.RoleIds))
             {
                 return Json(new AjaxResult { Status = "0", Msg = "管理员用户编辑失败" });
             }
@@ -135,32 +127,24 @@ namespace SDMS.Web.Areas.Admin.Controllers
         #region 角色管理
         public ActionResult RoleManager()
         {
-            RoleDTO[] dtos= roleService.GetAll();
-            return View(dtos);
+            return View();
+        }
+
+        public PartialViewResult RoleManagerGetPage()
+        {
+            RoleDTO[]
+            dtos = roleService.GetAll();
+            return PartialView("RoleManagerPaging", dtos);
         }
 
         public ActionResult RoleAdd()
         {
-            RoleAddViewModel model = new RoleAddViewModel();
-
-            //List<Permissions> MenuList = new List<Permissions>();
-            //foreach (var parent in permissionService.GetByParentId(0))
-            //{
-            //    Permissions parentList = new Permissions();
-            //    parentList.Parent = parent;
-            //    if (permissionService.GetByParentId((long)parent.TypeId) == null)
-            //    {
-            //        continue;
-            //    }
-            //    parentList.Child = permissionService.GetByParentId((long)parent.TypeId);
-            //    MenuList.Add(parentList);
-            //}
-            //model.PermissionList = MenuList;
+            var model= permissionService.GetAll();
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult RoleAdd(string name,string description ,long?[] permissionIds)
+        public ActionResult RoleAdd(string name,string description ,long?[] permIds)
         {
             if(string.IsNullOrEmpty(name))
             {
@@ -170,11 +154,11 @@ namespace SDMS.Web.Areas.Admin.Controllers
             {
                 return Json(new AjaxResult { Status = "0", Msg = "角色描述不能为空" });
             }
-            if(permissionIds==null)
+            if(permIds == null)
             {
                 return Json(new AjaxResult { Status = "0", Msg = "请选择权限项" });
             }
-            if (roleService.AddNew(name,description,permissionIds)<=0)
+            if (roleService.AddNew(name,description, permIds) <=0)
             {
                 return Json(new AjaxResult { Status = "0", Msg = "角色添加失败" });
             }
@@ -185,26 +169,14 @@ namespace SDMS.Web.Areas.Admin.Controllers
         {
             RoleEditViewModel model = new RoleEditViewModel();
 
-            List<Permissions> MenuList = new List<Permissions>();
-            //foreach (var parent in permissionService.GetByParentId(0))
-            //{
-            //    Permissions parentList = new Permissions();
-            //    parentList.Parent = parent;
-            //    if (permissionService.GetByParentId((long)parent.TypeId) == null)
-            //    {
-            //        continue;
-            //    }
-            //    parentList.Child = permissionService.GetByParentId((long)parent.TypeId);
-            //    MenuList.Add(parentList);
-            //}
-            model.PermissionList = MenuList;     
-            model.PermissionIds = permissionService.GetByRoleId(id);
+            model.PermIds = permissionService.GetByRoleId(id);
             model.Role = roleService.GetById(id);
+            model.Permissions = permissionService.GetAll();
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult RoleEdit(long? id,string name, string description, long?[] permissionIds)
+        public ActionResult RoleEdit(long? id,string name, string description, long?[] permIds)
         {
             if(id==null)
             {
@@ -218,11 +190,11 @@ namespace SDMS.Web.Areas.Admin.Controllers
             {
                 return Json(new AjaxResult { Status = "0", Msg = "角色描述不能为空" });
             }
-            if (permissionIds == null)
+            if (permIds == null)
             {
                 return Json(new AjaxResult { Status = "0", Msg = "请选择权限项" });
             }
-            if (!roleService.Update((long)id,name, description, permissionIds))
+            if (!roleService.Update((long)id,name, description, permIds))
             {
                 return Json(new AjaxResult { Status = "0", Msg = "角色编辑失败" });
             }
@@ -246,6 +218,35 @@ namespace SDMS.Web.Areas.Admin.Controllers
             }
             return Json(new AjaxResult { Status = "1", Data = "/admin/system/rolemanager" });
         }
-        #endregion                
+        #endregion
+        #region 日志列表
+        public ActionResult Log()
+        {
+            return View();
+        }
+        public PartialViewResult LogList(DateTime? startTime,DateTime? endTime,int pageIndex=1)
+        {
+            int pageSize = 3;
+            LogListViewModel model = new LogListViewModel();
+            AdminLogSearchResult result = adminLogService.GetPageList(startTime, endTime,null, pageIndex, pageSize);
+            model.AdminLogs = result.AdminLogs;
+
+            //分页
+            Pagination pager = new Pagination();
+            pager.PageIndex = pageIndex;
+            pager.PageSize = pageSize;
+            pager.TotalCount = result.TotalCount;
+
+            if (result.TotalCount <= pageSize)
+            {
+                model.Page = "";
+            }
+            else
+            {
+                model.Page = pager.GetPagerHtml();
+            }
+            return PartialView("LogListPaging", model);
+        }
+        #endregion
     }
 }

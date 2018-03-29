@@ -1,0 +1,78 @@
+html,body {
+    font-family: Arial, "Î¢ÈíÑÅºÚ",;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    background-color: #006599;
+    background: url(../images/bg99.gif);
+    *overflow-y:hidden;
+}
+
+#big_box {
+    width: 877px;
+    height: 478px;
+    margin: 100px 0 0 0;
+    position: relative;
+    background:url(../images/bg_199.gif) no-repeat;
+}
+
+/*.logo {
+    position: absolute;
+    left: 265px;
+    top: 10px;
+}*/
+.loginbox {
+    width: 300px;
+    position: absolute;
+    right: 280px;
+    top: 195px;
+}
+    .loginbox .tb {
+        width: 300px;
+    }
+        .loginbox .tb tr {
+            line-height: 20px;
+            text-align: left;
+        }
+            .loginbox .tb tr td {
+            line-height: 20px;
+            width:114px;
+        }
+.loginin {
+    border: 1px solid #30a2c4;
+    height: 20px;
+    width: 100px;
+    font-size: 16px;
+    color: #000000;
+    background: #FFFFFF;
+}
+.title {
+    text-align:right;
+    width:100px;
+    padding-right:10px;
+}
+.loginvadate {
+    border: 1px solid #30a2c4;
+    height: 21px;
+    width: 100px;
+    font-size: 16px;
+    color: #000000;
+    background: #FFFFFF;
+}
+.btn {
+    cursor: pointer;
+}
+#checkCode {
+    width: 70px;
+    height: 22px;
+    *height:27px;
+    color: red;
+    font-size: 20px;
+    *font-size:16px;
+    border: 0;
+    background: 0;
+    cursor: pointer;
+    line-height:22px;
+    *line-height:27px;
+}
+

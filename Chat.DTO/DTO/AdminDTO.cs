@@ -9,17 +9,17 @@ namespace SDMS.DTO.DTO
 {
     public class AdminDTO:BaseDTO
     {
-        public string UserName { get; set; }
+        public string Name { get; set; }
         public string TrueName { get; set; }
-        public string Password { get; set; }
-        public string SecondPassword { get; set; }
-        public string ThirdPassword { get; set; }
-        public string FourPassword { get; set; }
+        public string Description { get; set; }
+        public string Mobile { get; set; }
     }
 
     public class AdminEditDTO:BaseDTO
     {
-        public string UserName { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Mobile { get; set; }
         public RoleIdDTO[] RoleIds { get; set; }
     }
 
@@ -29,7 +29,7 @@ namespace SDMS.DTO.DTO
         [ExportExcelName("编号")]
         public long Id { get; set; }
         [ExportExcelName("姓名")]
-        public string UserName { get; set; }
+        public string Name { get; set; }
         [ExportExcelName("创建时间")]
         public DateTime CreateTime { get; set; }
     }

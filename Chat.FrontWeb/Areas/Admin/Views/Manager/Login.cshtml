@@ -1,0 +1,84 @@
+﻿<script type="text/javascript">
+    //判断一下当前是不是做顶层，如果不是，则做一下顶层页面重定向       
+    if (window != top) {
+        top.location.href = location.href;
+    }
+</script>
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>登录</title>
+    <link href="/css/login.css" rel="stylesheet" type="text/css" />
+</head>
+<body bgcolor="#fffcda">
+    <div id="big_box">
+        <div class="loginbox">
+            <table class="tb" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="title">
+                        账&nbsp;&nbsp;号
+                    </td>
+                    <td>
+                        <input class="loginin" id="name" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">
+                        密&nbsp;&nbsp;码
+                    </td>
+                    <td>
+                        <input class="loginin" id="password" type="password" />
+                    </td>
+                </tr>
+                @*<tr>
+                        <td class="title">
+                            验证码
+                        </td>
+
+                        <td>
+                            <input class="loginvadate" id="verifyCode" type="text" />&nbsp;
+
+                        </td>
+                        <td>
+                            <img id="verifyImage" style="cursor:pointer" title="点击刷新验证码" src="/admin/user/createverifycode" height="34" class="left" />
+                        </td>
+                    </tr>*@
+                <tr>
+                    <td class="title"></td>
+                    <td>
+                        <input type="button" id="btnSave" value="提 交" />
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <script src="~/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" language="javascript">
+        $(function () {
+            //$("#verifyImage").click(function () {
+            //    $(this).attr("src", "/admin/user/createverifycode?img=" + Math.random());
+            //});
+
+            $("#btnSave").click(function () {
+                var name = $("#name").val();
+                var password = $("#password").val();
+                //var verifyCode = $("#verifyCode").val();
+                $.ajax({
+                    url: "/admin/manager/login", type: "post", data: { name: name, password: password },
+                    success: function (result) {
+                        if (result.status == "1") {
+                            window.location.href = result.data;
+                        }
+                        else if (result.status == "0") {
+                            alert(result.msg);
+                            //$("#verifyImage").click();
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

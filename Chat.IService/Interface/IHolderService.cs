@@ -13,10 +13,14 @@ namespace SDMS.IService.Interface
         long AddNew(HolderSvcModel model);
         bool Update(HolderSvcModel model);
         bool Update(long id, string address, string contact, string bankAccount, string urgencyName, string urgencyContact);
+        bool Update(long id, string name, string mobile, bool gender, string idNumber, string contact);
         bool Delete(long id);
         decimal ClacAmount(long id, long copies);
         HolderSearchResult GetPageList(string name, string mobile, DateTime? startTime, DateTime? endTime, int pageIndex,int pageSize);
         HolderDTO GetById(long id);
+        bool CheckOpenId(string openId);
+        long GetHoderIdByOpenId(string openId);
+        long Login(string mobile, string password, string openId);
     } 
 
     public class HolderSearchResult

@@ -1,4 +1,5 @@
-﻿using SDMS.IService.Interface;
+﻿using SDMS.DTO.DTO;
+using SDMS.IService.Interface;
 using SDMS.Service.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace SDMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 SettingsEntity entity = new SettingsEntity();
-                entity.Key = key;
+                entity.Name = key;
                 entity.Value = value;
                 entity.Description = description;
                 dbc.Settings.Add(entity);
@@ -38,6 +39,20 @@ namespace SDMS.Service.Service
                 setting.Description = description;
                 dbc.SaveChanges();
                 return true;
+            }
+        }
+
+        public string GetValueByKey(string key)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<SettingsEntity> cs = new CommonService<SettingsEntity>(dbc);
+                var setting = cs.GetAll().SingleOrDefault(s => s.Name == key);
+                if (setting==null)
+                {
+                    return null;
+                }
+                return setting.Value;
             }
         }
     }

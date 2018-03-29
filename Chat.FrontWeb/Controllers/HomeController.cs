@@ -1,6 +1,7 @@
 ﻿using SDMS.Common;
 using SDMS.DTO.DTO;
 using SDMS.IService.Interface;
+using SDMS.Web.Controllers.Base;
 using SDMS.Web.Models.Home;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,10 @@ using System.Web.Mvc;
 
 namespace SDMS.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : FrontBaseController
     {
         public INewsService newsService { get; set; }
-        public IHolderService holderService { get; set; }
+        //public IHolderService holderService { get; set; }
         public IJournalService journalService { get; set; }
         public IMessageService messageService { get; set; }
         public ActionResult Index(int pageIndex=1)
@@ -72,6 +73,17 @@ namespace SDMS.Web.Controllers
             model.YesterdayBonus = journalService.YesterdayBonus(2);
             model.Journals = journalService.GetBonusList(2, 5);
             return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult SetPwd()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult SetPwd(long id, string oldTradePwd, string tradePwd)
+        {
+            return Json(new AjaxResult { Status = "1", Data = "/home/index" });
         }
     }
 }

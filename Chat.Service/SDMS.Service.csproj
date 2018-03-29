@@ -60,8 +60,10 @@
     <Compile Include="Entities\AdminEntity.cs" />
     <Compile Include="Entities\AdminLogEntity.cs" />
     <Compile Include="Entities\ReadNumberEntity.cs" />
+    <Compile Include="Entities\TakeCashStateEntity.cs" />
     <Compile Include="ModelConfig\AdImgLinkConfig.cs" />
     <Compile Include="ModelConfig\ReadNumberConfig.cs" />
+    <Compile Include="ModelConfig\TakeCashStateConfig.cs" />
     <Compile Include="Service\AdImgLinkService.cs" />
     <Compile Include="Service\AdminLogService.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
@@ -98,7 +100,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Service\AdminLoginServive.cs" />
     <Compile Include="Service\AdminService.cs" />
     <Compile Include="Service\HolderService.cs" />
     <Compile Include="Service\JournalService.cs" />

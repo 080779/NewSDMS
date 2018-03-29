@@ -1,6 +1,7 @@
 ﻿using SDMS.Common;
 using SDMS.DTO.Model;
 using SDMS.IService.Interface;
+using SDMS.Web.App_Start;
 using SDMS.Web.Areas.Admin.Controllers.Base;
 using SDMS.Web.Areas.Admin.Models.Holder;
 using System;
@@ -22,11 +23,14 @@ namespace SDMS.Web.Areas.Admin.Controllers
         #endregion
 
         #region 列表
+        [Permission("股东管理")]
+        [ActDescription("股东管理列表")]
         public ActionResult List()
         {
             //stockService.AddNew("股票", "gupn", 1000000, 10000, 5000);
             return View();
         }
+        [Permission("股东管理")]
         public PartialViewResult ListGetPage(string name,string mobile,DateTime? startTime,DateTime? endTime,int pageIndex = 1)
         {
             int pageSize = 3;
@@ -53,6 +57,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
         #endregion
 
         #region 添加
+        [Permission("股东管理")]
         [HttpGet]
         public ActionResult Add()
         {
@@ -60,6 +65,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
             return View(num);
         }
         [HttpPost]
+        [Permission("股东管理")]
         public ActionResult Add(HolderAddModel model)
         {
             if (!ModelState.IsValid)
@@ -92,19 +98,24 @@ namespace SDMS.Web.Areas.Admin.Controllers
 
         #region 修改
         [HttpGet]
+        [Permission("股东管理")]
         public ActionResult Edit(long id)
         {
-            return View();
+            var model= holderService.GetById(id);
+            return View(model);
         }
         [HttpPost]
-        public ActionResult Edit(long id,string a)
+        [Permission("股东管理")]
+        public ActionResult Edit(HolderEditModel model)
         {
+            holderService.Update(model.Id, model.Name, model.Mobile, model.Gender, model.IdNumber, model.Contact);
             return Json(new AjaxResult { Status="1"});
         }
         #endregion
 
         #region 删除
         [HttpPost]
+        [Permission("股东管理")]
         public ActionResult Del(long id)
         {
             return Json(new AjaxResult { Status = "1" });

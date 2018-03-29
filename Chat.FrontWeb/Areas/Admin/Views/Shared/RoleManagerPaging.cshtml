@@ -1,0 +1,31 @@
+﻿@model SDMS.DTO.DTO.RoleDTO[]
+<div class="dataTable">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="t1">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>角色名</th>
+                <th>描述</th>
+                <th>创建日期</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="pagerList">
+            @foreach (var role in Model)
+            {
+            <tr>
+                <td align="center">@role.Id</td>
+                <td align="center">@role.Name</td>
+                <td align="center">@role.Description</td>
+                <td align="center">@role.CreateTime</td>
+                <td align="center">
+                    <a class="easyui-linkbutton" href="/admin/system/roleedit?id=@role.Id" iconcls="icon-edit">编辑</a>
+                    <a class="easyui-linkbutton del" iconcls="icon-remove" value="@role.Id">删除</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="nextpage">
+</div>

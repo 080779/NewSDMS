@@ -43,6 +43,41 @@ a:focus { outline: none; }
 	color: #999;
 }
 
+/* footer */
+
+.footer ul{
+	font-size: 0;
+}
+.footer ul li{
+	height: 60px;
+	font-size: 14px;
+	vertical-align: top;
+	display: inline-block;
+	width: 25%;
+	position: relative;
+	text-align: center;
+	color: #8E8E93;
+	padding-top: 8px;
+	border-top:1px solid #b6b6b6;
+}
+.footer ul li div{
+	height:30px;
+}
+.footer ul li img{
+	vertical-align: top;
+	width:30px;
+	margin-bottom: 9px;
+}
+.footer ul li.active span{
+	position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #FF472B;
+    top: 6px;
+    right: 33px;
+}
+
 
 /* 首页 */
 .swiper-container {

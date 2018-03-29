@@ -26,7 +26,7 @@ namespace SDMS.Service.Service
             }
         }
 
-        public AdminLogSearchResult GetPageList(DateTime? startTime, DateTime? endTime, string keyWord, int currentIndex, int pageSize)
+        public AdminLogSearchResult GetPageList(DateTime? startTime, DateTime? endTime, string keyWord, int pageIndex, int pageSize)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
@@ -46,7 +46,7 @@ namespace SDMS.Service.Service
                     logs = logs.Where(l => l.Message.Contains(keyWord));
                 }
                 result.TotalCount = logs.LongCount();
-                result.AdminLogs = logs.Include(l => l.AdminUser).OrderByDescending(l => l.CreateTime).Skip(currentIndex).Take(pageSize).ToList().
+                result.AdminLogs = logs.Include(l => l.AdminUser).OrderByDescending(l => l.CreateTime).Skip((pageIndex-1)*pageSize).Take(pageSize).ToList().
                     Select(l => new AdminLogDTO { AdminUserId = l.AdminUserId, AdminUserName = l.AdminUser.Name, AdminUserMobile = l.AdminUser.Mobile, CreateTime = l.CreateTime, Id = l.Id, IpAddress = l.IpAddress, Message = l.Message }).ToArray();
                 return result;
             }

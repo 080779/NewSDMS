@@ -12,6 +12,7 @@ namespace SDMS.Service.Entities
     {
         public string Name { get; set; }
         public string TrueName { get; set; }
+        public string Description { get; set; }
         public string Mobile { get; set; }
         public string PasswordHash { get; set; }
         public string PasswordSalt { get; set; }

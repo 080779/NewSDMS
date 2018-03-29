@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SDMS.Service.Service
 {
-    public class PermissionService: IPermissionService
+    public class PermissionService : IPermissionService
     {
         public List<long> GetByRoleId(long Id)
         {
@@ -17,13 +17,13 @@ namespace SDMS.Service.Service
             {
                 CommonService<RoleEntity> cs = new CommonService<RoleEntity>(dbc);
                 var role = cs.GetAll().SingleOrDefault(r => r.Id == Id);
-                if(role==null)
+                if (role == null)
                 {
                     role = new RoleEntity();
                 }
                 PermissionIdsDTO[] roleIds = role.Permissions.Where(p => p.IsDeleted == false).ToList().Select(p => new PermissionIdsDTO { Id = p.Id }).ToArray();
                 List<long> lists = new List<long>();
-                foreach(var roleId in roleIds)
+                foreach (var roleId in roleIds)
                 {
                     lists.Add(roleId.Id);
                 }
@@ -41,9 +41,9 @@ namespace SDMS.Service.Service
                 {
                     admin = new AdminEntity();
                 }
-                PermissionIdsDTO[] permissionIds= admin.Roles.Where(p => p.IsDeleted == false).SelectMany(r => r.Permissions).Where(p => p.IsDeleted == false).Distinct().Select(p => new PermissionIdsDTO { Id = p.Id }).ToArray();
+                PermissionIdsDTO[] permissionIds = admin.Roles.Where(p => p.IsDeleted == false).SelectMany(r => r.Permissions).Where(p => p.IsDeleted == false).Distinct().Select(p => new PermissionIdsDTO { Id = p.Id }).ToArray();
                 List<long> lists = new List<long>();
-                foreach(var permissionId in permissionIds)
+                foreach (var permissionId in permissionIds)
                 {
                     lists.Add(permissionId.Id);
                 }
@@ -62,6 +62,19 @@ namespace SDMS.Service.Service
                     return null;
                 }
                 return permission.Description;
+            }
+        }
+        public PermissionDTO[] GetAll()
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<PermissionEntity> cs = new CommonService<PermissionEntity>(dbc);
+                var permissions = cs.GetAll();
+                if (permissions == null)
+                {
+                    return null;
+                }
+                return permissions.Select(p => new PermissionDTO { Id = p.Id, Description = p.Description, Name = p.Name,CreateTime=p.CreateTime }).ToArray();
             }
         }
     }

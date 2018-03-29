@@ -16,12 +16,15 @@ namespace SDMS.Service.Service
         {
             using (MyDbContext dbc = new MyDbContext())
             {
+                CommonService<SettingsEntity> scs = new CommonService<SettingsEntity>(dbc);
                 CommonService<StockItemEntity> cs = new CommonService<StockItemEntity>(dbc);
                 StockItemEntity stockItem = cs.GetAll().Where(s=>s.Id==model.StockItemId).SingleOrDefault();
                 if(stockItem==null)
                 {
                     return -1;
                 }
+
+                var seting= scs.GetAll().SingleOrDefault(s=>s.Name == "takecashtime");
 
                 HolderEntity entity = new HolderEntity();
                 entity.Amount = model.Amount;
@@ -35,6 +38,7 @@ namespace SDMS.Service.Service
                 entity.Proportion = model.Amount / stockItem.TotalAmount;
                 entity.TotalAssets = model.Amount;
                 entity.Password = model.Password;
+                entity.TakeCashTime = entity.CreateTime.AddDays(Convert.ToDouble(seting.Value));
 
                 stockItem.HaveCopies = stockItem.HaveCopies - model.Copies;
                 
@@ -181,6 +185,7 @@ namespace SDMS.Service.Service
             dto.UrgencyContact = entity.UrgencyContact;
             dto.UrgencyName = entity.UrgencyName;
             dto.OpenId = entity.OpenId;
+            dto.TakeCashTime = dto.TakeCashTime;
             return dto;
         }
 
@@ -239,6 +244,79 @@ namespace SDMS.Service.Service
                 }                
                 dbc.SaveChanges();
                 return true;
+            }
+        }
+
+        public bool Update(long id, string name, string mobile, bool gender, string idNumber, string contact)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<HolderEntity> cs = new CommonService<HolderEntity>(dbc);
+                var holder = cs.GetAll().SingleOrDefault(h => h.Id == id);
+                if (holder == null)
+                {
+                    return false;
+                }
+                holder.Name = name;
+                holder.Mobile = mobile;
+                holder.Gender = gender;
+                holder.IdNumber = idNumber;
+                holder.Contact = contact;
+                dbc.SaveChanges();
+                return true;
+            }
+        }
+
+        public bool CheckOpenId(string openId)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<HolderEntity> cs = new CommonService<HolderEntity>(dbc);
+                var holder = cs.GetAll().SingleOrDefault(h => h.OpenId == openId);
+                if(holder==null)
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
+        public long GetHoderIdByOpenId(string openId)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<HolderEntity> cs = new CommonService<HolderEntity>(dbc);
+                var holder = cs.GetAll().SingleOrDefault(h => h.OpenId == openId);
+                if (holder == null)
+                {
+                    return -1;
+                }
+                return holder.Id;
+            }
+        }
+        public long Login(string mobile,string password,string openId)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<HolderEntity> cs = new CommonService<HolderEntity>(dbc);
+                var holder = cs.GetAll().SingleOrDefault(h => h.Mobile == mobile);
+                if (holder == null)
+                {
+                    return -1;
+                }
+                if(holder.Password!=password)
+                {
+                    return -2;
+                }
+                if(holder.OpenId!=openId)
+                {
+                    return -3;
+                }
+                if(string.IsNullOrEmpty(holder.OpenId))
+                {
+                    holder.OpenId = openId;
+                }
+                dbc.SaveChanges();
+                return holder.Id;
             }
         }
     }

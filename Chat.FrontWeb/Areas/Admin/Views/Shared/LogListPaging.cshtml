@@ -1,0 +1,29 @@
+﻿@model SDMS.Web.Areas.Admin.Models.System.LogListViewModel
+<div class="dataTable">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="t1">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>管理员</th>
+                <th>IP地址</th>
+                <th>消息</th>
+                <th>注册日期</th>
+            </tr>
+        </thead>
+        <tbody id="pagerList">
+            @foreach (var log in Model.AdminLogs)
+            {
+                <tr>
+                    <td align="center">@log.Id</td>
+                    <td align="center">@log.AdminUserName</td>
+                    <td align="center">@log.IpAddress</td>
+                    <td align="center">@log.Message</td>
+                    <td align="center">@log.CreateTime</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="nextpage">
+    @Html.Raw(Model.Page)
+</div>

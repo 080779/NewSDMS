@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>主页</title>
-    <link href="~/Areas/Admin/Content/Base.css" rel="stylesheet" />
-    <link href="~/Areas/Admin/Content/themes/icon.css" rel="stylesheet" />
-    <link href="~/Areas/Admin/Content/themes/default/easyui.css" rel="stylesheet" />
-    <script src="~/Areas/Admin/Scripts/jquery.js"></script>
-    <script src="~/Areas/Admin/Scripts/jquery.easyui.min.js"></script>
-    <script src="~/Areas/Admin/Scripts/Common.js"></script>
-    <script src="~/Areas/Admin/Scripts/main-layout.js"></script>
-    <script src="~/Areas/Admin/Scripts/My97DatePicker/WdatePicker.js"></script>
+    <link href="~/css/admin/Base.css" rel="stylesheet" />
+    <link href="~/css/admin/themes/icon.css" rel="stylesheet" />
+    <link href="~/css/admin/themes/default/easyui.css" rel="stylesheet" />
+    <script src="~/js/admin/jquery.js"></script>
+    <script src="~/js/admin/jquery.easyui.min.js"></script>
+    <script src="~/js/admin/Common.js"></script>
+    <script src="~/js/admin/main-layout.js"></script>
+    <script src="~/js/admin/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body class="easyui-layout">
     <!--头部s-->
@@ -17,9 +17,8 @@
         <div class="index_logo">
             <div class="index_logo_top"></div>
             <div class="index_logo_bottom">
-                <p><a href="/admin/user/logout">[退出系统]</a></p>
-                <p>您的级别：@Model.Id</p>
-                <p>欢迎 <span></span>登录后台管理</p>
+                <p><a href="/admin/manager/logout">[退出系统]</a></p>
+                <p>欢迎 <span>@Model.Name</span>登录后台管理</p>
             </div>
         </div>
     </div>
@@ -46,27 +45,9 @@
     <div id="main-panel" region="center" style="background: #eee; overflow-y:hidden">
         <div id="tabs" class="easyui-tabs" fit="true" border="false">
             <div title="首页" style="padding:20px;overflow:hidden; color:red; ">
-                <iframe scrolling="auto" id="ifr我的工作台" frameborder="0" src="/admin/home/zhuye" style="width: 100%;
-                    height: 100%;"></iframe>
+                <iframe scrolling="auto" id="ifr我的工作台" frameborder="0" src="/admin/home/zhuye" style="width: 100%; height: 100%;"></iframe>
             </div>
         </div>
     </div>
-    <!--中间内容e-->
-    <!--版权-->
-    <%--<div class="index_footer"> CopyRight@2010-2012 QDCCAP 版权所有AllRirghtReservice </div>--%>
-    <%-- START right menu --%>
-    <div id="mm" class="easyui-menu" style="width:150px;">
-        <div id="mm-tabupdate">刷新</div>
-        <div class="menu-sep"></div>
-        <div id="mm-tabclose">关闭</div>
-        <div id="mm-tabcloseall">全部关闭</div>
-        <div id="mm-tabcloseother">除此之外全部关闭</div>
-        <div class="menu-sep"></div>
-        <div id="mm-tabcloseright">当前页右侧全部关闭</div>
-        <div id="mm-tabcloseleft">当前页左侧全部关闭</div>
-        <div class="menu-sep"></div>
-        <div id="mm-exit">退出</div>
-    </div>
-    <%-- END right menu --%>
 </body>
 </html>

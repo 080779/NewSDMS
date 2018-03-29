@@ -1,59 +1,51 @@
-﻿@model SDMS.DTO.DTO.RoleDTO[]
-@{
-    ViewBag.Title = "角色列表";
-    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+﻿@{
+                ViewBag.Title = "角色列表";
+                Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
 }
 <br />
-<a class="easyui-linkbutton" iconcls="icon-add" href="/admin/system/roleadd">添加角色</a>
-<a class="easyui-linkbutton"  iconcls="icon-back" href="/admin/system/adminmanager">返回管理员用户管理列表</a>
-<div class="dataTable">
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="t1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>角色名</th>
-                <th>描述</th>
-                <th>操作</th>
-            </tr>
-        </thead>        
-        <tbody id="pagerList">
-            @foreach (var role in Model)
-            {
-                <tr>
-                    <td align="center">@role.ID</td>
-                    <td align="center">@role.Name</td>
-                    <td align="center">@role.Description</td>
-                    <td align="center">
-                        <a class="easyui-linkbutton" href="/admin/system/roleedit?id=@role.ID" iconcls="icon-edit">编辑</a>
-                        <a class="easyui-linkbutton del" iconcls="icon-remove" value="@role.ID">删除</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<div>
+    <a class="easyui-linkbutton" iconcls="icon-add" href="/admin/system/roleadd">添加角色</a>
+    <a class="easyui-linkbutton" iconcls="icon-back" href="/admin/system/adminmanager">返回管理员管理列表</a>
 </div>
-<div class="nextpage">
+<div id="load">
+    @{
+        Html.RenderAction("RoleManagerGetPage");
+    }
 </div>
-<script type="text/javascript">
-    $(function () {
-        //删除
-        $(".del").click(function () {
-            var id = $(this).attr("value");
-            $.ajax({
-                url: "/admin/system/roledel?id=" + id, type: "post",
-                success: function (result) {
-                    if(result.status=="1")
-                    {
-                        alert("角色删除成功");
-                        window.location.href = result.data;
-                    }
-                    else if(result.status=="0")
-                    {
-                        alert(result.msg);
-                    }
-                },
-                error: function () { alert("网络错误");}
+@section FooterScript
+{
+    <script src="/js/admin/jquery.easyui.min.js"></script>
+    <script src="/js/admin/jquery.parser.js"></script>
+    <script type="text/javascript">
+        function getPage(pageIndex) {
+            $("#load").load("/admin/system/RoleManagerGetPage", function () {
+                $.parser.parse($('#load'));
+            });
+        }
+
+        $(function () {
+            //$('body').on('click', '#go', function () {
+            //    var page = $("#txtPage").val();
+            //    getPage(page);
+            //});
+
+            //删除
+            $(".del").click(function () {
+                var id = $(this).attr("value");
+                $.ajax({
+                    url: "/admin/system/roleDel?id=" + id, type: "post",
+                    success: function (result) {
+                        if (result.status == 1) {
+                            alert("删除成功")
+                            window.location.href = result.data;
+                        }
+                        else if (result.status == 0) {
+                            alert(result.msg);
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
             });
         });
-    });
-</script>
+    </script>
+}

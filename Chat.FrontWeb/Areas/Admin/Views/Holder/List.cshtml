@@ -22,15 +22,15 @@
 </div>
 @section FooterScript
 {
-    <script src="~/Areas/Admin/Scripts/jquery.parser.js"></script>
-    <script src="~/Areas/Admin/Scripts/jquery.easyui.min.js"></script>
+    <script src="/js/admin/jquery.easyui.min.js"></script>
+    <script src="/js/admin/jquery.parser.js"></script>
     <script type="text/javascript">
         function getPage(pageIndex) {
             var name = $("#name").val();
             var mobile = $("#mobile").val();
             var startTime = $("#startTime").val();
             var endTime = $("#endTime").val();
-            $("#load").load("/admin/holder/ListGetPage", {pageIndex: pageIndex , name:name ,mobile:mobile ,startTime: startTime,endTime: endTime}, function () {
+            $("#load").load("/admin/holder/ListGetPage", { pageIndex: pageIndex, name: name, mobile: mobile, startTime: startTime, endTime: endTime }, function () {
                 $.parser.parse($('#load'));
             });
         }

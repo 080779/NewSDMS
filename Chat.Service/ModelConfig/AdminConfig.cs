@@ -20,6 +20,7 @@ namespace SDMS.Service.ModelConfig
             HasMany(r => r.Roles).WithMany(u => u.AdminUsers).Map(m => m.ToTable("T_AdminUserRole").MapLeftKey("AdminUserID").MapRightKey("RoleID"));
             //string 类型配置，根据配置生成的表字段是必须的，字符长度是50
             Property(u => u.Name).IsRequired().HasMaxLength(50);
+            Property(u => u.Description).IsRequired().HasMaxLength(100);
             Property(u => u.TrueName).HasMaxLength(50);
             Property(u => u.PasswordHash).HasMaxLength(100).IsRequired().IsUnicode(false);
             Property(u => u.PasswordSalt).HasMaxLength(10).IsRequired().IsUnicode(false);

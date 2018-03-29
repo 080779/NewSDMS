@@ -14,7 +14,7 @@ namespace SDMS.Service.Entities
         public virtual HolderEntity Holder { get; set; }
         public long NewsId { get; set; }
         public virtual NewsEntity News { get; set; }
-        public string Content { get; set; }
+        public string Contents { get; set; }
         public bool Flag { get; set; }
     }
 }

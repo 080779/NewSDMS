@@ -6,6 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Senparc.Weixin.MP.AdvancedAPIs;
+using Senparc.Weixin.MP;
+using System.Net;
+using System.Net.Http;
+using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
 
 namespace SDMS.Web.Controllers.Base
 {
@@ -14,42 +19,61 @@ namespace SDMS.Web.Controllers.Base
     /// </summary>
     public class FrontBaseController : Controller
     {
-        public int pageIndex = 1;
-        public int pageSize = 5;
+        public IHolderService holderService { get; set; }
+        private string appId = "wx4bb5e170640ca437";
+        //private string appId = "wx4bb5e170640ca437";
+        private string secret = "52622a0a4078040b94d502a145a7b6a7";
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (filterContext.HttpContext.Request.Cookies["A128076_user"] == null)
+            if (Session["UserId"] == null)
             {
-                if (filterContext.HttpContext.Request.IsAjaxRequest())//判断是否是ajax请求
+                if (Session["OpenId"] != null)
                 {
-                    filterContext.Result = new JsonNetResult { Data = new AjaxResult { Status = "0", Msg = "登录信息已经过期，请刷新重新登录！", Data = "/user/login" } };
+                    if (!holderService.CheckOpenId(Session["OpenId"].ToString()))
+                    {
+                        if (filterContext.HttpContext.Request.IsAjaxRequest())//判断是否是ajax请求
+                        {
+                            filterContext.Result = new JsonNetResult { Data = new AjaxResult { Status = "0", Msg = "绑定信息不匹配", Data = "/user/login" } };
+                        }
+                        else
+                        {
+                            filterContext.Result = new RedirectResult("/system/login");
+                        }
+                    }
                 }
                 else
                 {
-                    filterContext.Result = new RedirectResult("/user/login");
+                    if (Request["code"] == null)
+                    {
+                        var state = "vz-" + DateTime.Now.Millisecond;//随机数，用于识别请求可靠性
+                        Session["State"] = state;//储存随机数到Session
+                        string url = OAuthApi.GetAuthorizeUrl(appId, "http://hgskt8.natappfree.cc/home/index", state, OAuthScope.snsapi_userinfo);
+                        filterContext.Result = new RedirectResult(url);
+                    }
+                    else
+                    {
+                        OAuthAccessTokenResult result = null;
+                        result = OAuthApi.GetAccessToken(appId, secret, Request["code"].ToString());
+                        Session["OpenId"] = result.openid;
+                        if (holderService.GetHoderIdByOpenId(result.openid) <= 0)
+                        {
+                            if (filterContext.HttpContext.Request.IsAjaxRequest())//判断是否是ajax请求
+                            {
+                                filterContext.Result = new JsonNetResult { Data = new AjaxResult { Status = "0", Msg = "登录信息已经过期，请刷新重新登录！", Data = "/user/login" } };
+                            }
+                            else
+                            {
+                                filterContext.Result = new RedirectResult("/system/login");
+                            }
+                        }
+                        else
+                        {
+                            Session["UserId"] = holderService.GetHoderIdByOpenId(result.openid);
+                        }
+                    }
                 }
             }
-            if (Request.Params["pageIndex"] != null)
-            {
-                pageIndex = Convert.ToInt32(Request.Params["pageIndex"]);
-            }
-            if (Request.Params["pageSize"] != null)
-            {
-                pageSize = Convert.ToInt32(Request.Params["pageSize"]);
-            }
             base.OnActionExecuting(filterContext);
-        }
-
-        public long GetLoginID()
-        {
-            if (HttpContext.Request.Cookies["A128076_user"] != null)
-            {
-                return Convert.ToInt32(HttpContext.Request.Cookies["A128076_user"]["ID"]);
-            }
-            else
-            {
-                return 0;
-            }
         }
     }
 }

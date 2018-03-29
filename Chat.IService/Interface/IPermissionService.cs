@@ -12,5 +12,6 @@ namespace SDMS.IService.Interface
         List<long> GetByRoleId(long Id);
         List<long> GetByAdminId(long Id);
         string GetByName(string name);
+        PermissionDTO[] GetAll();
     }
 }

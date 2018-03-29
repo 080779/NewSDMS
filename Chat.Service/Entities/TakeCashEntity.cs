@@ -27,7 +27,8 @@ namespace SDMS.Service.Entities
         /// <summary>
         /// 是否成功提现
         /// </summary>
-        public int Flag { get; set; } = 0;
+        public long StateId { get; set; }
+        public virtual TakeCashStateEntity State { get; set; }
         public virtual HolderEntity Holder { get; set; }
         public long HolderId { get; set; }
     }

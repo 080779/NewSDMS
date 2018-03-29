@@ -16,12 +16,12 @@ namespace SDMS.Web
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "text/plain";
-            //string access_token = "ovIaF08df020dsePwPyblyG9G52PiIdre";
+            ////string access_token = "ovIaF08df020dsePwPyblyG9G52PiIdre";
 
-            string token = HttpContext.Current.Request.QueryString["token"].ToString();
-            //string timestamp = HttpContext.Current.Request.QueryString["timestamp"].ToString();
-            //string nonce = HttpContext.Current.Request.QueryString["nonce"].ToString();
-            log.DebugFormat("微信：{0}",token);
+            //string token = HttpContext.Current.Request.QueryString["token"].ToString();
+            ////string timestamp = HttpContext.Current.Request.QueryString["timestamp"].ToString();
+            ////string nonce = HttpContext.Current.Request.QueryString["nonce"].ToString();
+            //log.DebugFormat("微信：{0}",token);
             if (context.Request.HttpMethod.ToLower() == "post")
             {
                 //回复消息的时候也需要验证消息，这个很多开发者没有注意这个，存在安全隐患  
@@ -70,7 +70,7 @@ namespace SDMS.Web
         /// * 开发者获得加密后的字符串可与signature对比，标识该请求来源于微信。
         private bool CheckSignature()
         {
-            string access_token = "ovIaF08df020dsePwPyblyG9G52PiIdre";
+            string access_token = "ovIaF08df020dsePwPyblyG9G52iIdre";
 
             string signature = HttpContext.Current.Request.QueryString["signature"].ToString();
             string timestamp = HttpContext.Current.Request.QueryString["timestamp"].ToString();

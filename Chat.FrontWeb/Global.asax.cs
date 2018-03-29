@@ -38,7 +38,7 @@ namespace SDMS.Web
 
             GlobalFilters.Filters.Add(new SYSExceptionFilter());
             GlobalFilters.Filters.Add(new JsonNetActionFilter());
-            GlobalFilters.Filters.Add(new SYSAuthorizationFilter());
+            //GlobalFilters.Filters.Add(new SYSAuthorizationFilter());
 
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);

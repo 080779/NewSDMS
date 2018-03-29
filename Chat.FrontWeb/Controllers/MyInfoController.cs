@@ -1,5 +1,6 @@
 ﻿using SDMS.Common;
 using SDMS.IService.Interface;
+using SDMS.Web.Controllers.Base;
 using SDMS.Web.Models.MyInfo;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Web.Mvc;
 
 namespace SDMS.Web.Controllers
 {
-    public class MyInfoController : Controller
+    public class MyInfoController : FrontBaseController
     {
         public IHolderService holderService { get; set; }
         public ActionResult List()

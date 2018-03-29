@@ -27,7 +27,8 @@ namespace SDMS.DTO.DTO
         /// <summary>
         /// 是否成功提现
         /// </summary>
-        public int Flag { get; set; }
+        public long StateId { get; set; }
+        public string TakeCashStateName { get; set; }
         public long HolderId { get; set; }
         /// <summary>
         /// 股东名

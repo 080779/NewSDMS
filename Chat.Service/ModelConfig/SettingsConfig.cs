@@ -14,7 +14,7 @@ namespace SDMS.Service.ModelConfig
         {
             ToTable("T_Settings");
             Property(s => s.Description).HasMaxLength(50);
-            Property(s => s.Key).HasMaxLength(50);
+            Property(s => s.Name).HasMaxLength(50);
             Property(s => s.Value).HasMaxLength(50);
         }
     }

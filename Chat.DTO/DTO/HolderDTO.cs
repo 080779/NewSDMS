@@ -61,6 +61,7 @@ namespace SDMS.DTO.DTO
         /// 紧急联系人电话
         /// </summary>
         public string UrgencyContact { get; set; }
+        public DateTime? TakeCashTime { get; set; }
         /// <summary>
         /// 交易密码
         /// </summary>

@@ -12,6 +12,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.ComponentModel.DataAnnotations;
 
 namespace SDMS.Web.Areas.Admin.Controllers
 {
@@ -21,7 +22,6 @@ namespace SDMS.Web.Areas.Admin.Controllers
         //adminService已经在AdminBaseController中定义
         public IPowerService powerService { get; set; }
         public IShareBonusService shareBonusService { get; set; }
-
         public ActionResult Index()
         {
             IndexViewModel model = new IndexViewModel();
@@ -39,17 +39,16 @@ namespace SDMS.Web.Areas.Admin.Controllers
                 MenuList.Add(parentList);
             }
             model.MenuList = MenuList;
-            model.Id = GetLoginID();
-            Session["Test"] = "数据库session";
+            model.Name = adminService.GetNameById(Convert.ToInt64(Session["AdminId"]));
             return View(model);
         }
 
         public ActionResult ExportExcel()
         {
-            AdminSearchResult result= adminService.GetPageList(1, 10);            
-            return File(ExcelHelper.ExportExcel<AdminListDTO>(result.AdminList, "管理员"), "application/vnd.ms-excel", "测试.xls");
+            //AdminSearchResult result= adminService.GetPageList(1, 10);            
+            //return File(ExcelHelper.ExportExcel<AdminListDTO>(result.AdminList, "管理员"), "application/vnd.ms-excel", "测试.xls");
+            return Content("");
         }
-
         public ActionResult ZhuYe()
         {
             //shareBonusService.Average(1000);
@@ -61,17 +60,5 @@ namespace SDMS.Web.Areas.Admin.Controllers
             shareBonusService.Directional(id);
             return Json(new AjaxResult { Status="1"});
         }
-        public ActionResult MemberLine()
-        {
-            return View();
-        }
-
-        public ActionResult GetMemberCountList()
-        {
-            //List<UserAllCountModel> ulist = userService.GetMemberNumGroupbyTime();
-
-            return Json(new AjaxResult { Status = "1"});
-        }
-
     }
 }

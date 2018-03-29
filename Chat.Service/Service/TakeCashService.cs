@@ -34,7 +34,7 @@ namespace SDMS.Service.Service
             }
         }
 
-        public int Confirm(long id,string message, string imgUrl, int flag)
+        public int Confirm(long id,string message, string imgUrl, long stateId)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
@@ -44,21 +44,21 @@ namespace SDMS.Service.Service
                 {
                     return 0;
                 }
-                if(takeCash.Flag==1)
+                if(takeCash.StateId == 1)
                 {
                     return -1;
                 }
-                if(flag==1)
+                if(stateId == 1)
                 {
                     takeCash.Message = message;
-                    takeCash.Flag = flag;
+                    takeCash.StateId = stateId;
                     dbc.SaveChanges();
                     return 1;
                 }
-                else if(flag==2)
+                else if(stateId == 2)
                 {
                     takeCash.ImgUrl = imgUrl;
-                    takeCash.Flag = flag;
+                    takeCash.StateId = stateId;
                     dbc.SaveChanges();
                     return 2;
                 }
@@ -99,12 +99,26 @@ namespace SDMS.Service.Service
             }
         }
 
+        public TakeCashDTO[] GetByHolderId(long id)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<TakeCashEntity> cs = new CommonService<TakeCashEntity>(dbc);
+                var entity = cs.GetAll().Where(t=>t.HolderId==id);
+                if(entity==null)
+                {
+                    return null;
+                }
+                return entity.OrderByDescending(t => t.CreateTime).Take(10).ToList().Select(t => ToDTO(t)).ToArray();
+            }
+        }
         public TakeCashDTO ToDTO(TakeCashEntity entity)
         {
             TakeCashDTO dto = new TakeCashDTO();
             dto.Amount = entity.Amount;
             dto.CreateTime = entity.CreateTime;
-            dto.Flag = entity.Flag;
+            dto.StateId = entity.StateId;
+            dto.TakeCashStateName = entity.State.Name;
             dto.HolderBankAccount = entity.Holder.BankAccount;
             dto.HolderHaveBonus = entity.Holder.HaveBonus;
             dto.HolderName = entity.Holder.Name;
