@@ -50,14 +50,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
         }
         public ActionResult ZhuYe()
         {
-            //shareBonusService.Average(1000);
             return View();
-        }
-        public ActionResult fh()
-        {
-            
-            shareBonusService.Directional();
-            return Json(new AjaxResult { Status="1"});
         }
     }
 }

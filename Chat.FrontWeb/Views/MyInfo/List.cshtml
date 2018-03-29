@@ -36,9 +36,9 @@
         </ul>
         <ul>
             <li class="user-link-li">
-                <a href="">
+                <a id="unbind" href="javascript:;">
                     <i class="icon icon4"></i>
-                    <span>微信绑定</span>
+                    <span>解除微信绑定</span>
                 </a>
             </li>
         </ul>
@@ -69,5 +69,35 @@
             </li>
         </ul>
     </div>
+    <script src="~/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">        
+        $(function () {
+            $("#unbind").click(function () {
+                var msg = "您确定要解除绑定吗？";
+                if (confirm(msg) == true) {
+                    $.ajax({
+                        url: "/myinfo/unbind", type: "post", data: {},
+                        success: function (result) {
+                            if(result.status=="1")
+                            {
+                                alert("解除绑定成功");
+                            }
+                            else if(result.status=="0")
+                            {
+                                alert(result.msg);
+                            }
+                            else
+                            {
+                                alert("未知错误");
+                            }
+                        },
+                        error: function () { alert("网络错误");}
+                    });
+                } else {
+                    return false;
+                }
+            });
+        });
+    </script>
 </body>
 </html>

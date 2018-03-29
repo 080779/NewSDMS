@@ -5,30 +5,7 @@
 <div align="center">
     <b>
         <label  style="font-size:40px;">欢迎进入后台管理系统</label>
-        <input type="text" id="amount"/><button id="fh">平均分红</button>
     </b>
 </div>
-<script type="text/javascript">
-    $(function () {
-        $("#fh").click(function () {
-            var amount = $("#amount").val();
-            $.ajax({
-                url: "/admin/home/fh", type: "post",
-                data: { id: amount },
-                success: function (result) {
-                    if (result.status == "1") {
-                        alert("成功");
-                    }
-                    else if (result.status == "0") {
-                        alert(result.msg);
-                    }
-                    else {
-                        alert("未知错误");
-                    }
-                },
-                error: function () { alert("网络错误"); }
-            });
-        });
-    });
-</script>
+
 

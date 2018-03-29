@@ -136,10 +136,10 @@
                 var amount = $("#amount").val();
                 //var copies = $("#copies").val();
                 $.ajax({
-                    url: "/admin/holder/add", type: "post", data: {name:"", gender: gender, mobile: mobile, idNumber: idNumber, password: password, amount: amount, copies: copies },
+                    url: "/admin/holder/add", type: "post", data: { name: name, gender: gender, mobile: mobile, idNumber: idNumber, password: password, amount: amount, copies: copies },
                     success: function (result) {
                         if (result.status == "1") {
-                            window.location.href = "/admin/holde/list";
+                            window.location.href = result.data;
                         }
                         else if (result.status == "0") {
                             alert(result.msg);

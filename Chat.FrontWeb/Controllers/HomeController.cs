@@ -18,6 +18,7 @@ namespace SDMS.Web.Controllers
         //public IHolderService holderService { get; set; }
         public IJournalService journalService { get; set; }
         public IMessageService messageService { get; set; }
+        public IReadNumberService readNumberService { get; set; }
         public ActionResult Index(int pageIndex=1)
         {
             int pageSize = 5;
@@ -44,6 +45,7 @@ namespace SDMS.Web.Controllers
         }
         public ActionResult Details(long id)
         {
+            readNumberService.AddNew(UserId, id);
             var dto = newsService.GetById(id);
             if(dto==null)
             {

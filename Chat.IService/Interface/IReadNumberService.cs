@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SDMS.DTO.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace SDMS.IService.Interface
 {
     public interface IReadNumberService:IServiceSupport
     {
-        long AddNew(long holderId, long newsId);
+        void AddNew(long holderId, long newsId);
+        ReadNumberDTO[] GetByNewsId(long id);
     }
 }

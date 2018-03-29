@@ -342,5 +342,24 @@ namespace SDMS.Service.Service
                 return 1;
             }
         }
+        public long UnBind(long id)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<HolderEntity> cs = new CommonService<HolderEntity>(dbc);
+                var holder = cs.GetAll().SingleOrDefault(h=>h.Id==id);
+                if(holder==null)
+                {
+                    return -1;
+                }
+                if(string.IsNullOrEmpty(holder.OpenId))
+                {
+                    return -2;
+                }
+                holder.OpenId = null;
+                dbc.SaveChanges();
+                return 1;
+            }
+        }
     }
 }

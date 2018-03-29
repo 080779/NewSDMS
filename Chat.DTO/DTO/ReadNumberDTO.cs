@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace SDMS.DTO.DTO
 {
-    public class ReadNumberDTO:BaseDTO
+    public class ReadNumberDTO
     {
+        [ExportExcelName("公告标题")]
+        public string NewsTitle { get; set; }
+        [ExportExcelName("股东名")]
+        public string HolderName { get; set; }
+        [ExportExcelName("阅读时间")]
+        public DateTime CreateTime { get; set; }
     }
 }

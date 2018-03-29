@@ -1,5 +1,6 @@
 ﻿using CodeCarvings.Piczard;
 using SDMS.Common;
+using SDMS.DTO.DTO;
 using SDMS.IService.Interface;
 using SDMS.Web.Areas.Admin.Controllers.Base;
 using SDMS.Web.Areas.Admin.Models.News;
@@ -20,6 +21,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
     {
         #region 属性注入
         public INewsService newService { get; set; }
+        public IReadNumberService readNumberService { get; set; }
         #endregion
 
         #region 列表
@@ -187,6 +189,38 @@ namespace SDMS.Web.Areas.Admin.Controllers
         public ActionResult Link()
         { 
             return View();
+        }
+        public ActionResult ReadList()
+        {
+            return View();
+        }
+        public PartialViewResult ReadListPage(string title,DateTime? startTime,DateTime? endTime,int pageIndex=1)
+        {
+            int pageSize = 3;
+            NewsListViewModel model = new NewsListViewModel();
+            NewsSearchResult result = newService.GetPageList(title, startTime, endTime, pageIndex, pageSize);
+            model.News = result.News;
+
+            //分页
+            Pagination pager = new Pagination();
+            pager.PageIndex = pageIndex;
+            pager.PageSize = pageSize;
+            pager.TotalCount = result.TotalCount;
+
+            if (result.TotalCount <= pageSize)
+            {
+                model.Page = "";
+            }
+            else
+            {
+                model.Page = pager.GetPagerHtml();
+            }
+            return PartialView("ReadListPaging", model);
+        }
+        public ActionResult ExportExcel(long id)
+        {
+            var result = readNumberService.GetByNewsId(id);
+            return File(ExcelHelper.ExportExcel<ReadNumberDTO>(result, "管理员"), "application/vnd.ms-excel", "测试.xls");
         }
     }
 }

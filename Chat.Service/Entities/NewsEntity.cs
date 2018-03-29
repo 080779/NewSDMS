@@ -23,7 +23,7 @@ namespace SDMS.Service.Entities
         /// <summary>
         /// ÔÄ¶Á±ÈÀı
         /// </summary>
-        public decimal Rate { get; set; }
+        public decimal Rate { get; set; } = 0;
         /// <summary>
         /// µã»÷Êı
         /// </summary>

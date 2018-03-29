@@ -1,0 +1,32 @@
+﻿@model SDMS.Web.Areas.Admin.Models.News.NewsListViewModel
+<div class="dataTable">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="t1">
+        <thead>
+            <tr>
+                <th>公告标题</th>
+                <th>公告点击量</th>
+                <th>点击量占比</th>
+                <th>发布时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="pagerList">
+            @foreach (var news in Model.News)
+            {
+            <tr>
+                <td align="center">@news.Title</td>
+                <td align="center">@news.Click</td>
+                <td align="center">@news.Rate</td>
+                <td align="center">@news.CreateTime</td>
+                <td align="center">
+                    <a class="easyui-linkbutton" href="/admin/news/exportexcel/@news.Id" iconcls="icon-edit">导出股东阅读记录</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="nextpage">
+    @Html.Raw(Model.Page)
+</div>
+

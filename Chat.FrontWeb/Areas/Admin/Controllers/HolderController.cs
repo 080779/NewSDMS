@@ -92,7 +92,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
             holder.StockItemId = 1;
             holder.Copies = model.Copies;
             long id= holderService.AddNew(holder);
-            return Json(new AjaxResult { Status = "1", Data = id });
+            return Json(new AjaxResult { Status = "1", Data = "/admin/holder/list" });
         }
         #endregion
 
