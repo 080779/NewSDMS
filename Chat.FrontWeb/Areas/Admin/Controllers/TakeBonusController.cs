@@ -1,5 +1,6 @@
 ﻿using SDMS.Common;
 using SDMS.IService.Interface;
+using SDMS.Web.Areas.Admin.Models.TakeBonus;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,18 +16,41 @@ namespace SDMS.Web.Areas.Admin.Controllers
     {
         #region 属性注入
         public IShareBonusService shareBonusService { get; set; }
+        public ISetShareBonusService setShareBonusService { get; set; }
         #endregion
 
         #region 分红设置
         [HttpGet]
         public ActionResult SetUp()
         {
-            return View();
+            var model= setShareBonusService.GetSet();
+            return View(model);
         }
         [HttpPost]
-        public ActionResult SetUp(string s)
+        public ActionResult SetUp(SetUpModel model)
         {
-            return Json(new AjaxResult { Status = "1" });
+            if(!ModelState.IsValid)
+            {
+                return Json(MVCHelper.GetJsonValidMsg(ModelState));
+            }
+            if(model.Rate<=0)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "比例不能小于零" });
+            }
+            if(!setShareBonusService.Update(model.Rate))
+            {
+                return Json(new AjaxResult { Status = "0" ,Msg="设置定向分红比例失败" });
+            }
+            return Json(new AjaxResult { Status = "1", Data = "/admin/takebonus/setup" });
+        }
+        [HttpPost]
+        public ActionResult SetFlag(bool flag)
+        {
+            if (!setShareBonusService.Update(flag))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "设置分红模式失败" });
+            }
+            return Json(new AjaxResult { Status = "1", Data = "/admin/takebonus/setup" });
         }
         #endregion
 
@@ -37,9 +61,20 @@ namespace SDMS.Web.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Issue(decimal amount)
+        public ActionResult Issue(IssueModel model)
         {
-            shareBonusService.Average(amount);
+            if (!ModelState.IsValid)
+            {
+                return Json(MVCHelper.GetJsonValidMsg(ModelState));
+            }
+            if (model.Amount <= 0)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "金额不能小于零" });
+            }
+            if (!shareBonusService.Average(model.Amount))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "分红发放失败" });
+            }
             return Json(new AjaxResult { Status = "1" });
         }
         #endregion

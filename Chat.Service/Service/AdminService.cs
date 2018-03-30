@@ -140,7 +140,7 @@ namespace SDMS.Service.Service
                 {
                     return result;
                 }
-                admins = admins.Where(a => a.Name != "admin");
+                //admins = admins.Where(a => a.Name != "admin");
                 result.TotalCount = admins.LongCount();
                 result.AdminList = admins.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList().Select(a => ToDTO(a)).ToArray();
                 return result;

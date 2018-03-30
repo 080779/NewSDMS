@@ -96,7 +96,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
             {
                 return Json(new AjaxResult { Status = "0", Msg = ex.Message });
             }
-            return Json(new AjaxResult { Status = "1", Data = 0 });
+            return Json(new AjaxResult { Status = "1", Data = "/admin/news/list" });
         }
         #endregion
 
@@ -150,8 +150,11 @@ namespace SDMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Del(long id)
         {
-            newService.Delete(id);
-            return Json(new AjaxResult { Status = "1" });
+            if(newService.Delete(id))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "删除失败" });
+            }
+            return Json(new AjaxResult { Status = "1", Data = "/admin/news/list" });
         }
         #endregion
                 
@@ -180,7 +183,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
             string fullPath = HttpContext.Server.MapPath("" + path);
             new FileInfo(fullPath).Directory.Create();
             ImageProcessingJob jobNormal = new ImageProcessingJob();
-            jobNormal.Filters.Add(new FixedResizeConstraint(750, 1334));//限制图片的大小，避免生成
+            jobNormal.Filters.Add(new FixedResizeConstraint(600, 600));//限制图片的大小，避免生成
             jobNormal.SaveProcessedImageToFileSystem(imgBytes, fullPath);
             return path;
         }
@@ -220,7 +223,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
         public ActionResult ExportExcel(long id)
         {
             var result = readNumberService.GetByNewsId(id);
-            return File(ExcelHelper.ExportExcel<ReadNumberDTO>(result, "管理员"), "application/vnd.ms-excel", "测试.xls");
+            return File(ExcelHelper.ExportExcel<ReadNumberDTO>(result, "股东阅读记录"), "application/vnd.ms-excel", "股东阅读记录.xls");
         }
     }
 }

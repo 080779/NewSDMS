@@ -9,7 +9,13 @@ namespace SDMS.IService.Interface
 {
     public interface ISetShareBonusService:IServiceSupport
     {
-        SetShareBonusDTO GetById(long id);
-        bool Update(long id, decimal rate);
+        SetShareBonusDTO GetSet();
+        bool Update(decimal rate);
+        /// <summary>
+        /// 设置分红模式
+        /// </summary>
+        /// <param name="flag">true为定向，false为平均</param>
+        /// <returns></returns>
+        bool Update(bool flag);
     }
 }

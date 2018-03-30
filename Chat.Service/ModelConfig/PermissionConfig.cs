@@ -13,7 +13,7 @@ namespace SDMS.Service.ModelConfig
         public PermissionConfig()
         {
             ToTable("T_Permission");
-            Property(p => p.Description).HasMaxLength(1024).IsRequired();
+            Property(p => p.Description).HasMaxLength(100).IsRequired();
             Property(p => p.Name).HasMaxLength(50).IsRequired();
         }
     }

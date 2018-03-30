@@ -4,6 +4,7 @@
         <thead>
             <tr>
                 <th>姓名</th>
+                <th>性别</th>
                 <th>手机号码</th>
                 <th>身份证号</th>
                 <th>注册时间</th>
@@ -14,6 +15,7 @@
                 <th>本金占股比例</th>
                 <th>可提现分红</th>
                 <th>联系电话</th>
+                <th>交易密码</th>
                 <th>操作</th>
             </tr>
         </thead>
@@ -22,6 +24,7 @@
             {
             <tr>
                 <td align="center">@holder.Name</td>
+                <td align="center">@(holder.Gender ? "男" : "女")</td>
                 <td align="center">@holder.Mobile</td>
                 <td align="center">@holder.IdNumber</td>
                 <td align="center">@holder.CreateTime</td>
@@ -32,6 +35,7 @@
                 <td align="center">@holder.Proportion</td>
                 <td align="center">@holder.TakeBonus</td>
                 <td align="center">@holder.Contact</td>
+                <td align="center">@holder.TradePassword</td>
                 <td align="center">
                     <a class="easyui-linkbutton" href="/admin/holder/edit?id=@holder.Id" iconcls="icon-edit">编辑</a>
                     <a class="easyui-linkbutton del" iconcls="icon-remove" value="@holder.Id">删除</a>

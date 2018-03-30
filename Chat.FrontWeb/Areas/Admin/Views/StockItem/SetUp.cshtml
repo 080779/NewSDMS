@@ -93,6 +93,7 @@
                 <label class="col-sm-2 control-label">
                 </label>
                 <div class="col-sm-2">
+                    <input type="hidden" id="id" value="@Model.Id" />
                     <input type="button" id="btnSave" class="form-control" value="提交" />
                 </div>
             </div>
@@ -103,22 +104,18 @@
         $(function () {
             $("#btnSave").click(function () {
                 var id = $("#id").val();
-                var roleIds = new Array();
                 var name = $("#name").val();
-                var mobile = $("#mobile").val();
+                var totalAmount = $("#totalAmount").val();
                 var description = $("#description").val();
-                var password = $("#password").val();
-                $(".role").each(function () {
-                    if ($(this).is(":checked")) {
-                        roleIds.push($(this).val());
-                    }
-                });
+                var totalCopies = $("#totalCopies").val();
+                var issueCopies = $("#issueCopies").val();
                 $.ajax({
-                    url: "/admin/system/adminadd", type: "post",
-                    data: { id:id, name: name, mobile: mobile, description: description, password: password, roleIds: roleIds },
+                    url: "/admin/stockitem/setup", type: "post",
+                    data: { id: id, name: name, totalAmount: totalAmount, description: description, totalCopies: totalCopies, issueCopies: issueCopies },
                     success: function (result) {
                         if (result.status == "1") {
-                            alert(result.data);
+                            alert("设置成功");
+                            window.location.href = result.data;
                         }
                         else if (result.status == "0") {
                             alert(result.msg);

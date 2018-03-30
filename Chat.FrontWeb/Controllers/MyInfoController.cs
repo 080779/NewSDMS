@@ -15,24 +15,28 @@ namespace SDMS.Web.Controllers
         //public IHolderService holderService { get; set; }
         public ActionResult List()
         {
-            var dto=holderService.GetById(2);
+            var dto=holderService.GetById(UserId);
+            dto.HeadImgUrl= Session["HeadImgUrl"].ToString(); 
             return View(dto);
         }
         [HttpGet]
         public ActionResult Info()
         {
-            var dto = holderService.GetById(2);
+            var dto = holderService.GetById(UserId);
             return View(dto);
         }
         [HttpPost]
         public ActionResult Info(InfoModel model)
         {
-            holderService.Update(model.Id, model.Address, model.Contact, model.BankAccount, model.UrgencyName, model.UrgencyContact);
-            return Json(new AjaxResult { Status="1"});
+            if(!holderService.Update(model.Id, model.Address, model.Contact, model.BankAccount, model.UrgencyName, model.UrgencyContact))
+            {
+                return Json(new AjaxResult { Status = "0" ,Msg="修改失败" });
+            }
+            return Json(new AjaxResult { Status="1" ,Data="/myinfo/list"});
         }
         public ActionResult UnBind()
         {
-            long result = holderService.UnBind(2);
+            long result = holderService.UnBind(UserId);
             if (result<=0)
             {
                 if(result==-2)

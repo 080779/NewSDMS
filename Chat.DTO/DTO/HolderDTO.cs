@@ -34,6 +34,10 @@ namespace SDMS.DTO.DTO
         /// </summary>
         public decimal Amount { get; set; }
         /// <summary>
+        /// 认购份数
+        /// </summary>
+        public long Copies { get; set; }
+        /// <summary>
         /// 累计分红
         /// </summary>
         public decimal TotalBonus { get; set; }
@@ -66,5 +70,29 @@ namespace SDMS.DTO.DTO
         /// 交易密码
         /// </summary>
         public string TradePassword { get; set; }
+        /// <summary>
+        /// 微信头像，从授权后保存到seession中
+        /// </summary>
+        public string HeadImgUrl { get; set; }
+    }
+
+    public class HolderCalcNumberDTO
+    {
+        /// <summary>
+        /// 股东的总人数
+        /// </summary>
+        public long TotalHolder { get; set; }
+        /// <summary>
+        /// 所有股东的本金总额
+        /// </summary>
+        public decimal TotalHolderAmount { get; set; }
+        /// <summary>
+        /// 所有股东的累计分红总额
+        /// </summary>
+        public decimal TotalHolderBonus { get; set; }
+        /// <summary>
+        /// 所有股东的占股比例总数
+        /// </summary>
+        public decimal TotalProportion { get; set; }
     }
 }

@@ -8,6 +8,7 @@ namespace SDMS.Service.Entities
 {
     public class StockItemEntity:BaseEntity
     {
+        public string KeyName { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         /// <summary>

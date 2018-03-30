@@ -16,6 +16,8 @@ namespace SDMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<HolderEntity> cs = new CommonService<HolderEntity>(dbc);
+                CommonService<TakeCashStateEntity> tcs = new CommonService<TakeCashStateEntity>(dbc);
+                long stateId = tcs.GetAll().SingleOrDefault(t=>t.Name== "正在处理").Id;
                 var holder = cs.GetAll().SingleOrDefault(h => h.Id == holderId);
                 if (holder == null)
                 {
@@ -28,6 +30,7 @@ namespace SDMS.Service.Service
                 TakeCashEntity entity = new TakeCashEntity();
                 entity.Amount = Amount;
                 entity.HolderId = holderId;
+                entity.StateId = stateId;
                 dbc.TakeCashs.Add(entity);
                 dbc.SaveChanges();
                 return entity.Id;

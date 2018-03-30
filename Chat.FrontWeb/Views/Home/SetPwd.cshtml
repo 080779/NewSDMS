@@ -69,7 +69,7 @@
                     url: "/home/setpwd", type: "post", data: { oldTradePwd: oldTradePwd, TradePwd: TradePwd },
                     success: function (result) {
                         if (result.status == "1") {
-                            window.location.href = "/";
+                            alert("交易密码修改成功");
                         }
                         else if (result.status == "0") {
                             alert(result.msg);

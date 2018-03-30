@@ -9,7 +9,7 @@ namespace SDMS.IService.Interface
 {
     public interface IStockItemService:IServiceSupport
     {
-        StockItemDTO GetById(long id);
+        StockItemDTO GetByKeyName(string keyName);
         /// <summary>
         /// 添加
         /// </summary>
@@ -22,5 +22,6 @@ namespace SDMS.IService.Interface
         long AddNew(string name,string description,decimal totalAmount,long totalCopies,long issueCopies);
         bool Update(long id,string name, string description, decimal totalAmount, long totalCopies, long issueCopies);
         bool Delete(long id);
+        long GetIdByKeyName(string keyName);
     }
 }

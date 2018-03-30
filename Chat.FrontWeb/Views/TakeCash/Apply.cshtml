@@ -1,4 +1,4 @@
-﻿
+﻿@model SDMS.DTO.DTO.HolderDTO
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,15 +11,15 @@
     <div class="form">
         <div class="form-group2">
             <div class="form-label">可提现分红金额</div>
-            <div class="form-input"><input type="text" readonly value="1231231.23" /></div>
+            <div class="form-input"><input type="text" readonly value="@Model.TakeBonus" /></div>
         </div>
         <div class="form-group2">
             <div class="form-label">最低提现金额</div>
-            <div class="form-input"><input type="text" readonly value="1231231.23" /></div>
+            <div class="form-input"><input type="text" readonly value="100" /></div>
         </div>
         <div class="form-group2">
             <div class="form-label">可提现时间</div>
-            <div class="form-input"><input type="text" readonly value="2018/12/08" /></div>
+            <div class="form-input"><input type="text" readonly value="@Model.TakeCashTime" /></div>
         </div>
         <div class="form-lg">
             <span>￥</span>
@@ -29,29 +29,29 @@
     <div class="form">
         <div class="form-group2">
             <div class="form-label">姓名</div>
-            <div class="form-input"><input type="text" name="" readonly id="" value="徐树" /></div>
+            <div class="form-input"><input type="text" name="" readonly id="" value="@Model.Name" /></div>
         </div>
         <div class="form-group2">
             <div class="form-label">性别</div>
             <div class="form-input">
-                <div class="form-input"><input type="text" name="" readonly id="" value="女" /></div>
+                <div class="form-input"><input type="text" name="" readonly id="" value="@(Model.Gender?"男":"女")" /></div>
             </div>
         </div>
         <div class="form-group2">
             <div class="form-label">身份证号</div>
-            <div class="form-input"><input type="text" name="" id="" readonly value="348776655948576854" /></div>
+            <div class="form-input"><input type="text" name="" id="" readonly value="@Model.IdNumber" /></div>
         </div>
         <div class="form-group2">
             <div class="form-label">手机号</div>
-            <div class="form-input"><input type="text" name="" readonly id="" value="18806059333" /></div>
+            <div class="form-input"><input type="text" name="" readonly id="" value="@Model.Mobile" /></div>
         </div>
         <div class="form-group2">
             <div class="form-label">联系电话</div>
-            <div class="form-input"><input type="text" name="" readonly id="" value="18830853459" /></div>
+            <div class="form-input"><input type="text" name="" readonly id="" value="@Model.Contact" /></div>
         </div>
         <div class="form-group2">
             <div class="form-label">提现银行卡账号</div>
-            <div class="form-input"><input type="text" name="" readonly id="" value="44545 3453 4534 543" /></div>
+            <div class="form-input"><input type="text" name="" readonly id="" value="@Model.BankAccount" /></div>
         </div>
     </div>
     <div class="form-btn">
@@ -91,7 +91,7 @@
                     url: "/takecash/apply", type: "post", data: { amount: amount },
                     success: function (result) {
                         if (result.status == "1") {
-                            window.location.href = "/";
+                            alert("提现申请已提交");
                         }
                         else if (result.status == "0") {
                             alert(result.msg);

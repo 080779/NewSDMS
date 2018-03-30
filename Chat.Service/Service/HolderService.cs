@@ -18,8 +18,10 @@ namespace SDMS.Service.Service
             {
                 CommonService<SettingsEntity> scs = new CommonService<SettingsEntity>(dbc);
                 CommonService<StockItemEntity> cs = new CommonService<StockItemEntity>(dbc);
+                CommonService<JournalTypeEntity> jcs = new CommonService<JournalTypeEntity>(dbc);
                 StockItemEntity stockItem = cs.GetAll().Where(s=>s.Id==model.StockItemId).SingleOrDefault();
-                if(stockItem==null)
+                long holderadd = jcs.GetAll().SingleOrDefault(j => j.Name == "holderadd").Id;
+                if (stockItem==null)
                 {
                     return -1;
                 }
@@ -38,6 +40,7 @@ namespace SDMS.Service.Service
                 entity.Proportion = model.Amount / stockItem.TotalAmount;
                 entity.TotalAssets = model.Amount;
                 entity.Password = model.Password;
+                entity.Copies = model.Copies;
                 entity.TakeCashTime = entity.CreateTime.AddDays(Convert.ToDouble(seting.Value));
 
                 stockItem.HaveCopies = stockItem.HaveCopies - model.Copies;
@@ -45,7 +48,7 @@ namespace SDMS.Service.Service
                 JournalEntity journal = new JournalEntity();
                 journal.BalanceAmount = entity.TotalAssets;
                 journal.InAmount = entity.Amount;
-                journal.JournalTypeId = 1;
+                journal.JournalTypeId = holderadd;
                 journal.Remark = "后台添加股东";
 
                 dbc.Holder.Add(entity);
@@ -185,7 +188,8 @@ namespace SDMS.Service.Service
             dto.UrgencyContact = entity.UrgencyContact;
             dto.UrgencyName = entity.UrgencyName;
             dto.OpenId = entity.OpenId;
-            dto.TakeCashTime = dto.TakeCashTime;
+            dto.TakeCashTime = entity.TakeCashTime;
+            dto.Copies = entity.Copies;
             return dto;
         }
 
@@ -194,6 +198,20 @@ namespace SDMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<HolderEntity> cs = new CommonService<HolderEntity>(dbc);
+                CommonService<StockItemEntity> scs = new CommonService<StockItemEntity>(dbc);
+                var holder= cs.GetAll().SingleOrDefault(h => h.Id == id);
+                if(holder==null)
+                {
+                    return false;
+                }
+                var stockItem= scs.GetAll().SingleOrDefault(s => s.KeyName == "project");
+                if(stockItem==null)
+                {
+                    return false;
+                }
+                stockItem.HaveCopies = stockItem.HaveCopies + holder.Copies;
+                holder.IsDeleted = true;
+                dbc.SaveChanges();
                 return true;
             }
         }
@@ -307,11 +325,14 @@ namespace SDMS.Service.Service
                 {
                     return -2;
                 }
-                if(holder.OpenId!=openId)
+                if(!string.IsNullOrEmpty(holder.OpenId))
                 {
-                    return -3;
+                    if(holder.OpenId!=openId)
+                    {
+                        return -3;
+                    }
                 }
-                if(string.IsNullOrEmpty(holder.OpenId))
+                else
                 {
                     holder.OpenId = openId;
                 }
@@ -359,6 +380,22 @@ namespace SDMS.Service.Service
                 holder.OpenId = null;
                 dbc.SaveChanges();
                 return 1;
+            }
+        }
+
+        public HolderCalcNumberDTO CalcNumber()
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<HolderEntity> cs = new CommonService<HolderEntity>(dbc);
+                CommonService<StockItemEntity> scs = new CommonService<StockItemEntity>(dbc);
+                HolderCalcNumberDTO dto = new HolderCalcNumberDTO();
+                var holders = cs.GetAll();
+                dto.TotalHolder = holders.LongCount();
+                dto.TotalHolderAmount = holders.Sum(h => h.Amount);
+                dto.TotalHolderBonus = holders.Sum(h => h.TotalBonus);
+                dto.TotalProportion = dto.TotalHolderAmount / scs.GetAll().SingleOrDefault(s => s.KeyName == "project").TotalAmount;
+                return dto;
             }
         }
     }

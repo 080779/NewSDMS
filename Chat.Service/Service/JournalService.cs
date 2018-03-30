@@ -69,10 +69,10 @@ namespace SDMS.Service.Service
             {
                 CommonService<JournalEntity> cs = new CommonService<JournalEntity>(dbcontext);
                 CommonService<JournalTypeEntity> jcs = new CommonService<JournalTypeEntity>(dbcontext);
-                long pj = jcs.GetAll().SingleOrDefault(j=>j.Name=="pj").Id;
-                long dx = jcs.GetAll().SingleOrDefault(j => j.Name == "dx").Id;
+                long average = jcs.GetAll().SingleOrDefault(j=>j.Name== "average").Id;
+                long directional = jcs.GetAll().SingleOrDefault(j => j.Name == "directional").Id;
                 DateTime time = DateTime.Now.AddDays(-1);
-                var bonus = cs.GetAll().Where(j => j.HolderId == id).Where(j => j.CreateTime.Year==time.Year && j.CreateTime.Month==time.Month && j.CreateTime.Day==time.Day).Where(j=>j.JournalTypeId==5 || j.JournalTypeId==7).Sum(j=>j.InAmount);
+                var bonus = cs.GetAll().Where(j => j.HolderId == id).Where(j => j.CreateTime.Year==time.Year && j.CreateTime.Month==time.Month && j.CreateTime.Day==time.Day).Where(j=>j.JournalTypeId== average || j.JournalTypeId== directional).Sum(j=>j.InAmount);
                 if(bonus==null)
                 {
                     return 0;
@@ -81,12 +81,16 @@ namespace SDMS.Service.Service
             }
         }
 
-        public JournalDTO[] GetBonusList(long id, int pageSize)
+        public JournalDTO[] GetBonusList(long id,string journalType, string journalType01, int pageSize)
         {
             using (MyDbContext dbcontext = new MyDbContext())
             {
                 CommonService<JournalEntity> cs = new CommonService<JournalEntity>(dbcontext);
+                CommonService<JournalTypeEntity> jcs = new CommonService<JournalTypeEntity>(dbcontext);
                 var bonus = cs.GetAll().Where(j => j.HolderId == id);
+                long journalTypeId = jcs.GetAll().SingleOrDefault(j => j.Name == journalType).Id;
+                long journalTypeId01 = jcs.GetAll().SingleOrDefault(j => j.Name == journalType01).Id;
+                bonus = bonus.Where(j => j.JournalTypeId == journalTypeId || j.JournalTypeId== journalTypeId01);
                 if (bonus.Count()<=0)
                 {
                     return null;

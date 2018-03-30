@@ -15,11 +15,12 @@ namespace SDMS.Web.Areas.Admin.Controllers
     /// <summary>
     /// 股东管理
     /// </summary>
-    public class HolderController : AdminBaseController
+    public class HolderController : Controller
     {
         #region 属性注入
         public IHolderService holderService { get; set; }
         public IStockItemService stockService { get; set; }
+        private static readonly string KeyName = "project";
         #endregion
 
         #region 列表
@@ -28,7 +29,8 @@ namespace SDMS.Web.Areas.Admin.Controllers
         public ActionResult List()
         {
             //stockService.AddNew("股票", "gupn", 1000000, 10000, 5000);
-            return View();
+            var model= holderService.CalcNumber();
+            return View(model);
         }
         [Permission("股东管理")]
         public PartialViewResult ListGetPage(string name,string mobile,DateTime? startTime,DateTime? endTime,int pageIndex = 1)
@@ -61,18 +63,13 @@ namespace SDMS.Web.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Add()
         {
-            long num = stockService.GetById(1).HaveCopies;
+            long num = stockService.GetByKeyName(KeyName).HaveCopies;
             return View(num);
         }
         [HttpPost]
         [Permission("股东管理")]
         public ActionResult Add(HolderAddModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return Json(MVCHelper.GetJsonValidMsg(ModelState));
-            }
-
             if (string.IsNullOrEmpty(model.Name))
             {
                 ModelState.AddModelError("Name", "姓名不能为空");
@@ -89,9 +86,13 @@ namespace SDMS.Web.Areas.Admin.Controllers
             holder.Mobile = model.Mobile;
             holder.Name = model.Name;
             holder.Password = model.Password;
-            holder.StockItemId = 1;
+            holder.StockItemId = stockService.GetIdByKeyName(KeyName);
             holder.Copies = model.Copies;
             long id= holderService.AddNew(holder);
+            if(id<=0)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "添加股东失败" });
+            }
             return Json(new AjaxResult { Status = "1", Data = "/admin/holder/list" });
         }
         #endregion
@@ -108,8 +109,11 @@ namespace SDMS.Web.Areas.Admin.Controllers
         [Permission("股东管理")]
         public ActionResult Edit(HolderEditModel model)
         {
-            holderService.Update(model.Id, model.Name, model.Mobile, model.Gender, model.IdNumber, model.Contact);
-            return Json(new AjaxResult { Status="1"});
+            if(!holderService.Update(model.Id, model.Name, model.Mobile, model.Gender, model.IdNumber, model.Contact))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "编辑股东失败" });
+            }
+            return Json(new AjaxResult { Status="1",Data="/admin/holder/list"});
         }
         #endregion
 
@@ -118,7 +122,11 @@ namespace SDMS.Web.Areas.Admin.Controllers
         [Permission("股东管理")]
         public ActionResult Del(long id)
         {
-            return Json(new AjaxResult { Status = "1" });
+            if(!holderService.Delete(id))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "删除失败" });
+            }
+            return Json(new AjaxResult { Status = "1", Data = "/admin/holder/list" });
         }
         #endregion
 
@@ -137,7 +145,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
         #region 确认计算认购金额
         public ActionResult ClacAmount(long copies)
         {
-            decimal Copies= holderService.ClacAmount(1, copies);
+            decimal Copies= holderService.ClacAmount(stockService.GetIdByKeyName(KeyName), copies);
             return Json(new AjaxResult { Status = "1",Data= Copies });
         }
         #endregion

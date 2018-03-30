@@ -16,13 +16,14 @@ namespace SDMS.Web.Areas.Admin.Controllers
     {
         #region 属性注入
         public IStockItemService stockItemService { get; set; }
+        private static readonly string KeyName = "project";
         #endregion
 
         #region 列表
         [HttpGet]
         public ActionResult SetUp()
         {
-            var model= stockItemService.GetById(1);
+            var model= stockItemService.GetByKeyName(KeyName);
             return View(model);
         }
         [HttpPost]
@@ -30,9 +31,9 @@ namespace SDMS.Web.Areas.Admin.Controllers
         {
             if(!stockItemService.Update(model.Id,model.Name,model.Description,model.TotalAmount,model.TotalCopies,model.IssueCopies))
             {
-                return Json(new AjaxResult { Status = "0", Msg = "更新失败" });
+                return Json(new AjaxResult { Status = "0", Msg = "设置失败" });
             }
-            return Json(new AjaxResult { Status = "1" });
+            return Json(new AjaxResult { Status = "1",Data="/admin/stockitem/setup" });
         }
         #endregion
     }

@@ -56,6 +56,8 @@ namespace SDMS.Web.Controllers.Base
                         OAuthAccessTokenResult result = null;
                         result = OAuthApi.GetAccessToken(appId, secret, Request["code"].ToString());
                         Session["OpenId"] = result.openid;
+                        var userInfo= OAuthApi.GetUserInfo(result.access_token, result.openid, Senparc.Weixin.Language.zh_CN);
+                        Session["HeadImgUrl"] = userInfo.headimgurl;
                         if (holderService.GetHoderIdByOpenId(result.openid) <= 0)
                         {
                             if (filterContext.HttpContext.Request.IsAjaxRequest())//判断是否是ajax请求

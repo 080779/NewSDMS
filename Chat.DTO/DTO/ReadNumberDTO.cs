@@ -13,6 +13,6 @@ namespace SDMS.DTO.DTO
         [ExportExcelName("股东名")]
         public string HolderName { get; set; }
         [ExportExcelName("阅读时间")]
-        public DateTime CreateTime { get; set; }
+        public string CreateTime { get; set; }
     }
 }

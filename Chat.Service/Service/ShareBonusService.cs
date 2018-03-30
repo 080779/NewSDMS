@@ -15,6 +15,8 @@ namespace SDMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<HolderEntity> cs = new CommonService<HolderEntity>(dbc);
+                CommonService<JournalTypeEntity> jcs = new CommonService<JournalTypeEntity>(dbc);
+                long average = jcs.GetAll().SingleOrDefault(j => j.Name == "average").Id;
                 var holders = cs.GetAll();
                 if(holders==null)
                 {
@@ -30,7 +32,7 @@ namespace SDMS.Service.Service
                     journal.HolderId = holder.Id;
                     journal.BalanceAmount = holder.TotalAssets;
                     journal.InAmount = Amount * holder.Proportion;
-                    journal.JournalTypeId = 7;
+                    journal.JournalTypeId = average;
                     journal.Remark = "获得平均分红";
                     dbc.Journal.Add(journal);
                 }
@@ -43,8 +45,10 @@ namespace SDMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<SetShareBonusEntity> cs = new CommonService<SetShareBonusEntity>(dbc);
+                CommonService<JournalTypeEntity> jcs = new CommonService<JournalTypeEntity>(dbc);
                 CommonService<HolderEntity> hcs = new CommonService<HolderEntity>(dbc);
                 var set = cs.GetAll().SingleOrDefault(s => s.Id == cs.GetAll().SingleOrDefault(ss=>ss.Name=="bonus").Id);
+                long directional = jcs.GetAll().SingleOrDefault(j => j.Name == "directional").Id; 
                 var holders = hcs.GetAll();
                 if(set==null)
                 {
@@ -69,7 +73,7 @@ namespace SDMS.Service.Service
                     journal.HolderId = holder.Id;
                     journal.BalanceAmount = holder.TotalAssets;
                     journal.InAmount = holder.Amount * rate;
-                    journal.JournalTypeId = 5;
+                    journal.JournalTypeId = directional;
                     journal.Remark = "获得定向分红";
                     dbc.Journal.Add(journal);
                 }

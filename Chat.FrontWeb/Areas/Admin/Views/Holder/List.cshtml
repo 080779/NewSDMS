@@ -1,13 +1,16 @@
-﻿@{
+﻿@model SDMS.DTO.DTO.HolderCalcNumberDTO
+@{
     ViewBag.Title = "股东列表";
     Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
 }
+<fieldset class="fieldset">
+    <div><h1>股东统计</h1></div><div>股东的总人数:@Model.TotalHolder  所有股东的本金总额:@Model.TotalHolderAmount  所有股东的累计分红总额:@Model.TotalHolderBonus  所有股东的占股比例总数:@Model.TotalProportion</div>
+</fieldset>
 <br />
-<div style="margin-bottom:20px">
-    <a class="easyui-linkbutton" iconcls="icon-add" href="/admin/holder/add">添加股东</a>
-</div>
+
 <div style="margin-bottom:20px">
     <fieldset class="fieldset">
+        <a class="easyui-linkbutton" iconcls="icon-add" href="/admin/holder/add">添加股东</a>
         姓名：<input id="name" class="input_select" type="text" />
         手机号：<input id="mobile" class="input_select" type="text" />
         注册日期： <input tip="输入注册日期" class="input_select" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" id="startTime" />至
@@ -49,23 +52,28 @@
 
             //删除
             $(".del").click(function () {
-                var id = $(this).attr("value");
-                $.ajax({
-                    url: "/admin/holder/del?id=" + id, type: "post",
-                    success: function (result) {
-                        if (result.status == 1) {
-                            alert("删除成功")
-                            window.location.href = result.data;
-                        }
-                        else if (result.status == 0) {
-                            alert(result.msg);
-                        }
-                        else {
-                            alert("未知错误");
-                        }
-                    },
-                    error: function () { alert("网络错误"); }
-                });
+                if (confirm("确定要股东删除吗，删除将会返还股东认购的份数")) {
+                    var id = $(this).attr("value");
+                    $.ajax({
+                        url: "/admin/holder/del?id=" + id, type: "post",
+                        success: function (result) {
+                            if (result.status == 1) {
+                                alert("删除成功,认购份数已返还");
+                                window.location.href = result.data;
+                            }
+                            else if (result.status == 0) {
+                                alert(result.msg);
+                            }
+                            else {
+                                alert("未知错误");
+                            }
+                        },
+                        error: function () { alert("网络错误"); }
+                    });
+                }
+                else {
+                    return false;
+                }                
             });
         });
     </script>

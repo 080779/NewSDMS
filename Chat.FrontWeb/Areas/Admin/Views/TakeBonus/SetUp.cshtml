@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model SDMS.DTO.DTO.SetShareBonusDTO
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -21,14 +22,13 @@
         <div class="form-group">
             <div class="form-horizontal col-md-12">
                 <label class="col-sm-2 control-label">
-                    <span class="text-danger">*</span>
-                    定向分红分红比例：
+                   当前定向分红比例：@Model.Rate
                 </label>
                 <div class="col-sm-2">
-                    <input type="text" id="message" class="form-control" />
+                    <input type="text" id="rate" class="form-control" />
                 </div>
                 <div class="col-sm-2">
-                    <input type="button" id="btnSave" class="form-control" value="确定" />
+                    <input type="button" id="btnSet" class="form-control" value="设置定向分红比例" />
                 </div>
             </div>
         </div>
@@ -43,13 +43,13 @@
         <div class="form-group">
             <div class="form-horizontal col-md-12">
                 <label class="col-sm-2 control-label">
-                    当前分红模式为：定向分红
+                    当前分红模式为：@(Model.Flag?"定向分红":"平均分红")
                 </label>
                 <div class="col-sm-2">
-                    <input type="button" id="btnSave" class="form-control" value="设为定向分红" />
+                    <input type="button" id="btnDirectional" class="form-control" value="设为定向分红" />
                 </div>
                 <div class="col-sm-2">
-                    <input type="button" id="btnSave" class="form-control" value="设为定向分红" />
+                    <input type="button" id="btnAverage" class="form-control" value="设为平均分红" />
                 </div>
             </div>
         </div>
@@ -57,14 +57,54 @@
     <script src="~/js/jquery-1.10.2.min.js"></script>
     <script type="text/javascript">
         $(function () {
-            $("#btnSave").click(function () {
-                var message = $("#message").val();
+            $("#btnSet").click(function () {
+                var rate = $("#rate").val();
                 $.ajax({
                     url: "/admin/takebonus/setup", type: "post",
-                    data: { id: id, message: message },
+                    data: { rate: rate },
                     success: function (result) {
                         if (result.status == "1") {
-                            alert(result.data);
+                            alert("设置定向分红比例成功,第二天生效");
+                            window.location.href = result.data;
+                        }
+                        else if (result.status == "0") {
+                            alert(result.msg);
+                        }
+                        else {
+                            alert("未知错误");
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            });
+
+            $("#btnDirectional").click(function () {
+                $.ajax({
+                    url: "/admin/takebonus/setflag", type: "post",
+                    data: { flag: true },
+                    success: function (result) {
+                        if (result.status == "1") {
+                            alert("设置当前为定向分红成功");
+                            window.location.href = result.data;
+                        }
+                        else if (result.status == "0") {
+                            alert(result.msg);
+                        }
+                        else {
+                            alert("未知错误");
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            });
+            $("#btnAverage").click(function () {
+                $.ajax({
+                    url: "/admin/takebonus/setflag", type: "post",
+                    data: { flag: false },
+                    success: function (result) {
+                        if (result.status == "1") {
+                            alert("设置当前为平均分红成功");
+                            window.location.href = result.data;
                         }
                         else if (result.status == "0") {
                             alert(result.msg);

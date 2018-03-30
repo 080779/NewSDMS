@@ -24,7 +24,8 @@ namespace SDMS.Web.Controllers
         [HttpGet]
         public ActionResult Apply()
         {
-            return View();
+            var model= holderService.GetById(UserId);
+            return View(model);
         }
         [HttpPost]
         public ActionResult Apply(decimal amount)

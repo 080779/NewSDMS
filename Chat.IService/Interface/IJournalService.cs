@@ -22,7 +22,7 @@ namespace SDMS.IService.Interface
         /// <param name="pageSize"></param>
         /// <returns></returns>
         JournalPageResult GetPageList(long? holderId, string mobile, string name, long? journalTypeId, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize);
-        JournalDTO[] GetBonusList(long id,int pageSize);
+        JournalDTO[] GetBonusList(long id, string journalType, string journalType01, int pageSize);
         decimal YesterdayBonus(long id);
     }
 

@@ -73,10 +73,9 @@ namespace SDMS.Web.Controllers
             ShareBonusViewModel model = new ShareBonusViewModel();
             model.Holder = holderService.GetById(UserId);
             model.YesterdayBonus = journalService.YesterdayBonus(UserId);
-            model.Journals = journalService.GetBonusList(UserId, 10);
+            model.Journals = journalService.GetBonusList(UserId, "directional", "average" ,10);
             return View(model);
         }
-
         [HttpGet]
         public ActionResult SetPwd()
         {

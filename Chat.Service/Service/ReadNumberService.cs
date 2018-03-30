@@ -71,7 +71,7 @@ namespace SDMS.Service.Service
         public ReadNumberDTO ToDTO(ReadNumberEntity entity)
         {
             ReadNumberDTO dto = new ReadNumberDTO();
-            dto.CreateTime = entity.CreateTime;
+            dto.CreateTime = entity.CreateTime.ToString("yyyy-MM-dd HH:mm:ss");
             dto.HolderName = entity.Holder.Name;
             dto.NewsTitle = entity.News.Title;
             return dto;

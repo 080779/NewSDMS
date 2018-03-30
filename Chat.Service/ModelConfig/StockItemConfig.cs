@@ -13,8 +13,9 @@ namespace SDMS.Service.ModelConfig
         public StockItemConfig()
         {
             ToTable("T_StockItems");
-            Property(s => s.Name).HasMaxLength(20).IsRequired();
-            Property(s => s.Description).HasMaxLength(50);
+            Property(s => s.KeyName).HasMaxLength(10).IsRequired().IsUnicode();
+            Property(s => s.Name).HasMaxLength(50).IsRequired();
+            Property(s => s.Description).HasMaxLength(200);
         }
     }
 }

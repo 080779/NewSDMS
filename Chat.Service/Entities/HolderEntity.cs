@@ -37,6 +37,10 @@ namespace SDMS.Service.Entities
         /// </summary>
         public decimal Amount { get; set; }
         /// <summary>
+        /// 认购份数
+        /// </summary>
+        public long Copies { get; set; }
+        /// <summary>
         /// 累计分红
         /// </summary>
         public decimal TotalBonus { get; set; } = 0;

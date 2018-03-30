@@ -27,8 +27,8 @@
             </label>
             <div class="col-sm-2">
                 <select id="gender" class="form-control">
-                    <option value="true" selected="@Model.Gender">男</option>
-                    <option value="false" selected="@Model.Gender">女</option>
+                    <option value="true" selected="@(Model.Gender==true)">男</option>
+                    <option value="false" selected="@(Model.Gender==false)">女</option>
                 </select>
             </div>
         </div>
@@ -110,6 +110,7 @@
             <label class="col-sm-2 control-label">
             </label>
             <div class="col-sm-2">
+                <input type="hidden" id="id" value="@Model.Id" />
                 <input type="button" id="btnSave" class="form-control" value="提交" />
             </div>
         </div>
@@ -147,7 +148,8 @@
                         data: { id: id, name: name, gender: gender, mobile: mobile, idNumber: idNumber, contact: contact },
                         success: function (result) {
                             if (result.status == "1") {
-                                window.location.href = "/admin/holde/list";
+                                alert("编辑成功");
+                                window.location.href = result.data;
                             }
                             else if (result.status == "0") {
                                 alert(result.msg);

@@ -88,7 +88,8 @@
                     url: "/admin/news/add", type: "post", data: { title: title, imgURL: imgURL, contents: contents },
                     success: function (result) {
                         if (result.status == "1") {
-                            alert(result.data);
+                            alert("添加成功");
+                            window.location.href = result.data;
                         }
                         else if (result.status == "0") {
                             alert(result.msg);

@@ -44,12 +44,12 @@ namespace SDMS.Service.Service
             }
         }
 
-        public StockItemDTO GetById(long id)
+        public StockItemDTO GetByKeyName(string keyName)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<StockItemEntity> cs = new CommonService<StockItemEntity>(dbc);
-                var entity = cs.GetAll().SingleOrDefault(s=>s.Id==id);
+                var entity = cs.GetAll().SingleOrDefault(s=>s.KeyName==keyName);
                 if(entity==null)
                 {
                     return null;
@@ -77,6 +77,19 @@ namespace SDMS.Service.Service
                 entity.HaveCopies = issueCopies;
                 dbc.SaveChanges();
                 return true;
+            }
+        }
+        public long GetIdByKeyName(string keyName)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<StockItemEntity> cs = new CommonService<StockItemEntity>(dbc);
+                var entity = cs.GetAll().SingleOrDefault(s => s.KeyName == keyName);
+                if(entity==null)
+                {
+                    return 0;
+                }
+                return entity.Id;
             }
         }
     }
