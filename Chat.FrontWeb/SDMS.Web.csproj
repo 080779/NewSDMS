@@ -478,6 +478,7 @@
     <Compile Include="Areas\Admin\Models\System\AdminAddModel.cs" />
     <Compile Include="Areas\Admin\Models\System\AdminEditModel.cs" />
     <Compile Include="Areas\Admin\Models\System\LogListViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\TakeBonus\BonusJournalViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TakeBonus\IssueModel.cs" />
     <Compile Include="Areas\Admin\Models\TakeBonus\SetUpModel.cs" />
     <Compile Include="Areas\Admin\Models\TakeCash\TakeCashViewModel.cs" />

@@ -17,6 +17,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
         #region 属性注入
         public IShareBonusService shareBonusService { get; set; }
         public ISetShareBonusService setShareBonusService { get; set; }
+        public IJournalService journalService { get; set; }
         #endregion
 
         #region 分红设置
@@ -79,14 +80,33 @@ namespace SDMS.Web.Areas.Admin.Controllers
         }
         #endregion
 
-        #region 分红统计
-        public ActionResult Clac()
+        #region 分红流水统计
+        public ActionResult BonusJournal()
         {
             return View();
         }
-        public ActionResult Clac(string s)
+        public PartialViewResult BonusJournalGetPage(string name, string mobile,long? journalTypeId, DateTime? startTime, DateTime? endTime, int pageIndex = 1)
         {
-            return Json(new AjaxResult { Status = "1" });
+            int pageSize = 3;
+            BonusJournalViewModel model = new BonusJournalViewModel();
+            JournalPageResult result = journalService.GetPageList(null,mobile,name,"分红",journalTypeId,startTime,endTime,pageIndex,pageSize);
+            model.Journals = result.Journals;
+
+            //分页
+            Pagination pager = new Pagination();
+            pager.PageIndex = pageIndex;
+            pager.PageSize = pageSize;
+            pager.TotalCount = result.TotalCount;
+
+            if (result.TotalCount <= pageSize)
+            {
+                model.Page = "";
+            }
+            else
+            {
+                model.Page = pager.GetPagerHtml();
+            }
+            return PartialView("HolderListPaging", model);
         }
         #endregion
     }

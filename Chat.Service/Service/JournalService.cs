@@ -24,7 +24,7 @@ namespace SDMS.Service.Service
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public JournalPageResult GetPageList(long? holderId, string mobile, string name, long? journalTypeId, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
+        public JournalPageResult GetPageList(long? holderId, string mobile, string name,string remark, long? journalTypeId, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
         {
             using (MyDbContext dbcontext = new MyDbContext())
             {
@@ -43,6 +43,10 @@ namespace SDMS.Service.Service
                 if (!string.IsNullOrEmpty(name))
                 {
                     JournalQuery = JournalQuery.Where(p => p.Holder.Name.Contains(name));
+                }
+                if(!string.IsNullOrEmpty(remark))
+                {
+                    JournalQuery = JournalQuery.Where(p=>p.Remark.Contains(remark));
                 }
                 if (journalTypeId != null)
                 {
@@ -80,17 +84,32 @@ namespace SDMS.Service.Service
                 return (decimal)bonus;
             }
         }
-
-        public JournalDTO[] GetBonusList(long id,string journalType, string journalType01, int pageSize)
+        /// <summary>
+        /// 获得流水列表
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="journalType">提现、分红</param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public JournalDTO[] GetBonusList(long id,string journalType, int pageSize)
         {
             using (MyDbContext dbcontext = new MyDbContext())
             {
                 CommonService<JournalEntity> cs = new CommonService<JournalEntity>(dbcontext);
                 CommonService<JournalTypeEntity> jcs = new CommonService<JournalTypeEntity>(dbcontext);
                 var bonus = cs.GetAll().Where(j => j.HolderId == id);
-                long journalTypeId = jcs.GetAll().SingleOrDefault(j => j.Name == journalType).Id;
-                long journalTypeId01 = jcs.GetAll().SingleOrDefault(j => j.Name == journalType01).Id;
-                bonus = bonus.Where(j => j.JournalTypeId == journalTypeId || j.JournalTypeId== journalTypeId01);
+                if(journalType=="分红")
+                {
+                    long journalTypeId = jcs.GetAll().SingleOrDefault(j => j.Name == "directional").Id;
+                    long journalTypeId01 = jcs.GetAll().SingleOrDefault(j => j.Name == "average").Id;
+                    bonus = bonus.Where(j => j.JournalTypeId == journalTypeId || j.JournalTypeId == journalTypeId01);
+                }
+                else
+                {
+                    long journalTypeId = jcs.GetAll().SingleOrDefault(j => j.Name == "takecash").Id;
+                    bonus = bonus.Where(j => j.JournalTypeId == journalTypeId);
+                }
+                
                 if (bonus.Count()<=0)
                 {
                     return null;
