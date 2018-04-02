@@ -24,6 +24,7 @@ namespace SDMS.IService.Interface
         JournalPageResult GetPageList(long? holderId, string mobile, string name, string remark, long? journalTypeId, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize);
         JournalDTO[] GetBonusList(long id, string journalType, int pageSize);
         decimal YesterdayBonus(long id);
+        decimal CalcTakeBonus(string name, string mobile, long? bonusTypeId, DateTime? year, DateTime? month);
     }
 
     public class JournalPageResult

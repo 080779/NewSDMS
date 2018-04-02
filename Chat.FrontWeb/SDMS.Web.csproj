@@ -399,6 +399,7 @@
     <Content Include="Areas\Admin\Views\Shared\TakeCashJournalPaging.cshtml" />
     <Content Include="Areas\Admin\Views\News\ReadList.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\ReadListPaging.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\SetImgUrl.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

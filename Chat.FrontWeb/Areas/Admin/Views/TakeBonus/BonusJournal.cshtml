@@ -3,6 +3,20 @@
     ViewBag.Title = "分和流水统计列表";
     Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
 }
+分红总金额:<label id="totalAmount"></label>
+        姓名：<input id="cname" class="input_select" type="text" />
+        手机号：<input id="cmobile" class="input_select" type="text" />
+        分红类型：
+        <select id="bonusTypeId">
+            <option value="0">-请选择-</option>
+            @foreach (var type in Model)
+            {
+                <option value="@type.Id">@type.Description</option>
+            }
+        </select>
+        年： <input tip="" class="input_select" type="text" onfocus="WdatePicker({dateFmt:'yyyy'})" id="year" />月
+        <input tip="" class="input_select" type="text" onfocus="WdatePicker({dateFmt:'MM'})" id="month" />
+        <a class="easyui-linkbutton" iconcls="icon-search" id="csearch">查询</a>
 <br />
 <div style="margin-bottom:20px">
     <fieldset class="fieldset">
@@ -31,6 +45,17 @@
     <script src="/js/admin/jquery.easyui.min.js"></script>
     <script src="/js/admin/jquery.parser.js"></script>
     <script type="text/javascript">
+
+        $.ajax({
+            url: "/admin/takebonus/search", type: "post", data: {},
+            success: function (result) {
+                if (result.status == "1") {
+                    $("#totalAmount").text(result.data);
+                }
+            },
+            error: function () { alert("网络错误"); }
+        });
+
         function getPage(pageIndex) {
             var name = $("#name").val();
             var mobile = $("#mobile").val();

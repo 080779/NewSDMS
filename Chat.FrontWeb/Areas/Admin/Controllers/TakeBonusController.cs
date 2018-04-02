@@ -127,6 +127,11 @@ namespace SDMS.Web.Areas.Admin.Controllers
             }
             return PartialView("BonusJournalPaging", model);
         }
+        public ActionResult Search(string name, string mobile, long? bonusTypeId, DateTime? year, DateTime? month)
+        {
+            decimal result= journalService.CalcTakeBonus(name, mobile,bonusTypeId, year, month);
+            return Json(new AjaxResult { Status = "1", Data = result });
+        }
         #endregion
     }
 }

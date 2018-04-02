@@ -117,6 +117,38 @@ namespace SDMS.Service.Service
                 return bonus.OrderByDescending(j => j.CreateTime).Take(pageSize).ToList().Select(j => ToDTO(j)).ToArray();
             }
         }
+        public decimal CalcTakeBonus(string name,string mobile,long? bonusTypeId,DateTime? year,DateTime? month)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<JournalEntity> cs = new CommonService<JournalEntity>(dbc);
+                CommonService<JournalTypeEntity> jcs = new CommonService<JournalTypeEntity>(dbc);
+                long directional = jcs.GetAll().SingleOrDefault(j=>j.Name== "directional").Id;
+                long average = jcs.GetAll().SingleOrDefault(j => j.Name == "average").Id;                
+                var journals= cs.GetAll().Where(j => j.JournalTypeId == directional || j.JournalTypeId == average);
+                if(bonusTypeId!=null)
+                {
+                    journals = journals.Where(j => j.JournalTypeId==bonusTypeId.Value);
+                }
+                if(!string.IsNullOrEmpty(name))
+                {
+                    journals = journals.Where(j=>j.Holder.Name==name);
+                }
+                if (!string.IsNullOrEmpty(mobile))
+                {
+                    journals = journals.Where(j => j.Holder.Mobile == mobile);
+                }
+                if(year!=null)
+                {
+                    journals = journals.Where(j => j.CreateTime.Year == year.Value.Year);
+                }
+                if(month!=null)
+                {
+                    journals = journals.Where(j => j.CreateTime.Month==month.Value.Month);
+                }
+                return journals.Sum(j => j.InAmount).Value;
+            }
+        }
         #region ToDTO
         public JournalDTO ToDTO(JournalEntity journal)
         {
