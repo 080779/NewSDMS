@@ -1,26 +1,20 @@
-﻿@model SDMS.Web.Areas.Admin.Models.News.NewsListViewModel
+﻿@model SDMS.Web.Areas.Admin.Models.News.ReadListViewModel
 <div class="dataTable">
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="t1">
         <thead>
             <tr>
                 <th>公告标题</th>
-                <th>公告点击量</th>
-                <th>点击量占比</th>
-                <th>发布时间</th>
-                <th>操作</th>
+                <th>股东名</th>
+                <th>阅读时间</th>
             </tr>
         </thead>
         <tbody id="pagerList">
-            @foreach (var news in Model.News)
+            @foreach (var read in Model.ReadNumbers)
             {
             <tr>
-                <td align="center">@news.Title</td>
-                <td align="center">@news.Click</td>
-                <td align="center">@news.Rate</td>
-                <td align="center">@news.CreateTime</td>
-                <td align="center">
-                    <a class="easyui-linkbutton" href="/admin/news/exportexcel/@news.Id" iconcls="icon-edit">导出股东阅读记录</a>
-                </td>
+                <td align="center">@read.NewsTitle</td>
+                <td align="center">@read.HolderName</td>
+                <td align="center">@read.CreateTime</td>
             </tr>
             }
         </tbody>

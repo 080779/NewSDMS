@@ -13,5 +13,6 @@ namespace SDMS.IService.Interface
         long AddNew(string name,string description);
         bool Update(long id,string name,string description);
         bool Delete(long id);
+        JournalTypeDTO[] GetByDecription(string decription);
     }
 }

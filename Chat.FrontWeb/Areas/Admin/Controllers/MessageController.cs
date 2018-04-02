@@ -1,5 +1,7 @@
 ﻿using SDMS.Common;
 using SDMS.IService.Interface;
+using SDMS.Web.App_Start;
+using SDMS.Web.Areas.Admin.Controllers.Base;
 using SDMS.Web.Areas.Admin.Models.Message;
 using System;
 using System.Collections.Generic;
@@ -9,13 +11,16 @@ using System.Web.Mvc;
 
 namespace SDMS.Web.Areas.Admin.Controllers
 {
-    public class MessageController : Controller
+    public class MessageController : AdminBaseController
     {
         #region 属性注入
         public IMessageService messageService { get; set; }
         #endregion
 
         #region 列表
+
+        [ActDescription("留言列表")]
+
         public ActionResult List()
         {
             return View();

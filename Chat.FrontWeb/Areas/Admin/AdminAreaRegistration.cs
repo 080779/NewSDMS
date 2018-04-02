@@ -17,7 +17,7 @@ namespace SDMS.Web.Areas.Admin
             context.MapRoute(
                 "Admin_default",
                 "Admin/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { Controller="Home", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>添加管理员</title>
+    <title>编辑管理员</title>
     <link href="~/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/css/font-awesome.css" rel="stylesheet" />
     <style type="text/css">
@@ -51,7 +51,7 @@
                     密码：
                 </label>
                 <div class="col-sm-4">
-                    <input type="hidden" value="@Model.Admin.Id" />
+                    <input type="hidden" id="id" value="@Model.Admin.Id" />
                     <input type="password" id="password" class="form-control" />
                 </div>
             </div>
@@ -82,6 +82,9 @@
                 <div class="col-sm-2">
                     <input type="button" id="btnSave" class="form-control" value="提交" />
                 </div>
+                <div class="col-sm-2">
+                    <input type="button" onclick="javascript:history.back(-1);" class="form-control" value="返回" />
+                </div>
             </div>
         </div>
     </div>
@@ -101,11 +104,12 @@
                     }
                 });
                 $.ajax({
-                    url: "/admin/system/adminadd", type: "post",
+                    url: "/admin/system/adminedit", type: "post",
                     data: { id:id, name: name, mobile: mobile, description: description, password: password, roleIds: roleIds },
                     success: function (result) {
                         if (result.status == "1") {
-                            alert(result.data);
+                            alert("编辑成功");
+                            window.location.href = result.data;
                         }
                         else if (result.status == "0") {
                             alert(result.msg);

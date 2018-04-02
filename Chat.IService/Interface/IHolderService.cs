@@ -24,6 +24,7 @@ namespace SDMS.IService.Interface
         long SetTradePwd(long id, string oldTradePwd, string tradePwd);
         long UnBind(long id);
         HolderCalcNumberDTO CalcNumber();
+        TakeCashCalcNumberDTO TakeCashCalcNumber();
     } 
 
     public class HolderSearchResult

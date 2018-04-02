@@ -19,8 +19,11 @@
                 <td align="center">@role.Description</td>
                 <td align="center">@role.CreateTime</td>
                 <td align="center">
+                @if(role.Name!="超级管理权")
+                {
                     <a class="easyui-linkbutton" href="/admin/system/roleedit?id=@role.Id" iconcls="icon-edit">编辑</a>
                     <a class="easyui-linkbutton del" iconcls="icon-remove" value="@role.Id">删除</a>
+                }
                 </td>
             </tr>
             }

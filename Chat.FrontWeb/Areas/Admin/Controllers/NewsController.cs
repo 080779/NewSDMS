@@ -2,6 +2,7 @@
 using SDMS.Common;
 using SDMS.DTO.DTO;
 using SDMS.IService.Interface;
+using SDMS.Web.App_Start;
 using SDMS.Web.Areas.Admin.Controllers.Base;
 using SDMS.Web.Areas.Admin.Models.News;
 using System;
@@ -25,10 +26,13 @@ namespace SDMS.Web.Areas.Admin.Controllers
         #endregion
 
         #region 列表
+        [ActDescription("公告列表")]
+        [Permission("公告管理")]
         public ActionResult List()
         {
             return View();
         }
+        [Permission("公告管理")]
         public PartialViewResult ListGetPage(string title, DateTime? startTime, DateTime? endTime, int pageIndex = 1)
         {
             int pageSize = 3;
@@ -56,12 +60,15 @@ namespace SDMS.Web.Areas.Admin.Controllers
 
         #region 添加
         [HttpGet]
+        [Permission("公告管理")]
         public ActionResult Add()
         {
             return View();
         }
         [HttpPost]
         [ValidateInput(false)]
+        [Permission("公告管理")]
+        [ActDescription("添加公告")]
         public ActionResult Add(NewsAddModel model)
         {
             if (!ModelState.IsValid)
@@ -102,12 +109,15 @@ namespace SDMS.Web.Areas.Admin.Controllers
 
         #region 修改
         [HttpGet]
+        [Permission("公告管理")]
         public ActionResult Edit(long id)
         {
             var dto= newService.GetById(id);
             return View(dto);
         }
         [HttpPost]
+        [Permission("公告管理")]
+        [ActDescription("修改公告")]
         public ActionResult Edit(NewsEditModel model)
         {
             if (!ModelState.IsValid)
@@ -148,6 +158,8 @@ namespace SDMS.Web.Areas.Admin.Controllers
 
         #region 删除
         [HttpPost]
+        [Permission("公告管理")]
+        [ActDescription("删除公告")]
         public ActionResult Del(long id)
         {
             if(newService.Delete(id))
@@ -157,7 +169,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
             return Json(new AjaxResult { Status = "1", Data = "/admin/news/list" });
         }
         #endregion
-                
+        [Permission("公告管理")]
         public ActionResult UpImg(HttpPostedFileBase file)
         {
             string md5 = CommonHelper.GetMD5(file.InputStream);
@@ -174,8 +186,8 @@ namespace SDMS.Web.Areas.Admin.Controllers
 
             return Json(new { errno = "0", Data = paths });
         }
-
         #region 二进制图片保存，返回地址
+        [Permission("公告管理")]
         private string SaveImg(byte[] imgBytes, string ext)
         {
             string md5 = CommonHelper.GetMD5(imgBytes);
@@ -188,21 +200,31 @@ namespace SDMS.Web.Areas.Admin.Controllers
             return path;
         }
         #endregion
-
+        [Permission("公告管理")]
         public ActionResult Link()
         { 
             return View();
         }
-        public ActionResult ReadList()
+        [Permission("公告管理")]
+        [ActDescription("导出公告阅读股东列表")]
+        public ActionResult ExportExcel(long id)
         {
-            return View();
+            var result = readNumberService.GetByNewsId(id);
+            return File(ExcelHelper.ExportExcel<ReadNumberDTO>(result, "股东阅读记录"), "application/vnd.ms-excel", "股东阅读记录.xls");
         }
-        public PartialViewResult ReadListPage(string title,DateTime? startTime,DateTime? endTime,int pageIndex=1)
+        [Permission("公告管理")]
+        [ActDescription("股东阅读记录列表")]
+        public ActionResult ReadList(long id)
+        {
+            return View(id);
+        }
+        [Permission("公告管理")]
+        public PartialViewResult ReadListGetPage(long id,string name, DateTime? startTime, DateTime? endTime, int pageIndex = 1)
         {
             int pageSize = 3;
-            NewsListViewModel model = new NewsListViewModel();
-            NewsSearchResult result = newService.GetPageList(title, startTime, endTime, pageIndex, pageSize);
-            model.News = result.News;
+            ReadListViewModel model = new ReadListViewModel();
+            ReadSearchResult result = readNumberService.GetPageList(id, name, startTime, endTime, pageIndex, pageSize);
+            model.ReadNumbers = result.ReadNumbers;
 
             //分页
             Pagination pager = new Pagination();
@@ -219,11 +241,6 @@ namespace SDMS.Web.Areas.Admin.Controllers
                 model.Page = pager.GetPagerHtml();
             }
             return PartialView("ReadListPaging", model);
-        }
-        public ActionResult ExportExcel(long id)
-        {
-            var result = readNumberService.GetByNewsId(id);
-            return File(ExcelHelper.ExportExcel<ReadNumberDTO>(result, "股东阅读记录"), "application/vnd.ms-excel", "股东阅读记录.xls");
         }
     }
 }

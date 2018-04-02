@@ -22,8 +22,11 @@
                 <td align="center">@admin.Description</td>
                 <td align="center">@admin.CreateTime</td>
                 <td align="center">
-                    <a class="easyui-linkbutton" href="/admin/system/adminedit?id=@admin.Id" iconcls="icon-edit">编辑</a>
-                    <a class="easyui-linkbutton del" iconcls="icon-remove" value="@admin.Id">删除</a>
+                    @if(admin.Name !="admin")
+                    {
+                        <a class="easyui-linkbutton" href="/admin/system/adminedit?id=@admin.Id" iconcls="icon-edit">编辑</a>
+                        <a class="easyui-linkbutton del" iconcls="icon-remove" value="@admin.Id">删除</a>
+                    }
                 </td>
             </tr>
             }

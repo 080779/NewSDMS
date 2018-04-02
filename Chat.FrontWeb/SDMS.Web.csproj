@@ -96,9 +96,6 @@
     <Reference Include="NPOI.OpenXmlFormats, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
-    <Reference Include="Quartz, Version=3.0.4.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Quartz.3.0.4\lib\net452\Quartz.dll</HintPath>
-    </Reference>
     <Reference Include="Senparc.Weixin, Version=4.20.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Senparc.Weixin.4.20.2\lib\net45\Senparc.Weixin.dll</HintPath>
       <Private>True</Private>
@@ -383,11 +380,11 @@
     <Content Include="Areas\Admin\Views\TakeCash\Apply.cshtml" />
     <Content Include="Areas\Admin\Views\TakeCash\Confirm.cshtml" />
     <Content Include="Areas\Admin\Views\TakeCash\Reject.cshtml" />
-    <Content Include="Areas\Admin\Views\TakeCash\Clac.cshtml" />
+    <Content Include="Areas\Admin\Views\TakeCash\TakeCashJournal.cshtml" />
     <Content Include="Areas\Admin\Views\TakeCash\SetUp.cshtml" />
     <Content Include="Areas\Admin\Views\StockItem\SetUp.cshtml" />
     <Content Include="Areas\Admin\Views\TakeBonus\SetUp.cshtml" />
-    <Content Include="Areas\Admin\Views\TakeBonus\Clac.cshtml" />
+    <Content Include="Areas\Admin\Views\TakeBonus\BonusJournal.cshtml" />
     <Content Include="Areas\Admin\Views\TakeBonus\Issue.cshtml" />
     <Content Include="Areas\Admin\Views\Holder\Clac.cshtml" />
     <Content Include="Areas\Admin\Views\System\RoleManager.cshtml" />
@@ -398,6 +395,8 @@
     <Content Include="Areas\Admin\Views\Shared\LogListPaging.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\MessageListPaging.cshtml" />
     <Content Include="Areas\Admin\Views\Message\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\BonusJournalPaging.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\TakeCashJournalPaging.cshtml" />
     <Content Include="Areas\Admin\Views\News\ReadList.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\ReadListPaging.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
@@ -474,6 +473,7 @@
     <Compile Include="Areas\Admin\Models\Holder\HolderEditModel.cs" />
     <Compile Include="Areas\Admin\Models\Message\MessageListViewModel.cs" />
     <Compile Include="Areas\Admin\Models\News\NewsEditModel.cs" />
+    <Compile Include="Areas\Admin\Models\News\ReadListViewModel.cs" />
     <Compile Include="Areas\Admin\Models\StockItemModel.cs" />
     <Compile Include="Areas\Admin\Models\System\AdminAddModel.cs" />
     <Compile Include="Areas\Admin\Models\System\AdminEditModel.cs" />
@@ -481,7 +481,9 @@
     <Compile Include="Areas\Admin\Models\TakeBonus\BonusJournalViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TakeBonus\IssueModel.cs" />
     <Compile Include="Areas\Admin\Models\TakeBonus\SetUpModel.cs" />
+    <Compile Include="Areas\Admin\Models\TakeCash\TakeCashJournalModel.cs" />
     <Compile Include="Areas\Admin\Models\TakeCash\TakeCashViewModel.cs" />
+    <Compile Include="Jobs\TakeBonusJob.cs" />
     <Compile Include="Models\TakeCash\TakeCashListViewModel.cs" />
     <Compile Include="App_Start\NoPermissionAttribute.cs" />
     <Compile Include="App_Start\PermissionAttribute.cs" />

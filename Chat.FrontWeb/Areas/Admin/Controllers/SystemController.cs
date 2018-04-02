@@ -14,20 +14,21 @@ using System.Web.Mvc;
 namespace SDMS.Web.Areas.Admin.Controllers
 {
     
-    public class SystemController : Controller
+    public class SystemController : AdminBaseController
     {
-        public IAdminService adminService { get; set; }
-        public IPermissionService permissionService { get; set; }
+        //public IAdminService adminService { get; set; }
+        //public IPermissionService permissionService { get; set; }
         public IRoleService roleService { get; set; }
         public IAdminLogService adminLogService { get; set; }
 
         #region 管理员管理
-        //[ActDescription("答题活动列表")]
+        [ActDescription("管理员管理列表")]
+        [Permission("系统管理")]
         public ActionResult AdminManager()
         {            
             return View();
         }
-
+        [Permission("系统管理")]
         public PartialViewResult AdminManagerGetPage(int pageIndex=1)
         {
             int pageSize = 3;
@@ -51,14 +52,15 @@ namespace SDMS.Web.Areas.Admin.Controllers
             }
             return PartialView("AdminManagerPaging", model);
         }
-
+        [Permission("系统管理")]
         public ActionResult AdminAdd()
         {
             RoleDTO[] dtos = roleService.GetAll();
             return View(dtos);
         }
-
+        [Permission("系统管理")]
         [HttpPost]
+        [ActDescription("添加管理员")]
         public ActionResult AdminAdd(AdminAddModel model)
         {
             if(string.IsNullOrEmpty(model.Name))
@@ -81,7 +83,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
             }
             return Json(new AjaxResult { Status = "1", Data = "/admin/system/adminmanager" });
         }
-
+        [Permission("系统管理")]
         public ActionResult AdminEdit(long id)
         {
             AdminEditViewModel model = new AdminEditViewModel();
@@ -95,8 +97,9 @@ namespace SDMS.Web.Areas.Admin.Controllers
             model.RoleIds = lists;
             return View(model);
         }
-
+        [Permission("系统管理")]
         [HttpPost]
+        [ActDescription("编辑管理员")]
         public ActionResult AdminEdit(AdminEditModel model)
         {
             if (string.IsNullOrEmpty(model.Name))
@@ -113,7 +116,8 @@ namespace SDMS.Web.Areas.Admin.Controllers
             }
             return Json(new AjaxResult { Status = "1", Data = "/admin/system/adminmanager" });
         }
-
+        [Permission("系统管理")]
+        [ActDescription("删除管理员")]
         public ActionResult AdminDel(long id)
         {
             if (!adminService.Delete(id))
@@ -125,18 +129,20 @@ namespace SDMS.Web.Areas.Admin.Controllers
         #endregion
 
         #region 角色管理
+        [Permission("系统管理")]
+        [ActDescription("角色管理列表")]
         public ActionResult RoleManager()
         {
             return View();
         }
-
+        [Permission("系统管理")]
         public PartialViewResult RoleManagerGetPage()
         {
             RoleDTO[]
             dtos = roleService.GetAll();
             return PartialView("RoleManagerPaging", dtos);
         }
-
+        [Permission("系统管理")]
         public ActionResult RoleAdd()
         {
             var model= permissionService.GetAll();
@@ -144,6 +150,8 @@ namespace SDMS.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Permission("系统管理")]
+        [ActDescription("添加角色")]
         public ActionResult RoleAdd(string name,string description ,long?[] permIds)
         {
             if(string.IsNullOrEmpty(name))
@@ -164,7 +172,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
             }
             return Json(new AjaxResult { Status = "1", Data = "/admin/system/rolemanager" });
         }
-
+        [Permission("系统管理")]
         public ActionResult RoleEdit(long id)
         {
             RoleEditViewModel model = new RoleEditViewModel();
@@ -176,6 +184,8 @@ namespace SDMS.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Permission("系统管理")]
+        [ActDescription("编辑角色")]
         public ActionResult RoleEdit(long? id,string name, string description, long?[] permIds)
         {
             if(id==null)
@@ -200,7 +210,8 @@ namespace SDMS.Web.Areas.Admin.Controllers
             }
             return Json(new AjaxResult { Status = "1", Data = "/admin/system/rolemanager" });
         }
-
+        [Permission("系统管理")]
+        [ActDescription("删除角色")]
         public ActionResult RoleDel(long? id)
         {
             if (id == null)
@@ -220,10 +231,13 @@ namespace SDMS.Web.Areas.Admin.Controllers
         }
         #endregion
         #region 日志列表
+        [Permission("系统管理")]
+        [ActDescription("系统日志列表")]
         public ActionResult Log()
         {
             return View();
         }
+        [Permission("系统管理")]
         public PartialViewResult LogList(DateTime? startTime,DateTime? endTime,int pageIndex=1)
         {
             int pageSize = 3;

@@ -20,16 +20,19 @@
                 <div class="col-sm-4">
                     <img src="" id="takecash_img" alt="" style="margin-top: 10px; max-width: 100px; max-height: 400px;" />
                     <input type="file" id="imgUrl" class="form-control" />
-                    <input type="hidden" id="id" value="@Model" />
                 </div>
             </div>
-        </div>        
+        </div>
         <div class="form-group fast">
             <div class="form-horizontal col-md-12">
                 <label class="col-sm-2 control-label">
                 </label>
                 <div class="col-sm-2">
                     <input type="button" id="btnSave" class="form-control" value="提交" />
+                    <input type="hidden" id="id" value="@Model" />
+                </div>
+                <div class="col-sm-2">
+                    <input type="button" onclick="javascript:history.back(-1);" class="form-control" value="返回" />
                 </div>
             </div>
         </div>
@@ -38,7 +41,8 @@
     <script src="~/js/admin/jquery.uploadimg.js"></script>
     <script type="text/javascript">
         $(function () {
-            uploadpic("#imgURL", "#news_img");
+
+            uploadpic("#imgUrl", "#takecash_img");
             function uploadpic(fileid, img) {
                 var oUpload = new UploadPic();
                 oUpload.init({
@@ -57,7 +61,8 @@
                     data: { id: id, imgUrl: imgUrl },
                     success: function (result) {
                         if (result.status == "1") {
-                            alert(result.data);
+                            alert("确认提现申请成功");
+                            window.location.href = result.data;
                         }
                         else if (result.status == "0") {
                             alert(result.msg);

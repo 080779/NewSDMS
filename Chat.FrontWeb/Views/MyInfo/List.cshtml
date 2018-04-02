@@ -8,17 +8,20 @@
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
 </head>
 <body class="bgcolor">
-    <div class="user-header">
-        <div class="user-header-b clear">
-            <div class="user-headerimg">
-                <img src="@Model.HeadImgUrl" />
-            </div>
-            <div class="user-info">
-                <div class="user-name">@Model.Name</div>
-                <div class="user-tel">@Model.Mobile</div>
+    <a href="/myinfo/info/">
+        <div class="user-header">
+            <div class="user-header-b clear">
+                <div class="user-headerimg">
+
+                    <img src="@Model.HeadImgUrl" />
+                </div>
+                <div class="user-info">
+                    <div class="user-name">@Model.Name</div>
+                    <div class="user-tel">@Model.Mobile</div>
+                </div>
             </div>
         </div>
-    </div>
+    </a>    
     <div class="user-link">
         <ul>
             <li class="user-link-li">
@@ -42,7 +45,7 @@
                 </a>
             </li>
         </ul>
-        <a href="" class="user-exit">退出登录</a>
+        <a href="/system/logout" class="user-exit">退出登录</a>
     </div>
     <div class="footer">
         <ul>
@@ -70,7 +73,7 @@
         </ul>
     </div>
     <script src="~/js/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript">        
+    <script type="text/javascript">
         $(function () {
             $("#unbind").click(function () {
                 var msg = "您确定要解除绑定吗？";
@@ -78,20 +81,17 @@
                     $.ajax({
                         url: "/myinfo/unbind", type: "post", data: {},
                         success: function (result) {
-                            if(result.status=="1")
-                            {
+                            if (result.status == "1") {
                                 alert("解除绑定成功");
                             }
-                            else if(result.status=="0")
-                            {
+                            else if (result.status == "0") {
                                 alert(result.msg);
                             }
-                            else
-                            {
+                            else {
                                 alert("未知错误");
                             }
                         },
-                        error: function () { alert("网络错误");}
+                        error: function () { alert("网络错误"); }
                     });
                 } else {
                     return false;

@@ -21,6 +21,23 @@ namespace SDMS.Web.Controllers
         [HttpPost]
         public ActionResult Login(string mobile,string password)
         {
+            if(string.IsNullOrEmpty(mobile))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "手机号不能为空" });
+            }
+            long num;
+            if(!long.TryParse(mobile,out num))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "手机号必须是数字" });
+            }
+            if(mobile.Length!=11)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "手机号必须是11位" });
+            }
+            if(string.IsNullOrEmpty(password))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "密码不能为空" });
+            }
             if(Session["OpenId"]==null)
             {
                 return Json(new AjaxResult { Status = "0", Msg = "redirct", Data = "/home/index" });
@@ -30,12 +47,17 @@ namespace SDMS.Web.Controllers
             {
                 if(id==-3)
                 {
-                    return Json(new AjaxResult { Status = "0", Msg = "已绑定微信用户" });
+                    return Json(new AjaxResult { Status = "0", Msg = "该手机号已被其他微信用户绑定" });
                 }
                 return Json(new AjaxResult { Status = "0", Msg = "手机号或密码错误" });
             }
             Session["UserId"] = id;
             return Json(new AjaxResult { Status = "1", Data = "/home/index" });
+        }
+        public ActionResult Logout()
+        {
+            Session["UserId"] = null;
+            return Redirect("/home/index");
         }
     }
 }

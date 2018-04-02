@@ -43,13 +43,29 @@ namespace SDMS.Service.Service
             {
                 CommonService<TakeCashEntity> cs = new CommonService<TakeCashEntity>(dbc);
                 CommonService<TakeCashStateEntity> tcs = new CommonService<TakeCashStateEntity>(dbc);
+                CommonService<HolderEntity> hcs = new CommonService<HolderEntity>(dbc);
+                CommonService<JournalTypeEntity> jcs = new CommonService<JournalTypeEntity>(dbc);
                 var takeCash = cs.GetAll().SingleOrDefault(t=>t.Id==id);
                 if(takeCash==null)
                 {
                     return false;
                 }
+                var holder = hcs.GetAll().SingleOrDefault(h=>h.Id==takeCash.HolderId);
+                if(holder==null)
+                {
+                    return false;
+                }
                 takeCash.ImgUrl = imgUrl;
-                takeCash.StateId = tcs.GetAll().SingleOrDefault(t => t.Name == "confirm").Id;
+                takeCash.StateId = tcs.GetAll().SingleOrDefault(t => t.Name == "已完成").Id;
+                holder.TakeBonus = holder.TakeBonus - takeCash.Amount;
+                holder.HaveBonus = holder.HaveBonus + takeCash.Amount;
+                JournalEntity journal = new JournalEntity();
+                journal.BalanceAmount = holder.TakeBonus;
+                journal.HolderId = holder.Id;
+                journal.OutAmount = takeCash.Amount;
+                journal.Remark = "提现";
+                journal.JournalTypeId = jcs.GetAll().SingleOrDefault(j => j.Name == "takecash").Id;
+                dbc.Journal.Add(journal);
                 dbc.SaveChanges();
                 return true;
             }
@@ -66,7 +82,7 @@ namespace SDMS.Service.Service
                     return false;
                 }
                 takeCash.Message = message;
-                takeCash.StateId = tcs.GetAll().SingleOrDefault(t => t.Name == "reject").Id;
+                takeCash.StateId = tcs.GetAll().SingleOrDefault(t => t.Name == "被驳回").Id;
                 dbc.SaveChanges();
                 return true;
             }

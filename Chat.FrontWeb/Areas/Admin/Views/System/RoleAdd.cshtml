@@ -59,6 +59,9 @@
                 <div class="col-sm-2">
                     <input type="button" id="btnSave" class="form-control" value="提交" />
                 </div>
+                <div class="col-sm-2">
+                    <input type="button" onclick="javascript:history.back(-1);" class="form-control" value="返回" />
+                </div>
             </div>
         </div>
     </div>
@@ -79,7 +82,8 @@
                     data: { name: name, description: description, permIds: permIds },
                     success: function (result) {
                         if (result.status == "1") {
-                            alert(result.data);
+                            alert("角色添加成功");
+                            window.location.href = result.data;
                         }
                         else if (result.status == "0") {
                             alert(result.msg);

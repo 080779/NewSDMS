@@ -73,7 +73,7 @@ namespace SDMS.Web.Controllers
             ShareBonusViewModel model = new ShareBonusViewModel();
             model.Holder = holderService.GetById(UserId);
             model.YesterdayBonus = journalService.YesterdayBonus(UserId);
-            model.Journals = journalService.GetBonusList(UserId, "分红" ,10);
+            model.Journals = journalService.GetPageList(UserId,null,null,"分红",null,null ,null,1,10).Journals;
             return View(model);
         }
         [HttpGet]

@@ -11,6 +11,19 @@ namespace SDMS.Service.Service
 {
     public class SetShareBonusService : ISetShareBonusService
     {
+        public bool GetSetPattern()
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<SetShareBonusEntity> cs = new CommonService<SetShareBonusEntity>(dbc);
+                var entity = cs.GetAll().SingleOrDefault(s => s.Name == "setup");
+                if (entity == null)
+                {
+                    new Exception("分红设置不存在");
+                }
+                return entity.Flag;
+            }
+        }
         public SetShareBonusDTO GetSet()
         {
             using (MyDbContext dbc = new MyDbContext())

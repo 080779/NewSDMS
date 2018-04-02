@@ -14,6 +14,7 @@ namespace SDMS.DTO.DTO
         public decimal? BalanceAmount { get; set; }
         public long JournalTypeId { get; set; }
         public string JournalTypeName { get; set; }
+        public string JournalTypeDescription { get; set; }
         //public long BonusTypeId { get; set; }
         public long HolderId { get; set; }
         public string HolderName { get; set; }

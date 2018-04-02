@@ -78,6 +78,26 @@
                     error: function () { alert("网络错误"); }
                 });
             });
+            $(document).keyup(function (event) {
+                if (event.keyCode == 13) {
+                    var name = $("#name").val();
+                    var password = $("#password").val();
+                    //var verifyCode = $("#verifyCode").val();
+                    $.ajax({
+                        url: "/admin/manager/login", type: "post", data: { name: name, password: password },
+                        success: function (result) {
+                            if (result.status == "1") {
+                                window.location.href = result.data;
+                            }
+                            else if (result.status == "0") {
+                                alert(result.msg);
+                                //$("#verifyImage").click();
+                            }
+                        },
+                        error: function () { alert("网络错误"); }
+                    });
+                }
+            });
         });
     </script>
 </body>

@@ -68,7 +68,7 @@ namespace SDMS.Service.Entities
         /// 紧急联系人电话
         /// </summary>
         public string UrgencyContact { get; set; }
-        public DateTime? TakeCashTime { get; set; }
+        public DateTime TakeCashTime { get; set; }
         public string Password { get; set; }
         /// <summary>
         /// 交易密码

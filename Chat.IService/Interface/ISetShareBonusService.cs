@@ -9,6 +9,11 @@ namespace SDMS.IService.Interface
 {
     public interface ISetShareBonusService:IServiceSupport
     {
+        /// <summary>
+        /// true为定向，false为平均
+        /// </summary>
+        /// <returns></returns>
+        bool GetSetPattern();
         SetShareBonusDTO GetSet();
         bool Update(decimal rate);
         /// <summary>

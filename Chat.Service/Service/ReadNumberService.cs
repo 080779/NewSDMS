@@ -31,7 +31,7 @@ namespace SDMS.Service.Service
                         return;
                     }
                     news.Click++;
-                    news.Rate = news.Click / hcs.GetAll().LongCount();
+                    news.Rate = (decimal)news.Click / hcs.GetAll().LongCount();
                 }
                 else
                 {
@@ -49,12 +49,11 @@ namespace SDMS.Service.Service
                         return;
                     }
                     news.Click++;
-                    news.Rate = news.Click / hcs.GetAll().LongCount();
+                    news.Rate = (decimal)news.Click / hcs.GetAll().LongCount();
                 }                
                 dbc.SaveChanges();
             }
         }
-
         public ReadNumberDTO[] GetByNewsId(long id)
         {
             using (MyDbContext dbc = new MyDbContext())
@@ -75,6 +74,34 @@ namespace SDMS.Service.Service
             dto.HolderName = entity.Holder.Name;
             dto.NewsTitle = entity.News.Title;
             return dto;
+        }
+        public ReadSearchResult GetPageList(long id, string name, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<ReadNumberEntity> cs = new CommonService<ReadNumberEntity>(dbc);
+                ReadSearchResult result = new ReadSearchResult();
+                var entities = cs.GetAll().Where(r => r.NewsId == id);
+                if (entities == null)
+                {
+                    return result;
+                }
+                if(!string.IsNullOrEmpty(name))
+                {
+                    entities = entities.Where(r=>r.Holder.Name==name);
+                }
+                if(startTime!=null)
+                {
+                    entities = entities.Where(r=>r.CreateTime>=startTime);
+                }
+                if (endTime != null)
+                {
+                    entities = entities.Where(r => r.CreateTime <= endTime);
+                }
+                result.TotalCount = entities.LongCount();
+                result.ReadNumbers= entities.OrderBy(r=>r.CreateTime).Skip((pageIndex-1)*pageSize).Take(pageSize).ToList().Select(r => ToDTO(r)).ToArray();
+                return result;
+            }
         }
     }
 }

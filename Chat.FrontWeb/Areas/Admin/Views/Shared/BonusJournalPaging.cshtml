@@ -1,0 +1,28 @@
+﻿
+@model SDMS.Web.Areas.Admin.Models.TakeBonus.BonusJournalViewModel
+<div class="dataTable">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="t1">
+        <thead>
+            <tr>
+                <th>类型</th>
+                <th>金额</th>
+                <th>股东姓名</th>
+                <th>发放日期</th>
+            </tr>
+        </thead>
+        <tbody id="pagerList">
+            @foreach (var journal in Model.Journals)
+            {
+            <tr>
+                <td align="center">@journal.JournalTypeDescription</td>
+                <td align="center">@journal.InAmount</td>
+                <td align="center">@journal.HolderName</td>
+                <td align="center">@journal.CreateTime</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="nextpage">
+    @Html.Raw(Model.Page)
+</div>

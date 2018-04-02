@@ -15,7 +15,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
     /// <summary>
     /// 股东管理
     /// </summary>
-    public class HolderController : Controller
+    public class HolderController : AdminBaseController
     {
         #region 属性注入
         public IHolderService holderService { get; set; }
@@ -35,7 +35,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
         [Permission("股东管理")]
         public PartialViewResult ListGetPage(string name,string mobile,DateTime? startTime,DateTime? endTime,int pageIndex = 1)
         {
-            int pageSize = 3;
+            int pageSize = 10;
             HolderListViewModel model = new HolderListViewModel();
             HolderSearchResult result = holderService.GetPageList(name,mobile,startTime,endTime,pageIndex, pageSize);
             model.Holders = result.Holders;
@@ -67,14 +67,28 @@ namespace SDMS.Web.Areas.Admin.Controllers
             return View(num);
         }
         [HttpPost]
+        [ActDescription("股东添加")]
         [Permission("股东管理")]
         public ActionResult Add(HolderAddModel model)
         {
             if (string.IsNullOrEmpty(model.Name))
             {
-                ModelState.AddModelError("Name", "姓名不能为空");
+                return Json(new AjaxResult { Status = "0", Msg = "股东名不能为空" });
             }
-            
+            if(string.IsNullOrEmpty(model.Mobile))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "股东手机号不能为空" });
+            }
+            if(model.Mobile.Length!=11)
+            {
+                long num;
+                if (!long.TryParse(model.Mobile, out num))
+                {
+                    return Json(new AjaxResult { Status = "0", Msg = "股东手机号必须是数字" });
+                }
+                
+            }            
+
             if (model.Amount<=0)
             {
                 return Json(new AjaxResult { Status = "0",Msg="认购金额不能为空" });
@@ -91,6 +105,10 @@ namespace SDMS.Web.Areas.Admin.Controllers
             long id= holderService.AddNew(holder);
             if(id<=0)
             {
+                if(id==-2)
+                {
+                    return Json(new AjaxResult { Status = "0", Msg = "手机号码已经存在" });
+                }
                 return Json(new AjaxResult { Status = "0", Msg = "添加股东失败" });
             }
             return Json(new AjaxResult { Status = "1", Data = "/admin/holder/list" });
@@ -100,6 +118,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
         #region 修改
         [HttpGet]
         [Permission("股东管理")]
+        [ActDescription("股东编辑")]
         public ActionResult Edit(long id)
         {
             var model= holderService.GetById(id);
@@ -120,6 +139,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
         #region 删除
         [HttpPost]
         [Permission("股东管理")]
+        [ActDescription("股东删除")]
         public ActionResult Del(long id)
         {
             if(!holderService.Delete(id))
@@ -129,20 +149,8 @@ namespace SDMS.Web.Areas.Admin.Controllers
             return Json(new AjaxResult { Status = "1", Data = "/admin/holder/list" });
         }
         #endregion
-
-        #region 统计
-        [HttpGet]
-        public ActionResult Clac()
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Clac(string s)
-        {
-            return Json(new AjaxResult { Status = "1" });
-        }
-        #endregion
         #region 确认计算认购金额
+        [Permission("股东管理")]
         public ActionResult ClacAmount(long copies)
         {
             decimal Copies= holderService.ClacAmount(stockService.GetIdByKeyName(KeyName), copies);

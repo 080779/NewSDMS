@@ -64,5 +64,14 @@ namespace SDMS.Service.Service
                 return true;
             }
         }
+        public JournalTypeDTO[] GetByDecription(string decription)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<JournalTypeEntity> cs = new CommonService<JournalTypeEntity>(dbc);
+                var entities = cs.GetAll().Where(j => j.Description.Contains(decription));
+                return entities.Select(j => new JournalTypeDTO { Name = j.Name, CreateTime = j.CreateTime, Description = j.Description, Id = j.Id }).ToArray();
+            }
+        }
     }
 }

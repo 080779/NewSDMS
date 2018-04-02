@@ -41,6 +41,14 @@ namespace SDMS.Web.Controllers.Base
                             filterContext.Result = new RedirectResult("/system/login");
                         }
                     }
+                    if(Session["HeadImgUrl"]==null)
+                    {
+                        OAuthAccessTokenResult result = null;
+                        result = OAuthApi.GetAccessToken(appId, secret, Request["code"].ToString());
+                        Session["OpenId"] = result.openid;
+                        var userInfo = OAuthApi.GetUserInfo(result.access_token, result.openid, Senparc.Weixin.Language.zh_CN);
+                        Session["HeadImgUrl"] = userInfo.headimgurl;
+                    }
                 }
                 else
                 {

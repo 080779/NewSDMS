@@ -30,6 +30,19 @@ namespace SDMS.Web.Controllers
         [HttpPost]
         public ActionResult Apply(decimal amount)
         {
+            if(amount<=0)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "提现金额必须大于零" });
+            }
+            var holder = holderService.GetById(UserId);
+            if (amount > holder.TakeBonus)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "金额不能大于可提现金额" });
+            }
+            if (string.IsNullOrEmpty(holder.BankAccount))
+            {
+                return Json(new AjaxResult { Status = "0",Msg="提现银行卡账号为空，不能提现,请到个人中心完善资料再申请" });
+            }            
             takeCashService.Apply(UserId, amount);
             return Json(new AjaxResult { Status = "1" });
         }

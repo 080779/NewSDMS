@@ -131,6 +131,7 @@ namespace SDMS.Service.Service
             jourDTO.InAmount = journal.InAmount;
             jourDTO.OutAmount = journal.OutAmount;
             jourDTO.BalanceAmount = journal.BalanceAmount;
+            jourDTO.JournalTypeDescription = journal.JournalType.Description;
 
             return jourDTO;
         }                

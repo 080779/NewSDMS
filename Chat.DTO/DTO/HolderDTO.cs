@@ -65,7 +65,7 @@ namespace SDMS.DTO.DTO
         /// 紧急联系人电话
         /// </summary>
         public string UrgencyContact { get; set; }
-        public DateTime? TakeCashTime { get; set; }
+        public DateTime TakeCashTime { get; set; }
         /// <summary>
         /// 交易密码
         /// </summary>
@@ -94,5 +94,21 @@ namespace SDMS.DTO.DTO
         /// 所有股东的占股比例总数
         /// </summary>
         public decimal TotalProportion { get; set; }
+    }
+
+    public class TakeCashCalcNumberDTO
+    {
+        /// <summary>
+        /// 总分红金额
+        /// </summary>
+        public decimal TotalBonusNumber { get; set; }
+        /// <summary>
+        /// 总可提现金额
+        /// </summary>
+        public decimal TotalTakeBonus { get; set; }
+        /// <summary>
+        /// 总已提现金额
+        /// </summary>
+        public decimal TotalHaveBonus { get; set; }
     }
 }

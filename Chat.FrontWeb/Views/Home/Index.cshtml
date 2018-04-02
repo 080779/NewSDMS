@@ -36,7 +36,7 @@
                                 <img src="@news.ImgURL" />
                             </div>
                             <div class="index-notice-tit">@news.Title</div>
-                            <div class="index-notice-dec">阅读人数：@news.Click 阅读比例：@news.Rate</div>
+                            <div class="index-notice-dec">阅读人数：@news.Click 阅读比例：@((news.Rate*100).ToString().Replace(".00",""))%</div>
                             <span class="index-notice-sx">@news.Preview</span>
                         </a>
                     </li>

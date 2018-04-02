@@ -19,6 +19,11 @@ namespace SDMS.Service.Service
                 CommonService<SettingsEntity> scs = new CommonService<SettingsEntity>(dbc);
                 CommonService<StockItemEntity> cs = new CommonService<StockItemEntity>(dbc);
                 CommonService<JournalTypeEntity> jcs = new CommonService<JournalTypeEntity>(dbc);
+                CommonService<HolderEntity> hcs = new CommonService<HolderEntity>(dbc);
+                if(hcs.GetAll().SingleOrDefault(h=>h.Mobile==model.Mobile)!=null)
+                {
+                    return -2;
+                }
                 StockItemEntity stockItem = cs.GetAll().Where(s=>s.Id==model.StockItemId).SingleOrDefault();
                 long holderadd = jcs.GetAll().SingleOrDefault(j => j.Name == "holderadd").Id;
                 if (stockItem==null)
@@ -150,7 +155,6 @@ namespace SDMS.Service.Service
                 return result;
             }
         }
-
         public HolderDTO GetById(long id)
         {
             using (MyDbContext dbc = new MyDbContext())
@@ -164,7 +168,6 @@ namespace SDMS.Service.Service
                 return ToDTO(holder);
             }
         }
-
         public HolderDTO ToDTO(HolderEntity entity)
         {
             HolderDTO dto = new HolderDTO();
@@ -192,7 +195,6 @@ namespace SDMS.Service.Service
             dto.Copies = entity.Copies;
             return dto;
         }
-
         public bool Delete(long id)
         {
             using (MyDbContext dbc = new MyDbContext())
@@ -215,7 +217,6 @@ namespace SDMS.Service.Service
                 return true;
             }
         }
-
         public decimal ClacAmount(long id,long copies)
         {
             using (MyDbContext dbc = new MyDbContext())
@@ -229,7 +230,6 @@ namespace SDMS.Service.Service
                 return stock.UnitPrice * copies;
             }
         }
-
         public bool Update(long id, string address, string contact, string bankAccount, string urgencyName, string urgencyContact)
         {
             using (MyDbContext dbc = new MyDbContext())
@@ -264,7 +264,6 @@ namespace SDMS.Service.Service
                 return true;
             }
         }
-
         public bool Update(long id, string name, string mobile, bool gender, string idNumber, string contact)
         {
             using (MyDbContext dbc = new MyDbContext())
@@ -284,7 +283,6 @@ namespace SDMS.Service.Service
                 return true;
             }
         }
-
         public bool CheckOpenId(string openId)
         {
             using (MyDbContext dbc = new MyDbContext())
@@ -363,6 +361,7 @@ namespace SDMS.Service.Service
                 return 1;
             }
         }
+        #region 微信解绑
         public long UnBind(long id)
         {
             using (MyDbContext dbc = new MyDbContext())
@@ -382,7 +381,8 @@ namespace SDMS.Service.Service
                 return 1;
             }
         }
-
+        #endregion
+        #region 统计
         public HolderCalcNumberDTO CalcNumber()
         {
             using (MyDbContext dbc = new MyDbContext())
@@ -398,5 +398,20 @@ namespace SDMS.Service.Service
                 return dto;
             }
         }
+        public TakeCashCalcNumberDTO TakeCashCalcNumber()
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<HolderEntity> cs = new CommonService<HolderEntity>(dbc);
+                CommonService<StockItemEntity> scs = new CommonService<StockItemEntity>(dbc);
+                TakeCashCalcNumberDTO dto = new TakeCashCalcNumberDTO();
+                var holders = cs.GetAll();
+                dto.TotalBonusNumber = holders.Sum(h=>h.TotalBonus);
+                dto.TotalTakeBonus = holders.Sum(h => h.TakeBonus);
+                dto.TotalHaveBonus = holders.Sum(h => h.HaveBonus);
+                return dto;
+            }
+        }
+        #endregion
     }
 }

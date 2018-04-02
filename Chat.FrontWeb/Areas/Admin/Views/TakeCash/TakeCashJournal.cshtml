@@ -1,0 +1,66 @@
+﻿@model SDMS.DTO.DTO.TakeCashCalcNumberDTO
+@{
+    ViewBag.Title = "提现流水统计列表";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+}
+<br />
+@*<fieldset class="fieldset">*@
+    <table>
+        <tr>
+            <td>总分红金额:</td>
+            <td>@Model.TotalBonusNumber</td>
+        </tr>
+        <tr>
+            <td>总可提现金额:</td>
+            <td>@Model.TotalTakeBonus</td>
+        </tr>
+        <tr>
+            <td>总已提现金额:</td>
+            <td>@Model.TotalHaveBonus</td>
+        </tr>
+    </table>
+@*</fieldset>*@
+    <br />
+<div style="margin-bottom:20px">
+    <fieldset class="fieldset">
+        姓名：<input id="name" class="input_select" type="text" />
+        手机号：<input id="mobile" class="input_select" type="text" />
+        注册日期： <input tip="输入注册日期" class="input_select" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" id="startTime" />至
+        <input tip="输入注册日期" class="input_select" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" id="endTime" />
+        <a class="easyui-linkbutton" iconcls="icon-search" id="search">查询</a>
+    </fieldset>
+</div>
+<div id="load">
+    @{
+        Html.RenderAction("TakeCashJournalGetPage");
+    }
+</div>
+@section FooterScript
+{
+    <script src="/js/admin/jquery.easyui.min.js"></script>
+    <script src="/js/admin/jquery.parser.js"></script>
+    <script type="text/javascript">
+        function getPage(pageIndex) {
+            var name = $("#name").val();
+            var mobile = $("#mobile").val();
+            var startTime = $("#startTime").val();
+            var endTime = $("#endTime").val();
+            $("#load").load("/admin/takecash/TakeCashJournalGetPage", { pageIndex: pageIndex, name: name, mobile: mobile, startTime: startTime, endTime: endTime }, function () {
+                $.parser.parse($('#load'));
+            });
+        }
+
+        $(function () {
+            $('body').on('click', '#go', function () {
+                var page = $("#txtPage").val();
+                getPage(page);
+            });
+
+            $("#search").click(function () {
+                $("#load").empty();
+                var page = $("#txtPage").val();
+                getPage(page);
+            });
+        });
+    </script>
+}

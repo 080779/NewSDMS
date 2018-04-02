@@ -10,11 +10,14 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using SDMS.IService.Interface;
+using SDMS.Service.Service;
 
 namespace SDMS.Web
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        public ISetShareBonusService setShareBonusService = new SetShareBonusService();
         protected void Application_Start()
         {
             ModelBinders.Binders.Add(typeof(string), new TrimToDBCModelBinder());
@@ -39,9 +42,13 @@ namespace SDMS.Web
             GlobalFilters.Filters.Add(new SYSExceptionFilter());
             GlobalFilters.Filters.Add(new JsonNetActionFilter());
             //GlobalFilters.Filters.Add(new SYSAuthorizationFilter());
-
+            
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-        }
+            if(setShareBonusService.GetSetPattern())
+            {
+
+            }
+        }        
     }
 }

@@ -30,7 +30,6 @@ namespace SDMS.Service.Service
                 return entity.Id;
             }
         }
-
         public bool Delete(long id)
         {
             using (MyDbContext dbc = new MyDbContext())
@@ -46,7 +45,6 @@ namespace SDMS.Service.Service
                 return true;
             }
         }
-
         public NewsDTO GetById(long id)
         {
             using (MyDbContext dbc = new MyDbContext())
@@ -88,7 +86,6 @@ namespace SDMS.Service.Service
                 return result;
             }
         }
-
         public bool Update(long id, string title, string content, string imgUrl)
         {
             using (MyDbContext dbc = new MyDbContext())
@@ -106,7 +103,6 @@ namespace SDMS.Service.Service
                 return true;
             }
         }
-
         public NewsDTO ToDTO(NewsEntity entity)
         {
             NewsDTO dto = new NewsDTO();

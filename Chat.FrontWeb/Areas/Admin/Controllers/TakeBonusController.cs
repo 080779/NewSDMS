@@ -1,5 +1,7 @@
 ﻿using SDMS.Common;
 using SDMS.IService.Interface;
+using SDMS.Web.App_Start;
+using SDMS.Web.Areas.Admin.Controllers.Base;
 using SDMS.Web.Areas.Admin.Models.TakeBonus;
 using System;
 using System.Collections.Generic;
@@ -12,22 +14,26 @@ namespace SDMS.Web.Areas.Admin.Controllers
     /// <summary>
     /// 分红管理
     /// </summary>
-    public class TakeBonusController : Controller
+    public class TakeBonusController : AdminBaseController
     {
         #region 属性注入
         public IShareBonusService shareBonusService { get; set; }
         public ISetShareBonusService setShareBonusService { get; set; }
         public IJournalService journalService { get; set; }
+        public IJournalTypeService journalTypeService { get; set; }
         #endregion
 
         #region 分红设置
         [HttpGet]
+        [Permission("分红管理")]        
         public ActionResult SetUp()
         {
             var model= setShareBonusService.GetSet();
             return View(model);
         }
         [HttpPost]
+        [Permission("分红管理")]
+        [ActDescription("定向分红比例设置")]
         public ActionResult SetUp(SetUpModel model)
         {
             if(!ModelState.IsValid)
@@ -45,6 +51,8 @@ namespace SDMS.Web.Areas.Admin.Controllers
             return Json(new AjaxResult { Status = "1", Data = "/admin/takebonus/setup" });
         }
         [HttpPost]
+        [Permission("分红管理")]
+        [ActDescription("分红模式设置")]
         public ActionResult SetFlag(bool flag)
         {
             if (!setShareBonusService.Update(flag))
@@ -57,11 +65,14 @@ namespace SDMS.Web.Areas.Admin.Controllers
 
         #region 分红发放
         [HttpGet]
+        [Permission("分红管理")]
         public ActionResult Issue()
         {
             return View();
         }
         [HttpPost]
+        [Permission("分红管理")]
+        [ActDescription("平均分红发放")]
         public ActionResult Issue(IssueModel model)
         {
             if (!ModelState.IsValid)
@@ -81,12 +92,20 @@ namespace SDMS.Web.Areas.Admin.Controllers
         #endregion
 
         #region 分红流水统计
+        [Permission("分红管理")]
+        [ActDescription("分红流水列表")]
         public ActionResult BonusJournal()
         {
-            return View();
+            var model = journalTypeService.GetByDecription("分红");
+            return View(model);
         }
+        [Permission("分红管理")]
         public PartialViewResult BonusJournalGetPage(string name, string mobile,long? journalTypeId, DateTime? startTime, DateTime? endTime, int pageIndex = 1)
         {
+            if(journalTypeId==0)
+            {
+                journalTypeId = null;
+            }
             int pageSize = 3;
             BonusJournalViewModel model = new BonusJournalViewModel();
             JournalPageResult result = journalService.GetPageList(null,mobile,name,"分红",journalTypeId,startTime,endTime,pageIndex,pageSize);
@@ -106,7 +125,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
             {
                 model.Page = pager.GetPagerHtml();
             }
-            return PartialView("HolderListPaging", model);
+            return PartialView("BonusJournalPaging", model);
         }
         #endregion
     }
