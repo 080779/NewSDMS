@@ -14,7 +14,7 @@
         <div class="form-group" style="margin-top:50px">
             <div class="form-horizontal col-md-12">
                 <label class="col-sm-4 control-label">
-                    当前分红模式：@(Model.Flag ? "定向分红" : "平均分红")
+                    
                 </label>
                 <label class="col-sm-2 control-label">
                 </label>
@@ -22,15 +22,7 @@
         </div>
         <div class="form-group">
             <div class="form-horizontal col-md-12">
-                <label class="col-sm-2 control-label">
-                </label>
-                <label class="col-sm-2 control-label">
-                </label>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="form-horizontal col-md-12">
-                <label class="col-sm-2 control-label">
+                <label class="col-sm-3 control-label">
                     <span class="text-danger">*</span>
                     平均分红发放金额：
                 </label>
@@ -52,9 +44,9 @@
         </div>
         <div class="form-group">
             <div class="form-horizontal col-md-12">
-                <label class="col-sm-2 control-label">
+                <label class="col-sm-3 control-label">
                     <span class="text-danger">*</span>
-                    暂停启动定向分红：
+                    定向分红状态：@(Model.Flag ? "已启动" : "已暂停")
                 </label>
                 <div class="col-sm-4">
                     <input type="hidden" id="flag" value="@(Model.Flag?"true":"false")" />
@@ -80,7 +72,7 @@
                     data: { amount: amount },
                     success: function (result) {
                         if (result.status == "1") {
-                            alert(result.data);
+                            alert("平均分红发放成功");
                         }
                         else if (result.status == "0") {
                             alert(result.msg);
