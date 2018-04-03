@@ -4,6 +4,8 @@
         <thead>
             <tr>
                 <th>编号</th>
+                <th>提现股东</th>
+                <th>可提现金额</th>
                 <th>提现金额</th>
                 <th>提现消息</th>
                 <th>转账图片</th>
@@ -17,14 +19,23 @@
             {
                 <tr>
                     <td align="center">@takeCash.Id</td>
+                    <td align="center">@takeCash.HolderName</td>
+                    <td align="center">@takeCash.HolderTakeBonus</td>
                     <td align="center">@takeCash.Amount</td>
                     <td align="center">@takeCash.Message</td>
-                    <td align="center"><img src="@takeCash.ImgUrl"></td>
+                    <td align="center"><img src="@takeCash.ImgUrl" alt="" style="margin-top: 10px; max-width: 100px; max-height: 400px;" /></td>
                     <td align="center">@takeCash.TakeCashStateName</td>
                     <td align="center">@takeCash.CreateTime</td>
                     <td align="center">
-                        <a class="easyui-linkbutton" iconcls="icon-edit" href="/admin/takecash/confirm/@takeCash.Id">确认提现</a>
-                        <a class="easyui-linkbutton" iconcls="icon-edit" href="/admin/takecash/reject/@takeCash.Id">驳回</a>
+                        @if(takeCash.TakeCashStateName=="已完成" || takeCash.TakeCashStateName == "被驳回")
+                        {
+                            
+                        }
+                        else
+                        {
+                            <a class="easyui-linkbutton" iconcls="icon-edit" href="/admin/takecash/confirm/@takeCash.Id">确认提现</a>
+                            <a class="easyui-linkbutton" iconcls="icon-edit" href="/admin/takecash/reject/@takeCash.Id">驳回</a>
+                        }
                     </td>
                 </tr>
             }

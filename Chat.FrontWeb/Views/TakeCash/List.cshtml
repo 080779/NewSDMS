@@ -20,7 +20,8 @@
         <ul>
             @foreach (var takeCash in Model.TakeCashes)
             {
-                <li class="wbwh-list-li">
+            <li class="wbwh-list-li">
+                <a href="/takecash/detail/@takeCash.Id">
                     <div class="clear">
                         <div class="fl wbwh-list-name">提现分红</div>
                         <div class="fr text-blue">@takeCash.TakeCashStateName</div>
@@ -29,7 +30,8 @@
                         <div class="fl text-yellow">+@(takeCash.Amount)元</div>
                         <div class="fr text-lightgrey time">@takeCash.CreateTime</div>
                     </div>
-                </li>
+                </a>
+            </li>
             }
         </ul>
     </div>

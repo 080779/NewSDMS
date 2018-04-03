@@ -20,7 +20,7 @@ namespace SDMS.IService.Interface
         HolderDTO GetById(long id);
         bool CheckOpenId(string openId);
         long GetHoderIdByOpenId(string openId);
-        long Login(string mobile, string password, string openId);
+        long Login(string mobile, string password, string openId, string headImgUrl);
         long SetTradePwd(long id, string oldTradePwd, string tradePwd);
         long UnBind(long id);
         HolderCalcNumberDTO CalcNumber();

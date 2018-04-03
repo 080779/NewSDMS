@@ -21,7 +21,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
         //public IUserService userService { get; set; }
         //adminService已经在AdminBaseController中定义
         public IPowerService powerService { get; set; }
-        public IShareBonusService shareBonusService { get; set; }
+        public IShareBonusService shareBonusService { get; set; }        
         [ActDescription("后台系统首页")]
         public ActionResult Index()
         {
@@ -52,6 +52,6 @@ namespace SDMS.Web.Areas.Admin.Controllers
         public ActionResult ZhuYe()
         {
             return View();
-        }
+        }        
     }
 }

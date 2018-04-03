@@ -146,6 +146,10 @@ namespace SDMS.Service.Service
                 {
                     journals = journals.Where(j => j.CreateTime.Month==month.Value.Month);
                 }
+                if(journals.Sum(j => j.InAmount)==null)
+                {
+                    return 0;
+                }
                 return journals.Sum(j => j.InAmount).Value;
             }
         }

@@ -81,13 +81,13 @@ namespace SDMS.Web.Areas.Admin.Controllers
             }
             if(model.Mobile.Length!=11)
             {
-                long num;
-                if (!long.TryParse(model.Mobile, out num))
-                {
-                    return Json(new AjaxResult { Status = "0", Msg = "股东手机号必须是数字" });
-                }
-                
-            }            
+                return Json(new AjaxResult { Status = "0", Msg = "股东手机号必须是11位" });
+            }
+            long num;
+            if (!long.TryParse(model.Mobile, out num))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "股东手机号必须是数字" });
+            }
 
             if (model.Amount<=0)
             {

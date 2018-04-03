@@ -13,6 +13,7 @@ namespace SDMS.Web.Controllers
     public class TakeCashController : FrontBaseController
     {
         public ITakeCashService takeCashService { get; set; }
+        public ISettingsService settingsService { get; set; }
         //public IHolderService holderService { get; set; }
         public ActionResult List()
         {
@@ -24,27 +25,48 @@ namespace SDMS.Web.Controllers
         [HttpGet]
         public ActionResult Apply()
         {
-            var model= holderService.GetById(UserId);
+            TakeCashApplyViewModel model = new TakeCashApplyViewModel();
+            model.Holder= holderService.GetById(UserId);
+            model.MinTakeCash= Convert.ToDecimal(settingsService.GetValueByKey("mintakecash"));
             return View(model);
         }
         [HttpPost]
-        public ActionResult Apply(decimal amount)
+        public ActionResult Apply(decimal? amount)
         {
-            if(amount<=0)
+            decimal minTakeCash = Convert.ToDecimal(settingsService.GetValueByKey("mintakecash"));
+            if (amount==null)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "提现金额必须填写" });
+            }
+            if (amount.Value <=0)
             {
                 return Json(new AjaxResult { Status = "0", Msg = "提现金额必须大于零" });
             }
             var holder = holderService.GetById(UserId);
-            if (amount > holder.TakeBonus)
+            if(amount.Value<minTakeCash)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "金额不能小于最低可提现金额" });
+            }
+            if (amount.Value > holder.TakeBonus)
             {
                 return Json(new AjaxResult { Status = "0", Msg = "金额不能大于可提现金额" });
+            }
+            if(string.IsNullOrEmpty(holder.TradePassword))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "提现交易密码为空，不能提现,请到个人中心完善资料再申请" });
             }
             if (string.IsNullOrEmpty(holder.BankAccount))
             {
                 return Json(new AjaxResult { Status = "0",Msg="提现银行卡账号为空，不能提现,请到个人中心完善资料再申请" });
             }            
-            takeCashService.Apply(UserId, amount);
-            return Json(new AjaxResult { Status = "1" });
+            takeCashService.Apply(UserId, amount.Value);
+            return Json(new AjaxResult { Status = "1" ,Data="/takecash/list"});
+        }
+
+        public ActionResult Detail(long id)
+        {
+            var model= takeCashService.GetById(id);
+            return View(model);
         }
     }
 }

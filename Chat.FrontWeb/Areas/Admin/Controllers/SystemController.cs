@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
+using CodeCarvings.Piczard;
 
 namespace SDMS.Web.Areas.Admin.Controllers
 {
@@ -20,6 +22,8 @@ namespace SDMS.Web.Areas.Admin.Controllers
         //public IPermissionService permissionService { get; set; }
         public IRoleService roleService { get; set; }
         public IAdminLogService adminLogService { get; set; }
+        public ISettingsService settingsService { get; set; }
+        public IDataBaseService dataBaseService { get; set; }
 
         #region 管理员管理
         [ActDescription("管理员管理列表")]
@@ -262,5 +266,89 @@ namespace SDMS.Web.Areas.Admin.Controllers
             return PartialView("LogListPaging", model);
         }
         #endregion
+        [HttpGet]
+        [Permission("系统管理")]
+        [ActDescription("系统参数设置列表")]
+        public ActionResult SetList()
+        {
+            var model=settingsService.GetAll();
+            return View(model);
+        }
+        [Permission("系统管理")]
+        [HttpGet]
+        public ActionResult Setting(long id)
+        {
+            var model = settingsService.GetById(id);
+            return View(model);
+        }
+        [Permission("系统管理")]
+        [ActDescription("系统参数设置")]
+        [HttpPost]
+        public ActionResult Setting(long id,string value)
+        {
+            if(string.IsNullOrEmpty(value))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "参数值不为空" });
+            }
+            byte[] imgBytes;
+            string Value;
+            if (value.Contains(";base64"))
+            {
+                string[] strs = value.Split(',');
+                string[] formats = strs[0].Replace(";base64", "").Split(':');
+                string img = strs[1];
+                string format = formats[1];
+                string[] imgFormats = { "image/png", "image/jpg", "image/jpeg", "image/bmp", "IMAGE/PNG", "IMAGE/JPG", "IMAGE/JPEG", "IMAGE/BMP" };               
+                if (!imgFormats.Contains(format))
+                {
+                    return Json(new AjaxResult { Status = "0", Msg = "请选择正确的图片格式，支持png、jpg、jpeg、png格式" });
+                }
+                string ext = "." + format.Split('/')[1];
+                try
+                {
+                    imgBytes = Convert.FromBase64String(img);
+                }
+                catch (Exception ex)
+                {
+                    return Json(new AjaxResult { Status = "0", Msg = "图片解密错误" });
+                }
+                Value = SaveImg(imgBytes, ext);
+            }
+            else
+            {
+                Value = value;
+            }            
+
+            if (!settingsService.Update(id, Value))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "参数设置出错" });
+            }
+            return Json(new AjaxResult { Status="1",Data="/admin/system/setlist"});
+        }
+        private string SaveImg(byte[] imgBytes, string ext)
+        {
+            string md5 = CommonHelper.GetMD5(imgBytes);
+            string path = "/upload/" + DateTime.Now.ToString("yyyy/MM/dd") + "/" + md5 + ext;
+            string fullPath = HttpContext.Server.MapPath("" + path);
+            new FileInfo(fullPath).Directory.Create();
+            ImageProcessingJob jobNormal = new ImageProcessingJob();
+            jobNormal.Filters.Add(new FixedResizeConstraint(616, 308));//限制图片的大小，避免生成
+            jobNormal.SaveProcessedImageToFileSystem(imgBytes, fullPath);
+            return path;
+        }
+        public ActionResult Clear()
+        {
+            return View();
+        }
+        [Permission("系统管理")]
+        [ActDescription("清测试数据")]        
+        public ActionResult ClearData()
+        {
+            if (dataBaseService.DataBaseClear() < 0)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "清空失败" });
+            }
+            return Json(new AjaxResult { Status = "1" });
+        }
     }
 }

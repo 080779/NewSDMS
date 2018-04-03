@@ -17,6 +17,10 @@ namespace SDMS.Service.Entities
         public string OpenId { get; set; }
         public string Address { get; set; }
         /// <summary>
+        /// 微信头像url
+        /// </summary>
+        public string HeadImgUrl { get; set; }
+        /// <summary>
         /// 分红提现账号
         /// </summary>
         public string BankAccount { get; set; }

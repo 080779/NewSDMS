@@ -16,13 +16,16 @@ namespace SDMS.Web.Controllers
         public ActionResult List()
         {
             var dto=holderService.GetById(UserId);
-            dto.HeadImgUrl= Session["HeadImgUrl"].ToString(); 
             return View(dto);
         }
         [HttpGet]
         public ActionResult Info()
         {
             var dto = holderService.GetById(UserId);
+            if(string.IsNullOrEmpty(dto.HeadImgUrl) && Session["HeadImgUrl"]!=null)
+            {
+                dto.HeadImgUrl = Session["HeadImgUrl"].ToString();
+            }
             return View(dto);
         }
         [HttpPost]

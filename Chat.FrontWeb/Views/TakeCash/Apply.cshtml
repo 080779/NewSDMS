@@ -1,25 +1,25 @@
-﻿@model SDMS.DTO.DTO.HolderDTO
+﻿@model SDMS.Web.Models.TakeCash.TakeCashApplyViewModel
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>提现详情</title>
+    <title>提现申请</title>
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
 </head>
 <body class="bgcolor">
     <div class="form">
         <div class="form-group2">
             <div class="form-label">可提现分红金额</div>
-            <div class="form-input"><input type="text" readonly value="@Model.TakeBonus" /></div>
+            <div class="form-input"><input type="text" readonly value="@Model.Holder.TakeBonus" /></div>
         </div>
         <div class="form-group2">
             <div class="form-label">最低提现金额</div>
-            <div class="form-input"><input type="text" readonly value="100" /></div>
+            <div class="form-input"><input type="text" readonly value="@Model.MinTakeCash" /></div>
         </div>
         <div class="form-group2">
             <div class="form-label">可提现时间</div>
-            <div class="form-input"><input type="text" readonly value='@Model.TakeCashTime.ToString("HH:mm:ss yyyy-MM-dd")' /></div>
+            <div class="form-input"><input type="text" readonly value='@Model.Holder.TakeCashTime.ToString("HH:mm:ss yyyy-MM-dd")' /></div>
         </div>
         <div class="form-lg">
             <span>￥</span>
@@ -29,29 +29,29 @@
     <div class="form">
         <div class="form-group2">
             <div class="form-label">姓名</div>
-            <div class="form-input"><input type="text" name="" readonly id="" value="@Model.Name" /></div>
+            <div class="form-input"><input type="text" name="" readonly id="" value="@Model.Holder.Name" /></div>
         </div>
         <div class="form-group2">
             <div class="form-label">性别</div>
             <div class="form-input">
-                <div class="form-input"><input type="text" name="" readonly id="" value="@(Model.Gender?"男":"女")" /></div>
+                <div class="form-input"><input type="text" name="" readonly id="" value="@(Model.Holder.Gender?"男":"女")" /></div>
             </div>
         </div>
         <div class="form-group2">
             <div class="form-label">身份证号</div>
-            <div class="form-input"><input type="text" name="" id="" readonly value="@Model.IdNumber" /></div>
+            <div class="form-input"><input type="text" name="" id="" readonly value="@Model.Holder.IdNumber" /></div>
         </div>
         <div class="form-group2">
             <div class="form-label">手机号</div>
-            <div class="form-input"><input type="text" name="" readonly id="" value="@Model.Mobile" /></div>
+            <div class="form-input"><input type="text" name="" readonly id="" value="@Model.Holder.Mobile" /></div>
         </div>
         <div class="form-group2">
             <div class="form-label">联系电话</div>
-            <div class="form-input"><input type="text" name="" readonly id="" value="@Model.Contact" /></div>
+            <div class="form-input"><input type="text" name="" readonly id="" value="@Model.Holder.Contact" /></div>
         </div>
         <div class="form-group2">
             <div class="form-label">提现银行卡账号</div>
-            <div class="form-input"><input type="text" name="" readonly id="" value="@Model.BankAccount" /></div>
+            <div class="form-input"><input type="text" name="" readonly id="" value="@Model.Holder.BankAccount" /></div>
         </div>
     </div>
     <div class="form-btn">
@@ -92,6 +92,7 @@
                     success: function (result) {
                         if (result.status == "1") {
                             alert("提现申请已提交");
+                            window.location.href = result.data;
                         }
                         else if (result.status == "0") {
                             alert(result.msg);

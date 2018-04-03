@@ -14,6 +14,7 @@ namespace SDMS.IService.Interface
         bool Reject(long id, string message);
         TakeCashSearchResult GetPageList(string name,string mobile,DateTime? startTime,DateTime? endTime,int pageIndex,int pageSize);
         TakeCashDTO[] GetByHolderId(long id);
+        TakeCashDTO GetById(long id);
     }
     public class TakeCashSearchResult
     {

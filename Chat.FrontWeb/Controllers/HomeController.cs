@@ -19,12 +19,14 @@ namespace SDMS.Web.Controllers
         public IJournalService journalService { get; set; }
         public IMessageService messageService { get; set; }
         public IReadNumberService readNumberService { get; set; }
+        public ISettingsService settingsService { get; set; }
         public ActionResult Index(int pageIndex=1)
         {
             int pageSize = 5;
             NewsListViewModel model = new NewsListViewModel();
             NewsSearchResult result = newsService.GetPageList(null, null, null, pageIndex, pageSize);
             model.News = result.News;
+            model.Settings = settingsService.GetByName("imgurl");
 
             //分页
             Pagination pager = new Pagination();
@@ -93,7 +95,7 @@ namespace SDMS.Web.Controllers
                 }
                 return Json(new AjaxResult { Status = "0",Msg="修改失败" });
             }
-            return Json(new AjaxResult { Status = "1", Data = "/home/index" });
+            return Json(new AjaxResult { Status = "1", Data = "/myinfo/list" });
         }
     }
 }

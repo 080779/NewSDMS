@@ -42,7 +42,7 @@ namespace SDMS.Web.Controllers
             {
                 return Json(new AjaxResult { Status = "0", Msg = "redirct", Data = "/home/index" });
             }
-            long id = holderService.Login(mobile, password, Session["OpenId"].ToString());
+            long id = holderService.Login(mobile, password, Session["OpenId"].ToString(),Session["HeadImgUrl"].ToString());
             if (id <= 0)
             {
                 if(id==-3)
@@ -57,6 +57,8 @@ namespace SDMS.Web.Controllers
         public ActionResult Logout()
         {
             Session["UserId"] = null;
+            Session["OpenId"] = null;
+            Session["HeadImgUrl"] = null;
             return Redirect("/home/index");
         }
     }

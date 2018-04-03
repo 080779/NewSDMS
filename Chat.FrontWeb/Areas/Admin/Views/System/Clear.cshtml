@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>清测试数据</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/font-awesome.css" rel="stylesheet" />
+    <style type="text/css">
+    </style>
+</head>
+<body>
+    <div class="form-group fast">
+        <div class="form-horizontal col-md-12">
+            <label class="col-sm-2 control-label">
+                <span class="text-danger">*</span>
+                清空测试数据：
+            </label>
+            <div class="col-sm-2"><button id="btnSet">清空</button></div>            
+        </div>
+    </div>
+    <script src="~/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnSet").click(function () {
+                if (confirm("确定要清空测试数据吗")) {
+                    $.ajax({
+                        url: "/admin/system/cleardata", type: "post", data: {},
+                        success: function (result) {
+                            if (result.status == "1") {
+                                alert("清空测试数据成功");
+                            }
+                            else if (result.status == "0") {
+                                alert(result.msg);
+                            }
+                            else {
+                                alert("未知错误");
+                            }
+                        },
+                        error: function () { alert("网络错误"); }
+                    });
+                }
+                else {
+                    return false;
+                }
+            });
+        });        
+    </script>
+</body>
+</html>

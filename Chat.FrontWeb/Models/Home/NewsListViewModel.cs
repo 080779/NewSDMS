@@ -10,5 +10,6 @@ namespace SDMS.Web.Models.Home
     {
         public NewsDTO[] News { get; set; }
         public string Page { get; set; }
+        public SettingsDTO[] Settings { get; set; }
      }
 }

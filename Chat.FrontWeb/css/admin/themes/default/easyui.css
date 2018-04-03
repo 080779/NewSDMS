@@ -16,8 +16,9 @@
 .accordion-noborder .accordion-header{
 	border-width:0 0 1px;
 }
-.accordion-noborder .accordion-body{
-	border-width:0px;
+.accordion-noborder .accordion-body {
+    border-width: 0px;
+    height: auto !important;
 }
 .accordion-collapse{
 	background:url('images/accordion_collapse.png') no-repeat;
@@ -889,10 +890,10 @@ a.m-btn-plain-active{
 	border-width:0px;
 	border-bottom:1px solid #99BBE8;
 }
-.panel-body{
-	overflow:auto;
-	border:1px solid #99BBE8;
-	border-top-width:0px;
+.panel-body {
+    overflow: auto;
+    border: 1px solid #99BBE8;
+    border-top-width: 0px;
 }
 .panel-body-noheader{
 	border-top-width:1px;

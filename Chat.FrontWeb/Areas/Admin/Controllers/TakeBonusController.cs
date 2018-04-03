@@ -129,6 +129,10 @@ namespace SDMS.Web.Areas.Admin.Controllers
         }
         public ActionResult Search(string name, string mobile, long? bonusTypeId, DateTime? year, DateTime? month)
         {
+            if(bonusTypeId!=null && bonusTypeId.Value<=0)
+            {
+                bonusTypeId = null;
+            }
             decimal result= journalService.CalcTakeBonus(name, mobile,bonusTypeId, year, month);
             return Json(new AjaxResult { Status = "1", Data = result });
         }

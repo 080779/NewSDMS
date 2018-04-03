@@ -47,7 +47,8 @@
                     data: { id: id, message: message },
                     success: function (result) {
                         if (result.status == "1") {
-                            alert(result.data);
+                            alert("提现驳回成功");
+                            window.location.href = result.data;
                         }
                         else if (result.status == "0") {
                             alert(result.msg);

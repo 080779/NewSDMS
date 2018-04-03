@@ -1,0 +1,38 @@
+﻿@model SDMS.DTO.DTO.SettingsDTO[]
+@{
+                ViewBag.Title = "参数设置列表";
+                Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+}
+<br />
+<div id="load">
+    <div class="dataTable">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="t1">
+            <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>描述</th>
+                    <th>参数值</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="pagerList">
+                @foreach (var setting in Model)
+                {
+                <tr>
+                    <td align="center">@setting.Id</td>
+                    <td align="center">@setting.Description</td>
+                    <td align="center">@setting.Value</td>
+                    <td align="center">
+                        <a class="easyui-linkbutton" href="/admin/system/setting?id=@setting.Id" iconcls="icon-edit">设置</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section FooterScript
+{
+    <script src="/js/admin/jquery.easyui.min.js"></script>
+    <script src="/js/admin/jquery.parser.js"></script>
+}

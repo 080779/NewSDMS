@@ -12,12 +12,15 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using SDMS.IService.Interface;
 using SDMS.Service.Service;
+using Quartz;
+using Quartz.Impl;
+using Quartz.Spi;
+using SDMS.Web.Jobs;
 
 namespace SDMS.Web
 {
     public class MvcApplication : System.Web.HttpApplication
-    {
-        public ISetShareBonusService setShareBonusService = new SetShareBonusService();
+    {        
         protected void Application_Start()
         {
             ModelBinders.Binders.Add(typeof(string), new TrimToDBCModelBinder());
@@ -45,10 +48,19 @@ namespace SDMS.Web
             
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            if(setShareBonusService.GetSetPattern())
-            {
+            StartQuartz();
+        }
+        private void StartQuartz()
+        {
+            IScheduler sched = new StdSchedulerFactory().GetScheduler();
+            //定向分红开始
+            JobDetailImpl TakeBonusJob = new JobDetailImpl("TakeBonusJob", typeof(TakeBonusJob));
+            IMutableTrigger triggerTakeBouns = CronScheduleBuilder.DailyAtHourAndMinute(18, 42).Build();//每天 23:45 执行一次
+            triggerTakeBouns.Key = new TriggerKey("triggerTakeBouns");
+            sched.ScheduleJob(TakeBonusJob, triggerTakeBouns);
+            //定向分红结束
 
-            }
-        }        
+            sched.Start();
+        }
     }
 }

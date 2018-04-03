@@ -10,15 +10,12 @@
 <body>
     <div class="swiper-container">
         <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <img src="/pic/banner01.jpg" />
-            </div>
-            <div class="swiper-slide">
-                <img src="/pic/banner01.jpg" />
-            </div>
-            <div class="swiper-slide">
-                <img src="/pic/banner01.jpg" />
-            </div>
+            @foreach(var setting in Model.Settings)
+            {
+                <div class="swiper-slide">
+                <img src="@setting.Value" />
+                </div>
+            }
         </div>
     </div>
     <div class="index-notice">
@@ -35,8 +32,7 @@
                             <div class="index-notice-img">
                                 <img src="@news.ImgURL" />
                             </div>
-                            <div class="index-notice-tit">@news.Title</div>
-                            <div class="index-notice-dec">阅读人数：@news.Click 阅读比例：@((news.Rate*100).ToString().Replace(".00",""))%</div>
+                            <div class="index-notice-tit">@news.Title</div>                            
                             <span class="index-notice-sx">@news.Preview</span>
                         </a>
                     </li>

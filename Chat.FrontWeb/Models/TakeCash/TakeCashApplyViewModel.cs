@@ -6,9 +6,9 @@ using System.Web;
 
 namespace SDMS.Web.Models.TakeCash
 {
-    public class TakeCashListViewModel
+    public class TakeCashApplyViewModel
     {
+        public decimal MinTakeCash { get; set; }
         public HolderDTO Holder { get; set; }
-        public TakeCashDTO[] TakeCashes { get; set; }        
     }
 }

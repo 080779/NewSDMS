@@ -104,6 +104,7 @@
                     success: function (result) {
                         if (result.status == "1") {
                             alert("修改成功");
+                            window.location.href = result.data;
                         }
                         else if (result.status == "0") {
                             alert(result.msg);

@@ -14,6 +14,10 @@ namespace SDMS.DTO.DTO
         public string OpenId { get; set; }
         public string Address { get; set; }
         /// <summary>
+        /// 微信头像url
+        /// </summary>
+        public string HeadImgUrl { get; set; }
+        /// <summary>
         /// 分红提现账号
         /// </summary>
         public string BankAccount { get; set; }
@@ -70,10 +74,6 @@ namespace SDMS.DTO.DTO
         /// 交易密码
         /// </summary>
         public string TradePassword { get; set; }
-        /// <summary>
-        /// 微信头像，从授权后保存到seession中
-        /// </summary>
-        public string HeadImgUrl { get; set; }
     }
 
     public class HolderCalcNumberDTO

@@ -1,0 +1,101 @@
+﻿@model SDMS.DTO.DTO.SettingsDTO
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>设置轮播图</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/font-awesome.css" rel="stylesheet" />
+    <style type="text/css">
+    </style>
+</head>
+<body>
+    <div>
+        @if (Model.Name.Contains("imgurl"))
+        {
+            <div class="form-group fast">
+                <div class="form-horizontal col-md-12">
+                    <label class="col-sm-2 control-label">
+                        <span class="text-danger">*</span>
+                        @Model.Description：
+                    </label>
+                    <div class="col-sm-4">
+                        <img src="@Model.Value" id="imgSet" alt="" style="margin-top: 10px; max-width: 100px; max-height: 400px;" />
+                        <input type="file" id="fileSet" value="@Model.Value" class="form-control" />
+                        <input type="hidden" id="id" value="@Model.Id" />
+                        <input type="hidden" id="flag" value="img" />
+                        <input type="hidden" id="description" value="@Model.Description" />
+                    </div>
+                    <div class="col-sm-2"><button id="btnSet">设置</button><button id="btnBack" onclick="javascript:history.back(-1);" >返回</button></div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="form-group fast">
+                <div class="form-horizontal col-md-12">
+                    <label class="col-sm-2 control-label">
+                        <span class="text-danger">*</span>
+                        @Model.Description：
+                    </label>
+                    <div class="col-sm-4">
+                        <input type="text" id="fileSet" value="@Model.Value" class="form-control" />
+                        <input type="hidden" id="id" value="@Model.Id" />
+                        <input type="hidden" id="flag" value="text" />
+                        <input type="hidden" id="description" value="@Model.Description" />
+                    </div>
+                    <div class="col-sm-2"><button id="btnSet" href="javascript:;">设置</button><button id="btnBack" onclick="javascript:history.back(-1);">返回</button></div>
+                </div>
+            </div>
+        }
+
+    </div>
+    <script src="~/js/jquery-1.10.2.min.js"></script>
+    <script src="~/js/admin/jquery.uploadimg.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            uploadpic("#fileSet", "#imgSet");
+            function uploadpic(fileid, img) {
+                var oUpload = new UploadPic();
+                oUpload.init({
+                    input: $(fileid)[0],
+                    callback: function (base64) {
+                        $(img).attr('src', base64);
+                    }
+                });
+            }
+
+            $("#btnSet").click(function () {
+                var id = $("#id").val();
+                var description = $("#description").val();
+                var flag = $("#flag").val();
+                var value;
+                if (flag == "img") {
+                    value = $("#imgSet").attr("src");
+                }
+                else {
+                    value = $("#fileSet").val();
+                }
+                $.ajax({
+                    url: "/admin/system/setting", type: "post",
+                    data: { id: id, value: value },
+                    success: function (result) {
+                        if (result.status == "1") {
+                            alert("参数设置成功");
+                            window.location.href = result.data;
+                        }
+                        else if (result.status == "0") {
+                            alert(result.msg);
+                        }
+                        else {
+                            alert("未知错误");
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>

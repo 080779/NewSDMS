@@ -53,6 +53,7 @@
     <Compile Include="Interface\IAdminLoginService.cs" />
     <Compile Include="Interface\IAdminLogService.cs" />
     <Compile Include="Interface\IAdminService.cs" />
+    <Compile Include="Interface\IDataBaseService.cs" />
     <Compile Include="Interface\IHolderService.cs" />
     <Compile Include="Interface\IJournalService.cs" />
     <Compile Include="Interface\IMessageService.cs" />

@@ -19,6 +19,7 @@ namespace SDMS.Service.ModelConfig
             Property(h => h.BankName).HasMaxLength(50);
             Property(h => h.OpenId).HasMaxLength(100).IsUnicode();
             Property(h => h.Address).HasMaxLength(500);
+            Property(h => h.HeadImgUrl).HasMaxLength(200).IsUnicode();
             Property(h => h.BankAccount).HasMaxLength(50);
             Property(h => h.Contact).HasMaxLength(50);
             Property(h => h.IdNumber).HasMaxLength(50).IsRequired();

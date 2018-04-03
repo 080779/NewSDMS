@@ -3,7 +3,9 @@
     ViewBag.Title = "分和流水统计列表";
     Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
 }
-分红总金额:<label id="totalAmount"></label>
+ <fieldset class="fieldset">
+分红统计<br />
+分红总金额:<label id="totalAmount"></label><br />
         姓名：<input id="cname" class="input_select" type="text" />
         手机号：<input id="cmobile" class="input_select" type="text" />
         分红类型：
@@ -14,9 +16,10 @@
                 <option value="@type.Id">@type.Description</option>
             }
         </select>
-        年： <input tip="" class="input_select" type="text" onfocus="WdatePicker({dateFmt:'yyyy'})" id="year" />月
-        <input tip="" class="input_select" type="text" onfocus="WdatePicker({dateFmt:'MM'})" id="month" />
-        <a class="easyui-linkbutton" iconcls="icon-search" id="csearch">查询</a>
+        选择日期： <input tip="" class="input_select" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM'})" id="searchTime" />
+        <a class="easyui-linkbutton" iconcls="icon-search" id="csearchyear">按年统计</a>
+        <a class="easyui-linkbutton" iconcls="icon-search" id="csearchmonth">按月统计</a>
+</fieldset>
 <br />
 <div style="margin-bottom:20px">
     <fieldset class="fieldset">
@@ -32,7 +35,7 @@
         </select>
         注册日期： <input tip="输入注册日期" class="input_select" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" id="startTime" />至
         <input tip="输入注册日期" class="input_select" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" id="endTime" />
-        <a class="easyui-linkbutton" iconcls="icon-search" id="search">查询</a>
+        <a class="easyui-linkbutton" iconcls="icon-search" id="search">流水查询</a>
     </fieldset>
 </div>
 <div id="load">
@@ -45,9 +48,8 @@
     <script src="/js/admin/jquery.easyui.min.js"></script>
     <script src="/js/admin/jquery.parser.js"></script>
     <script type="text/javascript">
-
         $.ajax({
-            url: "/admin/takebonus/search", type: "post", data: {},
+            url: "/admin/takebonus/search", type: "post", data: { },
             success: function (result) {
                 if (result.status == "1") {
                     $("#totalAmount").text(result.data);
@@ -77,6 +79,39 @@
                 $("#load").empty();
                 var page = $("#txtPage").val();
                 getPage(page);
+            });
+
+            $("#csearchyear").click(function () {
+                var cname = $("#cname").val();
+                var cmobile = $("#cmobile").val();
+                var bonusTypeId = $("#bonusTypeId").val();
+                var cyear = $("#searchTime").val()+"-01";
+                $.ajax({
+                    url: "/admin/takebonus/search", type: "post", data: { name: cname, mobile: cmobile, bonusTypeId: bonusTypeId, year: cyear },
+                    success: function (result) {
+                        if (result.status == "1") {
+                            $("#totalAmount").empty();
+                            $("#totalAmount").text(result.data);
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            });
+            $("#csearchmonth").click(function () {
+                var cname = $("#cname").val();
+                var cmobile = $("#cmobile").val();
+                var bonusTypeId = $("#bonusTypeId").val();
+                var cmonth = $("#searchTime").val()+"-01";
+                $.ajax({
+                    url: "/admin/takebonus/search", type: "post", data: { name: cname, mobile: cmobile, bonusTypeId: bonusTypeId, month: cmonth },
+                    success: function (result) {
+                        if (result.status == "1") {
+                            $("#totalAmount").empty();
+                            $("#totalAmount").text(result.data);
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
             });
         });
     </script>

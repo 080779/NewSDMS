@@ -101,6 +101,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Service\AdminService.cs" />
+    <Compile Include="Service\DataBaseService.cs" />
     <Compile Include="Service\HolderService.cs" />
     <Compile Include="Service\JournalService.cs" />
     <Compile Include="Service\JournalTypeService.cs" />

@@ -134,6 +134,20 @@ namespace SDMS.Service.Service
                 return entity.OrderByDescending(t => t.CreateTime).Take(10).ToList().Select(t => ToDTO(t)).ToArray();
             }
         }
+
+        public TakeCashDTO GetById(long id)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<TakeCashEntity> cs = new CommonService<TakeCashEntity>(dbc);
+                var entity = cs.GetAll().SingleOrDefault(t => t.Id == id);
+                if (entity == null)
+                {
+                    return null;
+                }
+                return ToDTO(entity);
+            }
+        }
         public TakeCashDTO ToDTO(TakeCashEntity entity)
         {
             TakeCashDTO dto = new TakeCashDTO();

@@ -193,6 +193,7 @@ namespace SDMS.Service.Service
             dto.OpenId = entity.OpenId;
             dto.TakeCashTime = entity.TakeCashTime;
             dto.Copies = entity.Copies;
+            dto.HeadImgUrl = entity.HeadImgUrl;
             return dto;
         }
         public bool Delete(long id)
@@ -309,7 +310,7 @@ namespace SDMS.Service.Service
                 return holder.Id;
             }
         }
-        public long Login(string mobile,string password,string openId)
+        public long Login(string mobile,string password,string openId,string headImgUrl)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
@@ -333,6 +334,7 @@ namespace SDMS.Service.Service
                 else
                 {
                     holder.OpenId = openId;
+                    holder.HeadImgUrl = headImgUrl;
                 }
                 dbc.SaveChanges();
                 return holder.Id;
@@ -348,15 +350,14 @@ namespace SDMS.Service.Service
                 {
                     return -1;
                 }
-                if (string.IsNullOrEmpty(holer.TradePassword))
+                if (!string.IsNullOrEmpty(holer.TradePassword))
                 {
-                    holer.TradePassword = tradePwd;
+                    if (holer.TradePassword != oldTradePwd)
+                    {
+                        return -2;
+                    }
                 }
-                if (holer.TradePassword != oldTradePwd)
-                {
-                    return -2;
-                }
-                holer.TradePassword = tradePwd;
+                holer.TradePassword = tradePwd;                
                 dbc.SaveChanges();
                 return 1;
             }
