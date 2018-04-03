@@ -28,6 +28,8 @@ namespace SDMS.Web.Jobs
                     if(setShareBonusService.GetSetPattern())
                     {
                         log.Debug("开始定向分红");
+                        shareBonusService.Directional();
+                        log.Debug("定向分红结束");
                     }
                     else
                     {

@@ -50,9 +50,10 @@ namespace SDMS.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             StartQuartz();
         }
+        IScheduler sched;
         private void StartQuartz()
         {
-            IScheduler sched = new StdSchedulerFactory().GetScheduler();
+            sched = new StdSchedulerFactory().GetScheduler();
             //定向分红开始
             JobDetailImpl TakeBonusJob = new JobDetailImpl("TakeBonusJob", typeof(TakeBonusJob));
             IMutableTrigger triggerTakeBouns = CronScheduleBuilder.DailyAtHourAndMinute(18, 42).Build();//每天 23:45 执行一次
@@ -61,6 +62,14 @@ namespace SDMS.Web
             //定向分红结束
 
             sched.Start();
+        }
+        protected void Application_End(object sender, EventArgs e)
+        {
+            //   在应用程序关闭时运行的代码
+            if (sched != null)
+            {
+                sched.Shutdown(true);
+            }
         }
     }
 }
