@@ -57,9 +57,16 @@ namespace SDMS.Web.Areas.Admin.Controllers
         {
             if (!setShareBonusService.Update(flag))
             {
-                return Json(new AjaxResult { Status = "0", Msg = "设置分红模式失败" });
+                return Json(new AjaxResult { Status = "0", Msg = "设置定向分红启动暂停失败" });
             }
-            return Json(new AjaxResult { Status = "1", Data = "/admin/takebonus/setup" });
+            if(flag)
+            {
+                return Json(new AjaxResult { Status = "1", Msg = "启动定向分红成功", Data = "/admin/takebonus/issue" });
+            }
+            else
+            {
+                return Json(new AjaxResult { Status = "1", Msg = "暂停定向分红成功", Data = "/admin/takebonus/issue" });
+            }
         }
         #endregion
 
@@ -68,7 +75,8 @@ namespace SDMS.Web.Areas.Admin.Controllers
         [Permission("分红管理")]
         public ActionResult Issue()
         {
-            return View();
+            var model = setShareBonusService.GetSet();
+            return View(model);
         }
         [HttpPost]
         [Permission("分红管理")]

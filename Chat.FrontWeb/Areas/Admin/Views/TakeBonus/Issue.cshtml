@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model SDMS.DTO.DTO.SetShareBonusDTO
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -12,8 +13,16 @@
     <div>
         <div class="form-group" style="margin-top:50px">
             <div class="form-horizontal col-md-12">
+                <label class="col-sm-4 control-label">
+                    当前分红模式：@(Model.Flag ? "定向分红" : "平均分红")
+                </label>
                 <label class="col-sm-2 control-label">
-                    当前分红模式：
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-horizontal col-md-12">
+                <label class="col-sm-2 control-label">
                 </label>
                 <label class="col-sm-2 control-label">
                 </label>
@@ -23,7 +32,7 @@
             <div class="form-horizontal col-md-12">
                 <label class="col-sm-2 control-label">
                     <span class="text-danger">*</span>
-                    平均分红分红金额：
+                    平均分红发放金额：
                 </label>
                 <div class="col-sm-2">
                     <input type="text" id="amount" class="form-control" />
@@ -33,10 +42,37 @@
                 </div>
             </div>
         </div>
+        <div class="form-group">
+            <div class="form-horizontal col-md-12">
+                <label class="col-sm-2 control-label">
+                </label>
+                <label class="col-sm-2 control-label">
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-horizontal col-md-12">
+                <label class="col-sm-2 control-label">
+                    <span class="text-danger">*</span>
+                    暂停启动定向分红：
+                </label>
+                <div class="col-sm-4">
+                    <input type="hidden" id="flag" value="@(Model.Flag?"true":"false")" />
+                    <input type="button" id="btnSet" class="form-control" value="" />
+                </div>
+            </div>
+        </div>
     </div>
     <script src="~/js/jquery-1.10.2.min.js"></script>
     <script type="text/javascript">
+        if ($("#flag").val() == "true") {
+            $("#btnSet").val("暂停");
+        } else {
+            $("#btnSet").val("启动");
+        }
+        
         $(function () {
+
             $("#btnSave").click(function () {
                 var amount = $("#amount").val();
                 $.ajax({
@@ -45,6 +81,32 @@
                     success: function (result) {
                         if (result.status == "1") {
                             alert(result.data);
+                        }
+                        else if (result.status == "0") {
+                            alert(result.msg);
+                        }
+                        else {
+                            alert("未知错误");
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            });
+            $("#btnSet").click(function () {
+                var flag;
+                if ($("#flag").val() == "true") {
+                    flag = "false";
+                } else {
+                    flag = "true";
+                }
+                
+                $.ajax({
+                    url: "/admin/takebonus/setflag", type: "post",
+                    data: { flag: flag },
+                    success: function (result) {
+                        if (result.status == "1") {
+                            alert(result.msg);
+                            window.location.href = result.data;
                         }
                         else if (result.status == "0") {
                             alert(result.msg);
