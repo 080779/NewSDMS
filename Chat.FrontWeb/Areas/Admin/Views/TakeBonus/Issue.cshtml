@@ -14,7 +14,7 @@
         <div class="form-group" style="margin-top:50px">
             <div class="form-horizontal col-md-12">
                 <label class="col-sm-4 control-label">
-                    
+
                 </label>
                 <label class="col-sm-2 control-label">
                 </label>
@@ -54,6 +54,17 @@
                 </div>
             </div>
         </div>
+        <div class="form-group">
+            <div class="form-horizontal col-md-12">
+                <label class="col-sm-3 control-label">
+                    <span class="text-danger">*</span>
+                    定向分红测试：
+                </label>
+                <div class="col-sm-4">
+                    <input type="button" id="btnTest" class="form-control" value="测试" />
+                </div>
+            </div>
+        </div>
     </div>
     <script src="~/js/jquery-1.10.2.min.js"></script>
     <script type="text/javascript">
@@ -66,23 +77,29 @@
         $(function () {
 
             $("#btnSave").click(function () {
-                var amount = $("#amount").val();
-                $.ajax({
-                    url: "/admin/takebonus/issue", type: "post",
-                    data: { amount: amount },
-                    success: function (result) {
-                        if (result.status == "1") {
-                            alert("平均分红发放成功");
-                        }
-                        else if (result.status == "0") {
-                            alert(result.msg);
-                        }
-                        else {
-                            alert("未知错误");
-                        }
-                    },
-                    error: function () { alert("网络错误"); }
-                });
+                if (confirm("确定要发放分红吗")) {
+                    var amount = $("#amount").val();
+                    $.ajax({
+                        url: "/admin/takebonus/issue", type: "post",
+                        data: { amount: amount },
+                        success: function (result) {
+                            if (result.status == "1") {
+                                alert("平均分红发放成功");
+                            }
+                            else if (result.status == "0") {
+                                alert(result.msg);
+                                window.location.href = result.data;
+                            }
+                            else {
+                                alert("未知错误");
+                            }
+                        },
+                        error: function () { alert("网络错误"); }
+                    });
+                }
+                else {
+                    return false;
+                }
             });
             $("#btnSet").click(function () {
                 var flag;
@@ -99,6 +116,23 @@
                         if (result.status == "1") {
                             alert(result.msg);
                             window.location.href = result.data;
+                        }
+                        else if (result.status == "0") {
+                            alert(result.msg);
+                        }
+                        else {
+                            alert("未知错误");
+                        }
+                    },
+                    error: function () { alert("网络错误"); }
+                });
+            });
+            $("#btnTest").click(function () {
+                $.ajax({
+                    url: "/admin/takebonus/test", type: "post",data: {},
+                    success: function (result) {
+                        if (result.status == "1") {
+                            alert(result.msg);
                         }
                         else if (result.status == "0") {
                             alert(result.msg);

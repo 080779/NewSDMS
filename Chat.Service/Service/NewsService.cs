@@ -65,11 +65,7 @@ namespace SDMS.Service.Service
                 CommonService<NewsEntity> cs = new CommonService<NewsEntity>(dbc);
                 NewsSearchResult result = new NewsSearchResult();
                 var news = cs.GetAll();
-                if(news==null)
-                {
-                    return result;
-                }
-                if(!string.IsNullOrEmpty(title))
+                if (!string.IsNullOrEmpty(title))
                 {
                     news = news.Where(n => n.Title.Contains(title));
                 }

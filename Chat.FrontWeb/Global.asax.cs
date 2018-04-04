@@ -56,7 +56,7 @@ namespace SDMS.Web
             sched = new StdSchedulerFactory().GetScheduler();
             //定向分红开始
             JobDetailImpl TakeBonusJob = new JobDetailImpl("TakeBonusJob", typeof(TakeBonusJob));
-            IMutableTrigger triggerTakeBouns = CronScheduleBuilder.DailyAtHourAndMinute(18, 42).Build();//每天 23:45 执行一次
+            IMutableTrigger triggerTakeBouns = CronScheduleBuilder.DailyAtHourAndMinute(17,03).Build();//每天 23:45 执行一次
             triggerTakeBouns.Key = new TriggerKey("triggerTakeBouns");
             sched.ScheduleJob(TakeBonusJob, triggerTakeBouns);
             //定向分红结束
@@ -65,7 +65,7 @@ namespace SDMS.Web
         }
         protected void Application_End(object sender, EventArgs e)
         {
-            //   在应用程序关闭时运行的代码
+            Response.Redirect("/admin/manager/login");
             if (sched != null)
             {
                 sched.Shutdown(true);

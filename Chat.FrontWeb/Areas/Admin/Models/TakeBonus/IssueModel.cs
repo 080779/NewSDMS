@@ -7,6 +7,6 @@ namespace SDMS.Web.Areas.Admin.Models.TakeBonus
 {
     public class IssueModel
     {
-        public decimal Amount { get; set; }
+        public string Amount { get; set; }
     }
 }

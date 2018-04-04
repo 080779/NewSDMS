@@ -48,7 +48,7 @@ namespace SDMS.Web.Controllers.Base
                     {
                         var state = "vz-" + DateTime.Now.Millisecond;//随机数，用于识别请求可靠性
                         Session["State"] = state;//储存随机数到Session
-                        string url = OAuthApi.GetAuthorizeUrl(appId, "http://dvzi9m.natappfree.cc/home/index", state, OAuthScope.snsapi_userinfo);
+                        string url = OAuthApi.GetAuthorizeUrl(appId, "http://x4xbtj.natappfree.cc/home/index", state, OAuthScope.snsapi_userinfo);
                         filterContext.Result = new RedirectResult(url);
                     }
                     else

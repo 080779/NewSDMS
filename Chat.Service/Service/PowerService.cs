@@ -25,10 +25,6 @@ namespace SDMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<PowerEntity> cs = new CommonService<PowerEntity>(dbc);
-                if(!cs.GetAll().Any(p=>p.ParentId==Id))
-                {
-                    return null;
-                }
                 return cs.GetAll().Where(p => p.ParentId ==Id ).ToList().Select(p => new PowerDTO { CreateTime = p.CreateTime, Id = p.Id, ParentId = p.ParentId, MenuName = p.MenuName, TypeId = p.TypeId, URL = p.URL }).ToArray();
             }
         }

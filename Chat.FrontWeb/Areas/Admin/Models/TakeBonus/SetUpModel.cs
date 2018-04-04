@@ -7,6 +7,6 @@ namespace SDMS.Web.Areas.Admin.Models.TakeBonus
 {
     public class SetUpModel
     {
-        public decimal Rate { get; set; }
+        public string Rate { get; set; }
     }
 }

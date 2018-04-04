@@ -35,7 +35,6 @@ namespace SDMS.Web.Areas.Admin.Controllers
         [Permission("系统管理")]
         public PartialViewResult AdminManagerGetPage(int pageIndex=1)
         {
-            int pageSize = 3;
             AdminListViewModel model = new AdminListViewModel();
             AdminSearchResult result = adminService.GetPageList(pageIndex, pageSize);
             model.AdminList = result.AdminList;
@@ -71,7 +70,10 @@ namespace SDMS.Web.Areas.Admin.Controllers
             {
                 return Json(new AjaxResult { Status = "0",Msg="管理员名不能为空"});
             }
-            
+            if(string.IsNullOrEmpty(model.Password))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "管理员密码不能为空" });
+            }
             if (model.RoleIds==null)
             {
                 return Json(new AjaxResult { Status = "0", Msg = "角色必须选择" });
@@ -108,7 +110,11 @@ namespace SDMS.Web.Areas.Admin.Controllers
         {
             if (string.IsNullOrEmpty(model.Name))
             {
-                return Json(new AjaxResult { Status = "0", Msg = "用户名不能为空" });
+                return Json(new AjaxResult { Status = "0", Msg = "管理员名不能为空" });
+            }
+            if(string.IsNullOrEmpty(model.Description))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "管理员描述不能为空" });
             }
             if(model.RoleIds==null)
             {
@@ -242,11 +248,10 @@ namespace SDMS.Web.Areas.Admin.Controllers
             return View();
         }
         [Permission("系统管理")]
-        public PartialViewResult LogList(DateTime? startTime,DateTime? endTime,int pageIndex=1)
-        {
-            int pageSize = 3;
+        public PartialViewResult LogList(string message, DateTime? startTime,DateTime? endTime,int pageIndex=1)
+        {            
             LogListViewModel model = new LogListViewModel();
-            AdminLogSearchResult result = adminLogService.GetPageList(startTime, endTime,null, pageIndex, pageSize);
+            AdminLogSearchResult result = adminLogService.GetPageList(message,startTime, endTime,null, pageIndex, pageSize);
             model.AdminLogs = result.AdminLogs;
 
             //分页
@@ -275,6 +280,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
             return View(model);
         }
         [Permission("系统管理")]
+        [ActDescription("系统参数设置")]
         [HttpGet]
         public ActionResult Setting(long id)
         {
@@ -341,7 +347,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
             return View();
         }
         [Permission("系统管理")]
-        [ActDescription("清测试数据")]        
+        [ActDescription("清测试数据")]
         public ActionResult ClearData()
         {
             if (dataBaseService.DataBaseClear() < 0)

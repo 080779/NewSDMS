@@ -148,7 +148,6 @@ namespace SDMS.Web.Areas.Admin.Controllers
         [Permission("提现管理")]
         public PartialViewResult TakeCashJournalGetPage(string name,string mobile,DateTime? startTime,DateTime? endTime,int pageIndex=1)
         {
-            int pageSize = 3;
             TakeCashJournalModel model = new TakeCashJournalModel();
             long journalTypeId = journalTypeService.GetByDecription("提现").First().Id;
             JournalPageResult result = journalService.GetPageList(null, mobile, name, null, journalTypeId, startTime, endTime, pageIndex, pageSize);
@@ -172,20 +171,20 @@ namespace SDMS.Web.Areas.Admin.Controllers
         }
         #endregion
 
-        #region 提现设置
-        [HttpGet]
-        [Permission("提现管理")]
-        public ActionResult SetUp()
-        {
-            return View();
-        }
-        [HttpPost]
-        [Permission("提现管理")]
-        [ActDescription("提现设置")]
-        public ActionResult SetUp(string s)
-        {
-            return Json(new AjaxResult { Status = "1" });
-        }
+        #region 提现设置 在参数设置里设置了
+        //[HttpGet]
+        //[Permission("提现管理")]
+        //public ActionResult SetUp()
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //[Permission("提现管理")]
+        //[ActDescription("提现设置")]
+        //public ActionResult SetUp(string s)
+        //{
+        //    return Json(new AjaxResult { Status = "1" });
+        //}
         #endregion
     }
 }

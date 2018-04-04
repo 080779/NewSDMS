@@ -13,10 +13,13 @@ namespace SDMS.Web.Controllers
     public class MyInfoController : FrontBaseController
     {
         //public IHolderService holderService { get; set; }
+        public ISettingsService settingsService { get; set; }
         public ActionResult List()
         {
-            var dto=holderService.GetById(UserId);
-            return View(dto);
+            ListViewModel model = new ListViewModel();
+            model.Holder= holderService.GetById(UserId);
+            model.Tel = settingsService.GetValueByKey("tel");
+            return View(model);
         }
         [HttpGet]
         public ActionResult Info()
@@ -31,7 +34,15 @@ namespace SDMS.Web.Controllers
         [HttpPost]
         public ActionResult Info(InfoModel model)
         {
-            if(!holderService.Update(model.Id, model.Address, model.Contact, model.BankAccount, model.UrgencyName, model.UrgencyContact))
+            if(!string.IsNullOrEmpty(model.BankAccount))
+            {
+                long num;
+                if(!long.TryParse(model.BankAccount,out num))
+                {
+                    return Json(new AjaxResult { Status = "0", Msg = "银行卡账号必须是小于等于19位的数字" });
+                }
+            }
+            if (!holderService.Update(model.Id, model.Address, model.Contact, model.BankAccount, model.UrgencyName, model.UrgencyContact))
             {
                 return Json(new AjaxResult { Status = "0" ,Msg="修改失败" });
             }

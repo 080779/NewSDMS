@@ -27,7 +27,6 @@ namespace SDMS.Web.Areas.Admin.Controllers
         }
         public PartialViewResult ListGetPage(long? holderId, string name, string mobile, DateTime? startTime, DateTime? endTime, int pageIndex=1)
         {
-            int pageSize = 3;
             MessageListViewModel model = new MessageListViewModel();
             MessageSearchResult result = messageService.GetPageList(holderId, name, mobile, startTime, endTime, pageIndex, pageSize);
             model.Messages = result.Messages;

@@ -70,10 +70,6 @@ namespace SDMS.Service.Service
             {
                 CommonService<PermissionEntity> cs = new CommonService<PermissionEntity>(dbc);
                 var permissions = cs.GetAll();
-                if (permissions == null)
-                {
-                    return null;
-                }
                 return permissions.Select(p => new PermissionDTO { Id = p.Id, Description = p.Description, Name = p.Name,CreateTime=p.CreateTime }).ToArray();
             }
         }

@@ -95,10 +95,6 @@ namespace SDMS.Service.Service
                 TakeCashSearchResult result = new TakeCashSearchResult();
                 CommonService<TakeCashEntity> cs = new CommonService<TakeCashEntity>(dbc);
                 var takeCashs = cs.GetAll();
-                if(takeCashs==null)
-                {
-                    return result;
-                }
                 if(!string.IsNullOrEmpty(name))
                 {
                     takeCashs = takeCashs.Where(t=>t.Holder.Name.Contains(name));
@@ -127,10 +123,6 @@ namespace SDMS.Service.Service
             {
                 CommonService<TakeCashEntity> cs = new CommonService<TakeCashEntity>(dbc);
                 var entity = cs.GetAll().Where(t=>t.HolderId==id);
-                if(entity==null)
-                {
-                    return null;
-                }
                 return entity.OrderByDescending(t => t.CreateTime).Take(10).ToList().Select(t => ToDTO(t)).ToArray();
             }
         }

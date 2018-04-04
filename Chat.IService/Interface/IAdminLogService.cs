@@ -10,7 +10,7 @@ namespace SDMS.IService.Interface
     public interface IAdminLogService:IServiceSupport
     {
         long AddNew(long adminUserId, string ipAddress, string message);
-        AdminLogSearchResult GetPageList(DateTime? startTime, DateTime? endTime, string keyWord, int currentIndex, int pageSize);
+        AdminLogSearchResult GetPageList(string message, DateTime? startTime, DateTime? endTime, string keyWord, int currentIndex, int pageSize);
     }
     public class AdminLogSearchResult
     {

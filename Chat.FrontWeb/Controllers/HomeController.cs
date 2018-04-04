@@ -67,8 +67,8 @@ namespace SDMS.Web.Controllers
             {
                 return Json(new AjaxResult { Status="0",Msg="消息不能为空"});
             }
-            long bid= messageService.AddNew(2,id, contents);
-            return Json(new AjaxResult { Status = "1",Data= bid });
+            long bid= messageService.AddNew(UserId,id, contents);
+            return Json(new AjaxResult { Status = "1" });
         }
         public ActionResult Share()
         {

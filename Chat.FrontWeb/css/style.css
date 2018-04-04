@@ -455,6 +455,10 @@ a {
             background: url(../images/icon-weixin.png) no-repeat center center / 100% auto;
         }
 
+        .user-link-li a .icon5 {
+            background: url(../images/icon_tel.png) no-repeat center center / 100% auto;
+        }
+
 .user-exit {
     text-align: center;
     color: #FF472B;

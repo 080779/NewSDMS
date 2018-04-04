@@ -26,13 +26,17 @@ namespace SDMS.Service.Service
             }
         }
 
-        public AdminLogSearchResult GetPageList(DateTime? startTime, DateTime? endTime, string keyWord, int pageIndex, int pageSize)
+        public AdminLogSearchResult GetPageList(string message ,DateTime? startTime, DateTime? endTime, string keyWord, int pageIndex, int pageSize)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 CommonService<AdminLogEntity> cs = new CommonService<AdminLogEntity>(dbc);
                 AdminLogSearchResult result = new AdminLogSearchResult();
                 var logs = cs.GetAll();
+                if(!string.IsNullOrEmpty(message))
+                {
+                    logs = logs.Where(l => l.Message.Contains(message));
+                }
                 if (startTime != null)
                 {
                     logs = logs.Where(l => l.CreateTime > startTime);

@@ -36,15 +36,16 @@ namespace SDMS.Web.Areas.Admin.Controllers
         [ActDescription("定向分红比例设置")]
         public ActionResult SetUp(SetUpModel model)
         {
-            if(!ModelState.IsValid)
+            decimal rate;
+            if (!decimal.TryParse(model.Rate, out rate))
             {
-                return Json(MVCHelper.GetJsonValidMsg(ModelState));
+                return Json(new AjaxResult { Status = "0", Msg = "比例必须数字" });
             }
-            if(model.Rate<=0)
+            if (rate <= 0)
             {
                 return Json(new AjaxResult { Status = "0", Msg = "比例不能小于零" });
             }
-            if(!setShareBonusService.Update(model.Rate))
+            if (!setShareBonusService.Update(rate))
             {
                 return Json(new AjaxResult { Status = "0" ,Msg="设置定向分红比例失败" });
             }
@@ -83,19 +84,28 @@ namespace SDMS.Web.Areas.Admin.Controllers
         [ActDescription("平均分红发放")]
         public ActionResult Issue(IssueModel model)
         {
-            if (!ModelState.IsValid)
+            decimal amount;
+            if (!decimal.TryParse(model.Amount,out amount))
             {
-                return Json(MVCHelper.GetJsonValidMsg(ModelState));
+                return Json(new AjaxResult { Status = "0", Msg = "金额必须数字" });                
             }
-            if (model.Amount <= 0)
+            if(amount<=0)
             {
                 return Json(new AjaxResult { Status = "0", Msg = "金额不能小于零" });
             }
-            if (!shareBonusService.Average(model.Amount))
+            if (!shareBonusService.Average(amount))
             {
                 return Json(new AjaxResult { Status = "0", Msg = "分红发放失败" });
             }
-            return Json(new AjaxResult { Status = "1" });
+            return Json(new AjaxResult { Status = "1", Data="/admin/takebonus/issue" });
+        }
+        public ActionResult Test()
+        {
+            if (!shareBonusService.Directional())
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "测试定向分红发放失败" });
+            }
+            return Json(new AjaxResult { Status = "1",Msg="测试定向分红发放成功" });
         }
         #endregion
 
@@ -114,7 +124,6 @@ namespace SDMS.Web.Areas.Admin.Controllers
             {
                 journalTypeId = null;
             }
-            int pageSize = 3;
             BonusJournalViewModel model = new BonusJournalViewModel();
             JournalPageResult result = journalService.GetPageList(null,mobile,name,"分红",journalTypeId,startTime,endTime,pageIndex,pageSize);
             model.Journals = result.Journals;

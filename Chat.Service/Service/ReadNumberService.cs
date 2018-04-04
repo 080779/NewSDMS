@@ -60,10 +60,6 @@ namespace SDMS.Service.Service
             {
                 CommonService<ReadNumberEntity> cs = new CommonService<ReadNumberEntity>(dbc);
                 var entity = cs.GetAll().Where(r => r.NewsId == id);
-                if(entity==null)
-                {
-                    return null;
-                }
                 return entity.ToList().Select(r => ToDTO(r)).ToArray();
             }
         }
@@ -82,10 +78,6 @@ namespace SDMS.Service.Service
                 CommonService<ReadNumberEntity> cs = new CommonService<ReadNumberEntity>(dbc);
                 ReadSearchResult result = new ReadSearchResult();
                 var entities = cs.GetAll().Where(r => r.NewsId == id);
-                if (entities == null)
-                {
-                    return result;
-                }
                 if(!string.IsNullOrEmpty(name))
                 {
                     entities = entities.Where(r=>r.Holder.Name==name);

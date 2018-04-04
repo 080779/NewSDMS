@@ -130,10 +130,6 @@ namespace SDMS.Service.Service
                 CommonService<HolderEntity> cs = new CommonService<HolderEntity>(dbc);
                 HolderSearchResult result = new HolderSearchResult();
                 var holders = cs.GetAll();
-                if(holders==null)
-                {
-                    return result;
-                }
                 if(!string.IsNullOrEmpty(name))
                 {
                     holders = holders.Where(h => h.Name.Contains(name));
@@ -284,6 +280,21 @@ namespace SDMS.Service.Service
                 return true;
             }
         }
+        public bool Update(long id, DateTime time)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<HolderEntity> cs = new CommonService<HolderEntity>(dbc);
+                var holder = cs.GetAll().SingleOrDefault(h => h.Id == id);
+                if (holder == null)
+                {
+                    return false;
+                }
+                holder.TakeCashTime = time;
+                dbc.SaveChanges();
+                return true;
+            }
+        }
         public bool CheckOpenId(string openId)
         {
             using (MyDbContext dbc = new MyDbContext())
@@ -392,6 +403,10 @@ namespace SDMS.Service.Service
                 CommonService<StockItemEntity> scs = new CommonService<StockItemEntity>(dbc);
                 HolderCalcNumberDTO dto = new HolderCalcNumberDTO();
                 var holders = cs.GetAll();
+                if(holders.LongCount()<=0)
+                {
+                    return new HolderCalcNumberDTO();
+                }
                 dto.TotalHolder = holders.LongCount();
                 dto.TotalHolderAmount = holders.Sum(h => h.Amount);
                 dto.TotalHolderBonus = holders.Sum(h => h.TotalBonus);
@@ -407,6 +422,10 @@ namespace SDMS.Service.Service
                 CommonService<StockItemEntity> scs = new CommonService<StockItemEntity>(dbc);
                 TakeCashCalcNumberDTO dto = new TakeCashCalcNumberDTO();
                 var holders = cs.GetAll();
+                if(holders.LongCount()<=0)
+                {
+                    return new TakeCashCalcNumberDTO();
+                }
                 dto.TotalBonusNumber = holders.Sum(h=>h.TotalBonus);
                 dto.TotalTakeBonus = holders.Sum(h => h.TakeBonus);
                 dto.TotalHaveBonus = holders.Sum(h => h.HaveBonus);

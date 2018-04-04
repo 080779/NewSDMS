@@ -76,12 +76,12 @@ namespace SDMS.Service.Service
                 long average = jcs.GetAll().SingleOrDefault(j=>j.Name== "average").Id;
                 long directional = jcs.GetAll().SingleOrDefault(j => j.Name == "directional").Id;
                 DateTime time = DateTime.Now.AddDays(-1);
-                var bonus = cs.GetAll().Where(j => j.HolderId == id).Where(j => j.CreateTime.Year==time.Year && j.CreateTime.Month==time.Month && j.CreateTime.Day==time.Day).Where(j=>j.JournalTypeId== average || j.JournalTypeId== directional).Sum(j=>j.InAmount);
-                if(bonus==null)
+                var bonus = cs.GetAll().Where(j => j.HolderId == id).Where(j => j.CreateTime.Year==time.Year && j.CreateTime.Month==time.Month && j.CreateTime.Day==time.Day).Where(j=>j.JournalTypeId== average || j.JournalTypeId== directional);
+                if(bonus.LongCount()<=0)
                 {
                     return 0;
                 }
-                return (decimal)bonus;
+                return (decimal)bonus.Sum(j => j.InAmount);
             }
         }
         /// <summary>
@@ -108,11 +108,6 @@ namespace SDMS.Service.Service
                 {
                     long journalTypeId = jcs.GetAll().SingleOrDefault(j => j.Name == "takecash").Id;
                     bonus = bonus.Where(j => j.JournalTypeId == journalTypeId);
-                }
-                
-                if (bonus.Count()<=0)
-                {
-                    return null;
                 }
                 return bonus.OrderByDescending(j => j.CreateTime).Take(pageSize).ToList().Select(j => ToDTO(j)).ToArray();
             }

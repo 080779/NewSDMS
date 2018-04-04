@@ -14,8 +14,6 @@ namespace SDMS.Web.Areas.Admin.Models.News
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(ErrorMessage = "公告图片不能为空")]
         public string ImgURL { get; set; }
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [Required(ErrorMessage = "公告内容不能为空")]
         public string Contents { get; set; }
     }
 }

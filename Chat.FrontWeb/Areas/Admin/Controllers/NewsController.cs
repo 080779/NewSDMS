@@ -35,7 +35,6 @@ namespace SDMS.Web.Areas.Admin.Controllers
         [Permission("公告管理")]
         public PartialViewResult ListGetPage(string title, DateTime? startTime, DateTime? endTime, int pageIndex = 1)
         {
-            int pageSize = 3;
             NewsListViewModel model = new NewsListViewModel();
             NewsSearchResult result = newService.GetPageList(title, startTime, endTime, pageIndex, pageSize);
             model.News = result.News;

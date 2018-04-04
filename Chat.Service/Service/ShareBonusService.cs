@@ -18,7 +18,7 @@ namespace SDMS.Service.Service
                 CommonService<JournalTypeEntity> jcs = new CommonService<JournalTypeEntity>(dbc);
                 long average = jcs.GetAll().SingleOrDefault(j => j.Name == "average").Id;
                 var holders = cs.GetAll();
-                if(holders==null)
+                if (holders.LongCount() <= 0)
                 {
                     return false;
                 }
@@ -47,14 +47,14 @@ namespace SDMS.Service.Service
                 CommonService<SetShareBonusEntity> cs = new CommonService<SetShareBonusEntity>(dbc);
                 CommonService<JournalTypeEntity> jcs = new CommonService<JournalTypeEntity>(dbc);
                 CommonService<HolderEntity> hcs = new CommonService<HolderEntity>(dbc);
-                var set = cs.GetAll().SingleOrDefault(s => s.Id == cs.GetAll().SingleOrDefault(ss=>ss.Name=="bonus").Id);
+                var set = cs.GetAll().SingleOrDefault(s => s.Name=="setup");
                 long directional = jcs.GetAll().SingleOrDefault(j => j.Name == "directional").Id; 
                 var holders = hcs.GetAll();
                 if(set==null)
                 {
                     return false;
                 }
-                if(holders==null)
+                if(holders.LongCount()<=0)
                 {
                     return false;
                 }

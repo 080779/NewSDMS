@@ -124,7 +124,15 @@
                 $.ajax({
                     url: "/admin/holder/clacamount", type: "post", data: { copies: copies },
                     success: function (result) {
-                        $("#amount").val(result.data);
+                        if (result.status == "1") {
+                            $("#amount").val(result.data);
+                        }
+                        else if (result.status == "0") {
+                            alert(result.msg);
+                        }
+                        else {
+                            alert("未知错误");
+                        }
                     },
                     error: function () { alert("网络错误"); }
                 });

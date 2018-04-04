@@ -1,4 +1,4 @@
-﻿@model SDMS.DTO.DTO.HolderDTO
+﻿@model SDMS.Web.Models.MyInfo.ListViewModel
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,11 +13,11 @@
             <div class="user-header-b clear">
                 <div class="user-headerimg">
 
-                    <img src="@Model.HeadImgUrl" />
+                    <img src="@Model.Holder.HeadImgUrl" />
                 </div>
                 <div class="user-info">
-                    <div class="user-name">@Model.Name</div>
-                    <div class="user-tel">@Model.Mobile</div>
+                    <div class="user-name">@Model.Holder.Name</div>
+                    <div class="user-tel">@Model.Holder.Mobile</div>
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
         <ul>
             <li class="user-link-li">
                 <a href="/myinfo/info/">
-                    <i class="icon icon1"></i>
+                    <i class="icon icon3"></i>
                     <span>个人资料</span>
                 </a>
             </li>
@@ -42,6 +42,14 @@
                 <a id="unbind" href="javascript:;">
                     <i class="icon icon4"></i>
                     <span>解除微信绑定</span>
+                </a>
+            </li>
+        </ul>
+        <ul>
+            <li class="user-link-li">
+                <a href="tel:@(Model.Tel)">
+                    <i class="icon icon1"></i>
+                    <span>联系客服</span>
                 </a>
             </li>
         </ul>

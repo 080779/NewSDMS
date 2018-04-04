@@ -15,6 +15,7 @@ namespace SDMS.Web.Areas.Admin.Controllers.Base
     /// </summary>
     public class AdminBaseController : Controller
     {
+        public int pageSize = 10;
         public IAdminService adminService { get; set; }
         public IPermissionService permissionService { get; set; }
         public IAdminLogService logService { get; set; }

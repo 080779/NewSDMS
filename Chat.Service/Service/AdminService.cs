@@ -74,7 +74,7 @@ namespace SDMS.Service.Service
                 }
                 admin.Roles.Clear();
                 var roles = cs.GetAll().Where(r => roleIds.Contains(r.Id));
-                if(roles==null)
+                if(roles.LongCount()<=0)
                 {
                     return false;
                 }
@@ -136,10 +136,6 @@ namespace SDMS.Service.Service
                 AdminSearchResult result = new AdminSearchResult();
                 CommonService<AdminEntity> cs = new CommonService<AdminEntity>(dbc);
                 var admins=cs.GetAll();
-                if(admins==null)
-                {
-                    return result;
-                }
                 //admins = admins.Where(a => a.Name != "admin");
                 result.TotalCount = admins.LongCount();
                 result.AdminList = admins.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList().Select(a => ToDTO(a)).ToArray();

@@ -12,6 +12,7 @@ namespace SDMS.IService.Interface
     {
         long AddNew(HolderSvcModel model);
         bool Update(HolderSvcModel model);
+        bool Update(long id, DateTime time);
         bool Update(long id, string address, string contact, string bankAccount, string urgencyName, string urgencyContact);
         bool Update(long id, string name, string mobile, bool gender, string idNumber, string contact);
         bool Delete(long id);

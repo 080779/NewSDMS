@@ -35,7 +35,6 @@ namespace SDMS.Web.Areas.Admin.Controllers
         [Permission("股东管理")]
         public PartialViewResult ListGetPage(string name,string mobile,DateTime? startTime,DateTime? endTime,int pageIndex = 1)
         {
-            int pageSize = 10;
             HolderListViewModel model = new HolderListViewModel();
             HolderSearchResult result = holderService.GetPageList(name,mobile,startTime,endTime,pageIndex, pageSize);
             model.Holders = result.Holders;
@@ -79,19 +78,36 @@ namespace SDMS.Web.Areas.Admin.Controllers
             {
                 return Json(new AjaxResult { Status = "0", Msg = "股东手机号不能为空" });
             }
-            if(model.Mobile.Length!=11)
-            {
-                return Json(new AjaxResult { Status = "0", Msg = "股东手机号必须是11位" });
-            }
             long num;
             if (!long.TryParse(model.Mobile, out num))
             {
                 return Json(new AjaxResult { Status = "0", Msg = "股东手机号必须是数字" });
             }
-
+            if (model.Mobile.Length!=11)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "股东手机号必须是11位" });
+            }
+            
+            if(string.IsNullOrEmpty(model.IdNumber))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "股东身份证号不能为空" });
+            }
+            if(string.IsNullOrEmpty(model.Password))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "密码不能为空" });
+            }
             if (model.Amount<=0)
             {
                 return Json(new AjaxResult { Status = "0",Msg="认购金额不能为空" });
+            }            
+            if (model.Copies!=Convert.ToInt64( Session["Copies"]))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "认购金额与份数不符" });
+            }
+            long haveCopies = stockService.GetByKeyName(KeyName).HaveCopies;
+            if (model.Copies > haveCopies)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "认购份数不能大于可认购份数" });
             }
             HolderSvcModel holder = new HolderSvcModel();
             holder.Amount = model.Amount;
@@ -128,7 +144,32 @@ namespace SDMS.Web.Areas.Admin.Controllers
         [Permission("股东管理")]
         public ActionResult Edit(HolderEditModel model)
         {
-            if(!holderService.Update(model.Id, model.Name, model.Mobile, model.Gender, model.IdNumber, model.Contact))
+            if (string.IsNullOrEmpty(model.Name))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "股东名不能为空" });
+            }
+            if (string.IsNullOrEmpty(model.Mobile))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "股东手机号不能为空" });
+            }
+            long num;
+            if (!long.TryParse(model.Mobile, out num))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "股东手机号必须是数字" });
+            }
+            if (model.Mobile.Length != 11)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "股东手机号必须是11位" });
+            }
+            if (string.IsNullOrEmpty(model.IdNumber))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "股东身份证号不能为空" });
+            }
+            if (string.IsNullOrEmpty(model.Contact))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "股东联系方式不能为空" });
+            }
+            if (!holderService.Update(model.Id, model.Name, model.Mobile, model.Gender, model.IdNumber, model.Contact))
             {
                 return Json(new AjaxResult { Status = "0", Msg = "编辑股东失败" });
             }
@@ -151,10 +192,24 @@ namespace SDMS.Web.Areas.Admin.Controllers
         #endregion
         #region 确认计算认购金额
         [Permission("股东管理")]
-        public ActionResult ClacAmount(long copies)
+        public ActionResult ClacAmount(long? copies)
         {
-            decimal Copies= holderService.ClacAmount(stockService.GetIdByKeyName(KeyName), copies);
-            return Json(new AjaxResult { Status = "1",Data= Copies });
+            if(copies==null)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "未传递参数" });
+            }
+            if(copies.Value<=0)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "认购份数必须为大于零的整数" });
+            }
+            long num = stockService.GetByKeyName(KeyName).HaveCopies;
+            if(copies.Value>num)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "认购份数不能大于可认购份数" });
+            }
+            Session["Copies"] = copies.Value;
+            decimal amount= holderService.ClacAmount(stockService.GetIdByKeyName(KeyName), copies.Value);
+            return Json(new AjaxResult { Status = "1",Data= amount });
         }
         #endregion
     }

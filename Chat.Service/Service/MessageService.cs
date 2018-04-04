@@ -31,10 +31,6 @@ namespace SDMS.Service.Service
                 CommonService<MessageEntity> cs = new CommonService<MessageEntity>(dbc);
                 MessageSearchResult result = new MessageSearchResult();
                 var entity = cs.GetAll();
-                if(entity==null)
-                {
-                    return result;
-                }
                 if (holderId != null)
                 {
                     entity = entity.Where(m => m.HolderId == holderId);

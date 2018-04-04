@@ -17,10 +17,6 @@ namespace SDMS.Service.Service
             {
                 CommonService<SettingsEntity> cs = new CommonService<SettingsEntity>(dbc);
                 var settings=cs.GetAll();
-                if(settings==null)
-                {
-                    return null;
-                }
                 return settings.Select(s => new SettingsDTO { CreateTime = s.CreateTime, Description = s.Description, Id = s.Id, Name = s.Name, Value = s.Value }).ToArray();;
             }
         }
@@ -86,7 +82,7 @@ namespace SDMS.Service.Service
             {
                 CommonService<SettingsEntity> cs = new CommonService<SettingsEntity>(dbc);
                 var settings = cs.GetAll().Where(s => s.Name.Contains(name));
-                if(settings==null)
+                if(settings.LongCount()<=0)
                 {
                     return null;
                 }

@@ -5,6 +5,7 @@
 }
 <div style="margin-bottom:20px">
     <fieldset class="fieldset">
+        日志消息：<input class="input_select" type="text" id="message" />
         日期： <input tip="输入注册日期" class="input_select" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" id="startTime" />至
         <input tip="输入注册日期" class="input_select" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" id="endTime" />
         <a class="easyui-linkbutton" iconcls="icon-search" id="search">查询</a>
@@ -21,9 +22,10 @@
     <script src="/js/admin/jquery.parser.js"></script>
     <script type="text/javascript">
         function getPage(pageIndex) {
+            var message = $("#message").val();
             var startTime = $("#startTime").val();
             var endTime = $("#endTime").val();
-            $("#load").load("/admin/system/LogList", { startTime: startTime, endTime: endTime, pageIndex: pageIndex }, function () {
+            $("#load").load("/admin/system/LogList", { message: message, startTime: startTime, endTime: endTime, pageIndex: pageIndex }, function () {
                 $.parser.parse($('#load'));
             });
         }
