@@ -415,6 +415,7 @@
     <Content Include="Areas\Admin\Views\System\Setting.cshtml" />
     <Content Include="Areas\Admin\Views\System\SetList.cshtml" />
     <Content Include="Areas\Admin\Views\System\Clear.cshtml" />
+    <Content Include="fonts\mui.ttf" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
