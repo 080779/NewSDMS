@@ -1,4 +1,4 @@
-﻿@model SDMS.Web.Models.Home.NewsListViewModel
+﻿
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,40 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>首页</title>
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <link href="~/css/mui.min.css" rel="stylesheet" />
 </head>
 <body>
     <div class="swiper-container">
         <div class="swiper-wrapper">
-            @foreach(var setting in Model.Settings)
+            @*@foreach (var setting in Model)
             {
                 <div class="swiper-slide">
-                <img src="@setting.Value" />
+                    <img src="@setting.Value" />
                 </div>
-            }
+            }*@
         </div>
     </div>
-    <div class="index-notice">
-        <div class="index-notice-h">
-            <span>公告</span>
-            @*<a href="#" class="more">更多</a>*@
-        </div>
-        <div class="index-notice-list">
-            <ul>
-                @foreach (var news in Model.News)
-                {
-                    <li class="index-notice-li">
-                        <a href="/home/details/@news.Id" class="">
-                            <div class="index-notice-img">
-                                <img src="@news.ImgURL" />
-                            </div>
-                            <div class="index-notice-tit">@news.Title</div>                            
-                            <span class="index-notice-sx">@news.Preview</span>
-                        </a>
-                    </li>
-                }
-            </ul>
+
+    <div id="pullrefresh" class="mui-content mui-scroll-wrapper index-notice">
+        <div class="mui-scroll">
+            <!--数据列表-->
+
+                <div class="index-notice-h">
+                    <span>公告</span>
+                    @*<a href="#" class="more">上拉加载更多</a>*@
+                </div>
+                <div class="index-notice-list">
+                    <ul id="ul1">
+                        
+                    </ul>
+                </div>
+
         </div>
     </div>
+
     <div class="footer">
         <ul>
             <li>
@@ -67,13 +64,73 @@
     </div>
 
     <script src="~/js/jquery-1.10.2.min.js"></script>
+    <script src="~/js/mui.min.js"></script>
     <script src="~/js/swiper.min.js"></script>
+    <script src="~/js/template.js"></script>
     <script type="text/javascript">
         var swiper = new Swiper('.swiper-container', {
             slidesPerView: 'auto',
             centeredSlides: true,
             spaceBetween: 15,
         });
+
+        var pageIndex = 1;
+        mui.init({
+            pullRefresh: {
+                container: "#pullrefresh",//待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
+                up: {
+                    height: 50,//可选.默认50.触发上拉加载拖动距离
+                    auto: true,//可选,默认false.自动上拉加载一次
+                    contentrefresh: "正在加载...",//可选，正在加载状态时，上拉加载控件上显示的标题内容
+                    contentnomore: '没有更多数据了',//可选，请求完毕若没有更多数据时显示的提醒内容；
+                    callback: pullupRefresh
+                }
+            }
+        });
+        var count = 0;
+
+        function pullupRefresh() {
+            setTimeout(function () {
+                mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+                $.ajax({
+                    url: "/home/index", type: "post", data: { pageIndex: pageIndex },
+                    success: function (result) {
+                        var html = template('news', { data: result.data });
+                        $("#ul1").append(html);
+                    },
+                    error: function () {
+                        alert("网络错误");
+                    }
+                });
+            }, 500);
+        }
+
+        if (mui.os.plus) {
+            mui.plusReady(function () {
+                setTimeout(function () {
+                    mui('#pullrefresh').pullRefresh().pullupLoading();
+                }, 1000);
+
+            });
+        } else {
+            mui.ready(function () {
+                mui('#pullrefresh').pullRefresh().pullupLoading();
+            });
+        }
+    </script>
+
+    <script id="news" type="text/html">
+        {{each data as news}}
+        <li class="index-notice-li">
+            <a href="/home/details/{{news.id}}" class="">
+                <div class="index-notice-img">
+                    <img src="{{news.imgURL}}" />
+                </div>
+                <div class="index-notice-tit">{{news.title}}</div>
+                <span class="index-notice-sx">{{news.prewiew}}</span>
+            </a>
+        </li>
+        {{/each}}
     </script>
 </body>
 </html>

@@ -364,6 +364,7 @@
     <Content Include="css\admin\themes\icons\tip.png" />
     <Content Include="css\admin\themes\icons\undo.png" />
     <Content Include="css\login.css" />
+    <Content Include="css\mui.min.css" />
     <Content Include="images\bg99.gif" />
     <Content Include="images\bg_199.gif" />
     <Content Include="js\admin\Common.js" />
@@ -475,6 +476,7 @@
     <Content Include="js\jquery-1.10.2.min.js" />
     <Content Include="js\jquery.js" />
     <Content Include="js\jquery.min.js" />
+    <Content Include="js\mui.min.js" />
     <Content Include="js\PageComm.js" />
     <Content Include="js\pagination.min.js" />
     <Content Include="js\swiper.min.js" />

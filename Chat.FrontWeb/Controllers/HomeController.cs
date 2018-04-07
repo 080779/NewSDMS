@@ -12,38 +12,28 @@ using System.Web.Mvc;
 
 namespace SDMS.Web.Controllers
 {
-    public class HomeController : FrontBaseController
+    //public class HomeController : FrontBaseController
+    public class HomeController : Controller
     {
         public INewsService newsService { get; set; }
-        //public IHolderService holderService { get; set; }
+        public IHolderService holderService { get; set; }
         public IJournalService journalService { get; set; }
         public IMessageService messageService { get; set; }
         public IReadNumberService readNumberService { get; set; }
         public ISettingsService settingsService { get; set; }
-        public ActionResult Index(int pageIndex=1)
+        public long UserId = 1;
+        [HttpGet]
+        public ActionResult Index()
         {
-            int pageSize = 5;
-            NewsListViewModel model = new NewsListViewModel();
-            NewsSearchResult result = newsService.GetPageList(null, null, null, pageIndex, pageSize);
-            model.News = result.News;
-            model.Settings = settingsService.GetByName("imgurl");
-
-            //分页
-            Pagination pager = new Pagination();
-            pager.PageIndex = pageIndex;
-            pager.PageSize = pageSize;
-            pager.TotalCount = result.TotalCount;
-
-            if (result.TotalCount <= pageSize)
-            {
-                model.Page = "";
-            }
-            else
-            {
-                model.Page = pager.GetPagerHtml();
-            }
-
+            var model =settingsService.GetByName("imgurl");
             return View(model);
+        }
+        [HttpPost]
+        public ActionResult Index(int pageIndex = 1)
+        {
+            int pageSize = 3;
+            NewsSearchResult result = newsService.GetPageList(null, null, null, pageIndex, pageSize);
+            return Json(new AjaxResult { Status = "1", Data = result.News });
         }
         public ActionResult Details(long id)
         {
