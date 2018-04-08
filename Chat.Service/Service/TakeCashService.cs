@@ -140,6 +140,7 @@ namespace SDMS.Service.Service
                 return ToDTO(entity);
             }
         }
+                
         public TakeCashDTO ToDTO(TakeCashEntity entity)
         {
             TakeCashDTO dto = new TakeCashDTO();

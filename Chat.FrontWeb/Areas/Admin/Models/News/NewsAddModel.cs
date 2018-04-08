@@ -10,6 +10,7 @@ namespace SDMS.Web.Areas.Admin.Models.News
     {
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(ErrorMessage ="公告标题不能为空")]
+        [MaxLength(200,ErrorMessage ="标题字数必须小于100字")]
         public string Title { get; set; }
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(ErrorMessage = "公告图片不能为空")]

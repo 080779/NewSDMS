@@ -338,7 +338,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
             string fullPath = HttpContext.Server.MapPath("" + path);
             new FileInfo(fullPath).Directory.Create();
             ImageProcessingJob jobNormal = new ImageProcessingJob();
-            jobNormal.Filters.Add(new FixedResizeConstraint(616, 308));//限制图片的大小，避免生成
+            jobNormal.Filters.Add(new FixedResizeConstraint(640, 308));//限制图片的大小，避免生成
             jobNormal.SaveProcessedImageToFileSystem(imgBytes, fullPath);
             return path;
         }

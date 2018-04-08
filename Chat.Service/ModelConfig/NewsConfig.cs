@@ -13,9 +13,9 @@ namespace SDMS.Service.ModelConfig
         public NewsConfig()
         {
             ToTable("T_News");
-            Property(n => n.Contents).HasMaxLength(2048);
             Property(n => n.ImgURL).HasMaxLength(100);
-            Property(n => n.Title).HasMaxLength(50);
+            Property(n => n.Title).HasMaxLength(200);
+            Property(n => n.Preview).HasMaxLength(500);
             HasRequired(n => n.Admin).WithMany().HasForeignKey(n => n.AdminId).WillCascadeOnDelete(false);
         }
     }

@@ -148,6 +148,7 @@ namespace SDMS.Service.Service
                 return journals.Sum(j => j.InAmount).Value;
             }
         }
+        
         #region ToDTO
         public JournalDTO ToDTO(JournalEntity journal)
         {

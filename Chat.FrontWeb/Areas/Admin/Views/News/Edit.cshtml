@@ -31,7 +31,7 @@
                 </label>
                 <div class="col-sm-4">
                     <img src="@Model.ImgURL" id="news_img" alt="" style="margin-top: 10px; max-width: 100px; max-height: 400px;" />
-                    <input type="file" id="imgURL" class="form-control" />
+                    <input type="file" id="imgURL" class="form-control" />请上传500*500的图片
                 </div>
             </div>
         </div>
@@ -52,6 +52,9 @@
                 </label>
                 <div class="col-sm-2">
                     <input type="button" id="btnSave" class="form-control" value="提交" />
+                </div>
+                <div class="col-sm-2">
+                    <input type="button" onclick="javascript:history.back(-1);" class="form-control" value="返回" />
                 </div>
             </div>
         </div>
@@ -91,7 +94,8 @@
                     url: "/admin/news/edit", type: "post", data: { id:id, title: title, imgURL: imgURL, contents: contents },
                     success: function (result) {
                         if (result.status == "1") {
-                            alert(result.data);
+                            alert("公告编辑成功");
+                            window.location.href = result.data;
                         }
                         else if (result.status == "0") {
                             alert(result.msg);

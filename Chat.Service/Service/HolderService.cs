@@ -198,6 +198,8 @@ namespace SDMS.Service.Service
             {
                 CommonService<HolderEntity> cs = new CommonService<HolderEntity>(dbc);
                 CommonService<StockItemEntity> scs = new CommonService<StockItemEntity>(dbc);
+                CommonService<TakeCashEntity> tcs = new CommonService<TakeCashEntity>(dbc);
+                CommonService<JournalEntity> jcs = new CommonService<JournalEntity>(dbc);
                 var holder= cs.GetAll().SingleOrDefault(h => h.Id == id);
                 if(holder==null)
                 {
@@ -207,6 +209,16 @@ namespace SDMS.Service.Service
                 if(stockItem==null)
                 {
                     return false;
+                }
+                var takeCashes = tcs.GetAll().Where(t => t.HolderId == id);
+                foreach(var takeCash in takeCashes)
+                {
+                    takeCash.IsDeleted = true;
+                }
+                var journals = jcs.GetAll().Where(j => j.HolderId == id);
+                foreach(var journal in journals)
+                {
+                    journal.IsDeleted = true;
                 }
                 stockItem.HaveCopies = stockItem.HaveCopies + holder.Copies;
                 holder.IsDeleted = true;

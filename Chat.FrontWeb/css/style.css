@@ -38,6 +38,12 @@ textarea {
 }
 
 /* 公共样式（public） */
+html {
+    height: 100%;
+}
+body {
+    min-height: 100%;
+}
 .clear {
     zoom: 1;
 }
@@ -108,6 +114,8 @@ a {
         bottom: 0;
         left: 0;
         font-size: 0;
+        z-index: 5;
+        background: #fff;
     }
 
         .footer ul li {
