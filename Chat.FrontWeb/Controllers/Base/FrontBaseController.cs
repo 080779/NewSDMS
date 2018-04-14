@@ -70,13 +70,27 @@ namespace SDMS.Web.Controllers.Base
                             }
                         }
                         else
-                        {
+                        {                           
                             Session["UserId"] = holderService.GetHoderIdByOpenId(result.openid);
                         }
                     }
                 }
             }
-            UserId = Convert.ToInt64(Session["UserId"]);
+            else
+            {
+                if(Session["UserId"]==null)
+                {
+                    if (filterContext.HttpContext.Request.IsAjaxRequest())//判断是否是ajax请求
+                    {
+                        filterContext.Result = new JsonNetResult { Data = new AjaxResult { Status = "0", Msg = "登录信息已经过期，请刷新重新登录！", Data = "/user/login" } };
+                    }
+                    else
+                    {
+                        filterContext.Result = new RedirectResult("/system/login");
+                    }
+                }
+                UserId = Convert.ToInt64(Session["UserId"]);
+            }            
             base.OnActionExecuting(filterContext);
         }
     }

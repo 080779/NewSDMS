@@ -1,4 +1,4 @@
-﻿
+﻿@model SDMS.DTO.DTO.SettingsDTO[]
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,35 +9,34 @@
     <link href="~/css/mui.min.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="swiper-container">
+    <div class="swiper-container" id="swiper">
         <div class="swiper-wrapper">
-            @*@foreach (var setting in Model)
+            @foreach (var setting in Model)
             {
                 <div class="swiper-slide">
                     <img src="@setting.Value" />
                 </div>
-            }*@
+            }
         </div>
     </div>
-
-    <div id="pullrefresh" class="mui-content mui-scroll-wrapper index-notice">
-        <div class="mui-scroll">
-            <!--数据列表-->
+    <div style="position: relative;" id="list">
+        <div id="pullrefresh" class="mui-content mui-scroll-wrapper index-notice">
+            <div class="mui-scroll">
+                <!--数据列表-->
 
                 <div class="index-notice-h">
                     <span>公告</span>
                     @*<a href="#" class="more">上拉加载更多</a>*@
                 </div>
                 <div class="index-notice-list">
-                    <ul id="ul1">
-                        
-                    </ul>
+                    <ul id="ul1"></ul>
                 </div>
 
+            </div>
         </div>
-    </div>
+    </div>    
 
-    <div class="footer">
+    <div class="footer" id="footer">
         <ul>
             <li>
                 <div><a href="/home/index"><img src="/images/menu-home-a.png" alt="" /></a></div>
@@ -68,13 +67,14 @@
     <script src="~/js/swiper.min.js"></script>
     <script src="~/js/template.js"></script>
     <script type="text/javascript">
+        $("#list").css("height", ($("body").height() - $("#swiper").height() - $("#footer").height()) + "px");
         var swiper = new Swiper('.swiper-container', {
             slidesPerView: 'auto',
             centeredSlides: true,
             spaceBetween: 15,
         });
 
-        var pageIndex = 1;
+        var pageIndex = 0;
         mui.init({
             pullRefresh: {
                 container: "#pullrefresh",//待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
@@ -82,7 +82,7 @@
                     height: 50,//可选.默认50.触发上拉加载拖动距离
                     auto: true,//可选,默认false.自动上拉加载一次
                     contentrefresh: "正在加载...",//可选，正在加载状态时，上拉加载控件上显示的标题内容
-                    contentnomore: '没有更多数据了',//可选，请求完毕若没有更多数据时显示的提醒内容；
+                    contentnomore: '没有更多数据了',//可选，请求完毕若没有更多数据时显示的提醒内容；                    
                     callback: pullupRefresh
                 }
             }
@@ -90,8 +90,10 @@
         var count = 0;
 
         function pullupRefresh() {
+            pageIndex++;
             setTimeout(function () {
                 mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+                console.log(count);
                 $.ajax({
                     url: "/home/index", type: "post", data: { pageIndex: pageIndex },
                     success: function (result) {
@@ -118,6 +120,7 @@
                 mui('#pullrefresh').pullRefresh().pullupLoading();
             });
         }
+        
     </script>
 
     <script id="news" type="text/html">

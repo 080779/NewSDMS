@@ -18,6 +18,13 @@ namespace SDMS.Web.Controllers
         {
             ListViewModel model = new ListViewModel();
             model.Holder= holderService.GetById(UserId);
+            if(model.Holder==null)
+            {
+                Session["UserId"] = null;
+                Session["OpenId"] = null;
+                Session["HeadImgUrl"] = null;
+                return Redirect("/home/index");
+            }
             model.Tel = settingsService.GetValueByKey("tel");
             return View(model);
         }
@@ -25,6 +32,13 @@ namespace SDMS.Web.Controllers
         public ActionResult Info()
         {
             var dto = holderService.GetById(UserId);
+            if(dto==null)
+            {
+                Session["UserId"] = null;
+                Session["OpenId"] = null;
+                Session["HeadImgUrl"] = null;
+                return Redirect("/home/index");
+            }
             if(string.IsNullOrEmpty(dto.HeadImgUrl) && Session["HeadImgUrl"]!=null)
             {
                 dto.HeadImgUrl = Session["HeadImgUrl"].ToString();

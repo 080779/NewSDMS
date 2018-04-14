@@ -115,6 +115,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
             return View(dto);
         }
         [HttpPost]
+        [ValidateInput(false)]
         [Permission("公告管理")]
         [ActDescription("修改公告")]
         public ActionResult Edit(NewsEditModel model)
@@ -123,35 +124,41 @@ namespace SDMS.Web.Areas.Admin.Controllers
             {
                 return Json(MVCHelper.GetJsonValidMsg(ModelState));
             }
-
-            string[] strs = model.ImgURL.Split(',');
-            string[] formats = strs[0].Replace(";base64", "").Split(':');
-            string img = strs[1];
-            string format = formats[1];
-            string[] imgFormats = { "image/png", "image/jpg", "image/jpeg", "image/bmp", "IMAGE/PNG", "IMAGE/JPG", "IMAGE/JPEG", "IMAGE/BMP" };
-            byte[] imgBytes;
-            if (!imgFormats.Contains(format))
+            if(model.ImgURL.Contains(";base64"))
             {
-                return Json(new AjaxResult { Status = "0", Msg = "请选择正确的图片格式，支持png、jpg、jpeg、png格式" });
+                string[] strs = model.ImgURL.Split(',');
+                string[] formats = strs[0].Replace(";base64", "").Split(':');
+                string img = strs[1];
+                string format = formats[1];
+                string[] imgFormats = { "image/png", "image/jpg", "image/jpeg", "image/bmp", "IMAGE/PNG", "IMAGE/JPG", "IMAGE/JPEG", "IMAGE/BMP" };
+                byte[] imgBytes;
+                if (!imgFormats.Contains(format))
+                {
+                    return Json(new AjaxResult { Status = "0", Msg = "请选择正确的图片格式，支持png、jpg、jpeg、png格式" });
+                }
+                string ext = "." + format.Split('/')[1];
+                try
+                {
+                    imgBytes = Convert.FromBase64String(img);
+                }
+                catch (Exception ex)
+                {
+                    return Json(new AjaxResult { Status = "0", Msg = "图片解密错误" });
+                }
+                try
+                {
+                    newService.Update(model.Id, model.Title, model.Contents, SaveImg(imgBytes, ext));
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    return Json(new AjaxResult { Status = "0", Msg = ex.Message });
+                }
             }
-            string ext = "." + format.Split('/')[1];
-            try
+            else
             {
-                imgBytes = Convert.FromBase64String(img);
+                newService.Update(model.Id, model.Title, model.Contents,model.ImgURL);
             }
-            catch (Exception ex)
-            {
-                return Json(new AjaxResult { Status = "0", Msg = "图片解密错误" });
-            }
-            try
-            {
-                newService.Update(model.Id, model.Title, model.Contents, SaveImg(imgBytes, ext));
-            }
-            catch (DbEntityValidationException ex)
-            {
-                return Json(new AjaxResult { Status = "0", Msg = ex.Message });
-            }
-            return Json(new AjaxResult { Status = "1" });
+            return Json(new AjaxResult { Status = "1" ,Data="/admin/news/list"});
         }
         #endregion
 
@@ -179,7 +186,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
 
             file.InputStream.Position = 0;
             ImageProcessingJob jobNormal = new ImageProcessingJob();
-            jobNormal.Filters.Add(new FixedResizeConstraint(750, 1334));//限制图片的大小，避免生成
+            //jobNormal.Filters.Add(new FixedResizeConstraint(750, 1334));//限制图片的大小，避免生成
             jobNormal.SaveProcessedImageToFileSystem(file.InputStream, fullPath);
             string[] paths = { path };
 
@@ -194,7 +201,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
             string fullPath = HttpContext.Server.MapPath("" + path);
             new FileInfo(fullPath).Directory.Create();
             ImageProcessingJob jobNormal = new ImageProcessingJob();
-            jobNormal.Filters.Add(new FixedResizeConstraint(600, 600));//限制图片的大小，避免生成
+            jobNormal.Filters.Add(new FixedResizeConstraint(500, 500));//限制图片的大小，避免生成
             jobNormal.SaveProcessedImageToFileSystem(imgBytes, fullPath);
             return path;
         }

@@ -85,6 +85,7 @@
                         success: function (result) {
                             if (result.status == "1") {
                                 alert("平均分红发放成功");
+                                window.location.href = result.data;
                             }
                             else if (result.status == "0") {
                                 alert(result.msg);

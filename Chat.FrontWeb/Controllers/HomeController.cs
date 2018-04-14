@@ -12,16 +12,16 @@ using System.Web.Mvc;
 
 namespace SDMS.Web.Controllers
 {
-    //public class HomeController : FrontBaseController
-    public class HomeController : Controller
+    public class HomeController : FrontBaseController
+    //public class HomeController : Controller
     {
         public INewsService newsService { get; set; }
-        public IHolderService holderService { get; set; }
+        //public IHolderService holderService { get; set; }
         public IJournalService journalService { get; set; }
         public IMessageService messageService { get; set; }
         public IReadNumberService readNumberService { get; set; }
         public ISettingsService settingsService { get; set; }
-        public long UserId = 1;
+        //public long UserId = 1;
         [HttpGet]
         public ActionResult Index()
         {
@@ -64,6 +64,13 @@ namespace SDMS.Web.Controllers
         {
             ShareBonusViewModel model = new ShareBonusViewModel();
             model.Holder = holderService.GetById(UserId);
+            if (model.Holder == null)
+            {
+                Session["UserId"] = null;
+                Session["OpenId"] = null;
+                Session["HeadImgUrl"] = null;
+                return Redirect("/home/index");
+            }
             model.YesterdayBonus = journalService.YesterdayBonus(UserId);
             model.Journals = journalService.GetPageList(UserId,null,null,"分红",null,null ,null,1,10).Journals;
             return View(model);

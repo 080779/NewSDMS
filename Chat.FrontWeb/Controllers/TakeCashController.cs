@@ -21,6 +21,13 @@ namespace SDMS.Web.Controllers
             TakeCashListViewModel model = new TakeCashListViewModel();
             model.TakeCashes= takeCashService.GetByHolderId(UserId);
             model.Holder = holderService.GetById(UserId);
+            if (model.Holder == null)
+            {
+                Session["UserId"] = null;
+                Session["OpenId"] = null;
+                Session["HeadImgUrl"] = null;
+                return Redirect("/home/index");
+            }
             if (model.Holder.TakeCashTime != model.Holder.CreateTime.AddDays(takeCashDay))
             {
                 model.Holder.TakeCashTime = model.Holder.CreateTime.AddDays(takeCashDay);
@@ -33,6 +40,13 @@ namespace SDMS.Web.Controllers
         {
             TakeCashApplyViewModel model = new TakeCashApplyViewModel();
             model.Holder= holderService.GetById(UserId);
+            if (model.Holder == null)
+            {
+                Session["UserId"] = null;
+                Session["OpenId"] = null;
+                Session["HeadImgUrl"] = null;
+                return Redirect("/home/index");
+            }
             model.MinTakeCash= Convert.ToDecimal(settingsService.GetValueByKey("mintakecash"));
             return View(model);
         }
