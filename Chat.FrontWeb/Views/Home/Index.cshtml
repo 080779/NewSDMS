@@ -96,6 +96,7 @@
                 $.ajax({
                     url: "/home/index", type: "post", data: { pageIndex: pageIndex },
                     success: function (result) {
+                        //alert(result.data.length);
                         var html = template('news', { data: result.data });
                         mui('#pullrefresh').pullRefresh().endPullupToRefresh((result.data.length < 3));
                         $("#ul1").append(html);
