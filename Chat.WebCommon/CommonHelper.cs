@@ -184,11 +184,11 @@ namespace SDMS.Common
             Htmlstring.Replace("\r\n", "");
             Htmlstring = HttpContext.Current.Server.HtmlEncode(Htmlstring).Trim();
 
-            if(Htmlstring.Length<=30)
+            if(Htmlstring.Length<=15)
             {
                 return Htmlstring;
             }
-            return Htmlstring.Substring(0, 30);
+            return Htmlstring.Substring(0, 15)+"...";
         }
 
         public static string SHA1(string content, Encoding encode)

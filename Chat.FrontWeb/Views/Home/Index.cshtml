@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>首页</title>
-    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
     <link href="~/css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+
 </head>
 <body>
     <div class="swiper-container" id="swiper">
@@ -44,7 +45,7 @@
                 <p>首页</p>
                 <span></span>
             </li>
-            <li>
+            <li id="point">
                 <div><a href="/home/share"><img src="/images/menu-bonus.png" alt="" /></a></div>
                 <p>分红</p>
                 <span></span>
@@ -79,25 +80,24 @@
             pullRefresh: {
                 container: "#pullrefresh",//待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
                 up: {
-                    height: 50,//可选.默认50.触发上拉加载拖动距离
+                    height: 30,//可选.默认50.触发上拉加载拖动距离
                     auto: true,//可选,默认false.自动上拉加载一次
                     contentrefresh: "正在加载...",//可选，正在加载状态时，上拉加载控件上显示的标题内容
-                    contentnomore: '没有更多数据了',//可选，请求完毕若没有更多数据时显示的提醒内容；                    
+                    contentnomore: '没有更多数据了',//可选，请求完毕若没有更多数据时显示的提醒内容；      
                     callback: pullupRefresh
                 }
             }
         });
         var count = 0;
-
+        
         function pullupRefresh() {
             pageIndex++;
             setTimeout(function () {
-                mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
-                console.log(count);
                 $.ajax({
                     url: "/home/index", type: "post", data: { pageIndex: pageIndex },
                     success: function (result) {
                         var html = template('news', { data: result.data });
+                        mui('#pullrefresh').pullRefresh().endPullupToRefresh((result.data.length < 3));
                         $("#ul1").append(html);
                     },
                     error: function () {
@@ -119,7 +119,17 @@
                 mui('#pullrefresh').pullRefresh().pullupLoading();
             });
         }
-        
+        $.ajax({
+            url: "/home/getpoint", type: "post", data: {},
+            success: function (result) {
+                $("#point").addClass("active");
+                if (result.data == false) {
+                    $("#point").removeClass("active");
+                }
+            },
+            error: function () {
+            }
+        });
     </script>
 
     <script id="news" type="text/html">
@@ -130,7 +140,8 @@
                     <img src="{{news.imgURL}}" />
                 </div>
                 <div class="index-notice-tit">{{news.title}}</div>
-                <span class="index-notice-sx">{{news.prewiew}}</span>
+                <span class="index-notice-sx">{{news.preview}}</span>
+                <span class="index-notice-sx">内容预览>></span>
             </a>
         </li>
         {{/each}}

@@ -586,6 +586,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\Statistical\" />
     <Folder Include="Areas\Admin\Views\Api\" />
+    <Folder Include="static\" />
     <Folder Include="Upload\VerifyCode\Admin\" />
     <Folder Include="Upload\VerifyCode\Front\" />
     <Folder Include="Views\Share\" />

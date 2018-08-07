@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "管理员列表";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+}
+<br />
+<a class="easyui-linkbutton" iconcls="icon-add" href="/admin/system/adminadd">添加管理员</a>
+<a class="easyui-linkbutton" iconcls="icon-edit" href="/admin/system/rolemanager">角色列表</a>
+<div id="load">
+    @{
+        Html.RenderAction("AdminManagerGetPage");
+    }
+</div>
+@section FooterScript
+{
+    <script type="text/javascript">
+    function getPage(pageIndex) {
+        $("#load").load("/admin/system/AdminManagerGetPage?pageIndex=" + pageIndex, function () {
+            $.parser.parse($('#load'));
+        });
+    }
+
+    $(function () {
+        $('body').on('click', '#go', function () {
+            var page = $("#txtPage").val();
+            getPage(page);
+        });
+
+        //删除
+        $(".del").click(function () {
+            var id = $(this).attr("value");
+            $.ajax({
+                url: "/admin/system/AdminDel?id=" + id, type: "post",
+                success: function (result) {
+                    if (result.status == 1) {
+                        alert("删除成功")
+                        window.location.href = result.data;
+                    }
+                    else if (result.status == 0) {
+                        alert(result.msg);
+                    }
+                },
+                error: function () { alert("网络错误"); }
+            });
+        });
+    });
+    </script>
+}

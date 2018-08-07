@@ -37,7 +37,6 @@ namespace SDMS.Web.Areas.Admin.Controllers
         [Permission("提现管理")]
         public PartialViewResult ApplyGetPage(string name,string mobile,DateTime? startTime,DateTime? endTime,int pageIndex = 1)
         {
-            int pageSize = 3;
             TakeCashViewModel model = new TakeCashViewModel();
             TakeCashSearchResult result = takeCashService.GetPageList(name,mobile,startTime,endTime,pageIndex, pageSize);
             model.TakeCashes = result.TakeCashs;
@@ -113,7 +112,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
             string fullPath = HttpContext.Server.MapPath("" + path);
             new FileInfo(fullPath).Directory.Create();
             ImageProcessingJob jobNormal = new ImageProcessingJob();
-            jobNormal.Filters.Add(new FixedResizeConstraint(750, 1334));//限制图片的大小，避免生成
+            //jobNormal.Filters.Add(new FixedResizeConstraint(750, 1334));//限制图片的大小，避免生成
             jobNormal.SaveProcessedImageToFileSystem(imgBytes, fullPath);
             return path;
         }

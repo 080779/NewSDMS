@@ -26,6 +26,8 @@ namespace SDMS.IService.Interface
         long UnBind(long id);
         HolderCalcNumberDTO CalcNumber();
         TakeCashCalcNumberDTO TakeCashCalcNumber();
+        bool SetPoint(long id);
+        bool GetPoint(long id);
     } 
 
     public class HolderSearchResult

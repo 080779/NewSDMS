@@ -48,7 +48,7 @@ namespace SDMS.Web
             
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            StartQuartz();
+            //StartQuartz();
         }
         IScheduler sched;
         private void StartQuartz()

@@ -26,23 +26,29 @@ namespace SDMS.Web.Controllers
         public ActionResult Index()
         {
             var model =settingsService.GetByName("imgurl");
+            string aa;
             return View(model);
         }
         [HttpPost]
         public ActionResult Index(int pageIndex = 1)
         {
-            int pageSize = 3;
             NewsSearchResult result = newsService.GetPageList(null, null, null, pageIndex, pageSize);
             return Json(new AjaxResult { Status = "1", Data = result.News });
         }
         public ActionResult Details(long id)
         {
             readNumberService.AddNew(UserId, id);
-            var dto = newsService.GetById(id);
+            string cacheKey = "NewsDetails_" + id;
+            var dto = (NewsDTO)HttpContext.Cache[cacheKey];//asp.net 内置缓存，先看缓存中有没有
             if(dto==null)
             {
-                dto = new NewsDTO();
-            }
+                dto = newsService.GetById(id);
+                HttpContext.Cache.Insert(cacheKey, dto, null, DateTime.Now.AddMinutes(1), TimeSpan.Zero);//没有就在数据库里读，然后写入缓存
+                if (dto == null)
+                {
+                    dto = new NewsDTO();
+                }
+            }            
             return View(dto);
         }
         [HttpGet]
@@ -73,7 +79,12 @@ namespace SDMS.Web.Controllers
             }
             model.YesterdayBonus = journalService.YesterdayBonus(UserId);
             model.Journals = journalService.GetPageList(UserId,null,null,"分红",null,null ,null,1,10).Journals;
+            holderService.SetPoint(UserId);
             return View(model);
+        }
+        public ActionResult GetPoint()
+        {            
+            return Json(new AjaxResult { Status = "1", Data = holderService.GetPoint(UserId) });
         }
         [HttpGet]
         public ActionResult SetPwd()

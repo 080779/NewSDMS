@@ -11,19 +11,19 @@
         <div class="form-group">
             <div class="form-label">旧交易密码</div>
             <div class="form-input">
-                <input type="text" id="oldTradePwd" value="" />
+                <input type="password" id="oldTradePwd" value="" />
             </div>
         </div>
         <div class="form-group">
             <div class="form-label">新密码</div>
             <div class="form-input">
-                <input type="text" id="TradePwd" value="" />
+                <input type="password" id="TradePwd" value="" />
             </div>
         </div>
         <div class="form-group">
             <div class="form-label">确认新密码</div>
             <div class="form-input">
-                <input type="text" id="TradePwd1" value="" />
+                <input type="password" id="TradePwd1" value="" />
             </div>
         </div>
     </div>
@@ -38,7 +38,7 @@
                 <p>首页</p>
                 <span></span>
             </li>
-            <li>
+            <li id="point">
                 <div><a href="/home/share"><img src="/images/menu-bonus.png" alt="" /></a></div>
                 <p>分红</p>
                 <span></span>
@@ -82,6 +82,17 @@
                     error: function () { alert("网络错误"); }
                 });
             });
+        });
+        $.ajax({
+            url: "/home/getpoint", type: "post", data: {},
+            success: function (result) {
+                $("#point").addClass("active");
+                if (result.data == false) {
+                    $("#point").removeClass("active");
+                }
+            },
+            error: function () {
+            }
         });
     </script>
 </body>

@@ -2,6 +2,7 @@
 using SDMS.Service.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,11 +23,27 @@ namespace SDMS.Service.Service
                 {
                     return false;
                 }
-                foreach (var holder in holders)
+                //foreach (var holder in holders)
+                //{
+                //    holder.TotalBonus = holder.TotalBonus + Amount * holder.Proportion;
+                //    holder.TotalAssets = holder.Amount + holder.TotalBonus - holder.HaveBonus;
+                //    holder.TakeBonus = holder.TotalBonus - holder.HaveBonus;
+                //    holder.Point = true;
+
+                //    JournalEntity journal = new JournalEntity();
+                //    journal.HolderId = holder.Id;
+                //    journal.BalanceAmount = holder.TotalAssets;
+                //    journal.InAmount = Amount * holder.Proportion;
+                //    journal.JournalTypeId = average;
+                //    journal.Remark = "获得平均分红";
+                //    dbc.Journal.Add(journal);
+                //}
+                holders.ForEachAsync(holder =>
                 {
                     holder.TotalBonus = holder.TotalBonus + Amount * holder.Proportion;
                     holder.TotalAssets = holder.Amount + holder.TotalBonus - holder.HaveBonus;
                     holder.TakeBonus = holder.TotalBonus - holder.HaveBonus;
+                    holder.Point = true;
 
                     JournalEntity journal = new JournalEntity();
                     journal.HolderId = holder.Id;
@@ -35,7 +52,7 @@ namespace SDMS.Service.Service
                     journal.JournalTypeId = average;
                     journal.Remark = "获得平均分红";
                     dbc.Journal.Add(journal);
-                }
+                });                
                 dbc.SaveChanges();
                 return true;
             }
@@ -63,13 +80,16 @@ namespace SDMS.Service.Service
                 {
                     rate = set.OldRate;
                 }
-                foreach(var holder in holders)
+                DateTime time = DateTime.Now.Date.AddSeconds(-1);
+                foreach (var holder in holders)
                 {
                     holder.TotalBonus = holder.TotalBonus + holder.Amount*rate;
                     holder.TotalAssets = holder.Amount + holder.TotalBonus - holder.HaveBonus;
                     holder.TakeBonus = holder.TotalBonus - holder.HaveBonus;
+                    holder.Point = true;
 
                     JournalEntity journal = new JournalEntity();
+                    journal.CreateTime = time;
                     journal.HolderId = holder.Id;
                     journal.BalanceAmount = holder.TotalAssets;
                     journal.InAmount = holder.Amount * rate;
@@ -79,6 +99,13 @@ namespace SDMS.Service.Service
                 }
                 dbc.SaveChanges();
                 return true;
+            }            
+        }
+        public long ProcDirectional()
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {                
+                return dbc.Database.ExecuteSqlCommand("exec sharebonus");
             }
         }
     }

@@ -101,7 +101,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
         }
         public ActionResult Test()
         {
-            if (!shareBonusService.Directional())
+            if (shareBonusService.ProcDirectional()<=0)
             {
                 return Json(new AjaxResult { Status = "0", Msg = "测试定向分红发放失败" });
             }

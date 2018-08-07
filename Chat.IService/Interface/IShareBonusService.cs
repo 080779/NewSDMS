@@ -19,5 +19,7 @@ namespace SDMS.IService.Interface
         /// </summary>
         /// <returns></returns>
         bool Directional();
+
+        long ProcDirectional();
     }
 }

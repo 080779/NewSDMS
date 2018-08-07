@@ -18,8 +18,13 @@
             <div class="form-input"><input type="text" readonly value="@Model.TakeCashStateName" /></div>
         </div>
         <div class="form-group2">
-            <div class="form-label">转账图片</div>
-            <div class="form-input"><img src="@Model.ImgUrl" style="height:1334px;width:750px"/></div>
+            <div class="form-label">凭证图片</div>
+            <div class="form-input">
+                @if(!string.IsNullOrEmpty(Model.ImgUrl))
+                {
+                    <a href="@Model.ImgUrl">点击查看</a>
+                }
+            </div>
         </div>
         <div class="form-group2">
             <div class="form-label">消息</div>
@@ -30,7 +35,7 @@
             <div class="form-input"><input type="text" readonly value="@Model.CreateTime.ToString("HH:mm:dd yyyy-MM-dd")" /></div>
         </div>
     </div>
-    
+
     <div class="form-btn">
         <a onclick="javascript:history.back(-1);">返回</a>
     </div>
@@ -42,7 +47,7 @@
                 <p>首页</p>
                 <span></span>
             </li>
-            <li>
+            <li id="point">
                 <div><a href="/home/share"><img src="/images/menu-bonus.png" alt="" /></a></div>
                 <p>分红</p>
                 <span></span>
@@ -58,6 +63,20 @@
                 <span></span>
             </li>
         </ul>
-    </div>    
+    </div>
+    <script src="~/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $.ajax({
+            url: "/home/getpoint", type: "post", data: {},
+            success: function (result) {
+                $("#point").addClass("active");
+                if (result.data == false) {
+                    $("#point").removeClass("active");
+                }
+            },
+            error: function () {
+            }
+        });
+    </script>
 </body>
 </html>

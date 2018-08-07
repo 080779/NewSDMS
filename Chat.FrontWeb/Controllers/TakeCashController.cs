@@ -51,7 +51,7 @@ namespace SDMS.Web.Controllers
             return View(model);
         }
         [HttpPost]
-        public ActionResult Apply(decimal? amount)
+        public ActionResult Apply(decimal? amount,string tradePassword)
         {
             decimal minTakeCash = Convert.ToDecimal(settingsService.GetValueByKey("mintakecash"));            
             if (amount==null)
@@ -73,7 +73,7 @@ namespace SDMS.Web.Controllers
             }
             if(string.IsNullOrEmpty(holder.TradePassword))
             {
-                return Json(new AjaxResult { Status = "0", Msg = "提现交易密码为空，不能提现,请到个人中心完善资料再申请" });
+                return Json(new AjaxResult { Status = "0", Msg = "提现交易密码未设置，不能提现,请到密码管理设置交易密码再申请" });
             }
             if (string.IsNullOrEmpty(holder.BankAccount))
             {
@@ -83,7 +83,19 @@ namespace SDMS.Web.Controllers
             {
                 return Json(new AjaxResult { Status = "0", Msg = "请到可提现时间后再提现" });
             }
-            takeCashService.Apply(UserId, amount.Value);
+            if (string.IsNullOrEmpty(tradePassword))
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "交易密码必须填写，不能为空" });
+            }
+            if (holder.TradePassword!=tradePassword)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "输入的交易密码错误" });
+            }
+            if(takeCashService.GetCountByHolderId(UserId)>=3)
+            {
+                return Json(new AjaxResult { Status = "0", Msg = "每天只能申请提现3次" });
+            }
+            takeCashService.Apply(UserId, amount.Value);            
             return Json(new AjaxResult { Status = "1" ,Data="/takecash/list"});
         }
 

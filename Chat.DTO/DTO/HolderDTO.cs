@@ -12,6 +12,7 @@ namespace SDMS.DTO.DTO
         public string Mobile { get; set; }
         public bool Gender { get; set; }
         public string OpenId { get; set; }
+        public bool Point { get; set; }
         public string Address { get; set; }
         /// <summary>
         /// 微信头像url

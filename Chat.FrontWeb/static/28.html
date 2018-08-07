@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>公告</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <script src="/js/jquery-1.10.2.min.js"></script>
+</head>
+<body class="bgcolor">
+    <div class="notice">
+        <h1 class="notice-title">页面静态1</h1>
+        <div class="notice-con"><p>12314</p></div>
+        <div class="notice-bt">
+            <a href="#" class="bd-browse">0</a>
+        </div>
+    </div>
+    <div class="form-btn">
+        <a href="/home/message/28">留言反馈</a>
+    </div>
+    <div class="footer">
+        <ul>
+            <li>
+                <div><a href="/home/index"><img src="/images/menu-home-a.png" alt="" /></a></div>
+
+                <p>首页</p>
+                <span></span>
+            </li>
+            <li id="point">
+                <div><a href="/home/share"><img src="/images/menu-bonus.png" alt="" /></a></div>
+                <p>分红</p>
+                <span></span>
+            </li>
+            <li>
+                <div><a href="/takecash/list"><img src="/images/menu-withdrawals.png" alt="" /></a></div>
+                <p>提现</p>
+                <span></span>
+            </li>
+            <li>
+                <div><a href="/myinfo/list"><img src="/images/menu-user.png" alt="" /></a></div>
+                <p>我的</p>
+                <span></span>
+            </li>
+        </ul>
+    </div>
+    <script src="/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $.ajax({
+            url: "/home/getpoint", type: "post", data: {},
+            success: function (result) {
+                $("#point").addClass("active");
+                if (result.data == false) {
+                    $("#point").removeClass("active");
+                }
+            },
+            error: function () {
+            }
+        });
+    </script>
+</body>
+</html>

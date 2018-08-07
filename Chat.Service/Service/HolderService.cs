@@ -190,6 +190,7 @@ namespace SDMS.Service.Service
             dto.TakeCashTime = entity.TakeCashTime;
             dto.Copies = entity.Copies;
             dto.HeadImgUrl = entity.HeadImgUrl;
+            dto.Point = entity.Point;
             return dto;
         }
         public bool Delete(long id)
@@ -442,6 +443,34 @@ namespace SDMS.Service.Service
                 dto.TotalTakeBonus = holders.Sum(h => h.TakeBonus);
                 dto.TotalHaveBonus = holders.Sum(h => h.HaveBonus);
                 return dto;
+            }
+        }
+        public bool SetPoint(long id)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<HolderEntity> cs = new CommonService<HolderEntity>(dbc);
+                var holder = cs.GetAll().SingleOrDefault(h=>h.Id==id);
+                if (holder==null)
+                {
+                    return false;
+                }
+                holder.Point = false;
+                dbc.SaveChanges();
+                return true;
+            }
+        }
+        public bool GetPoint(long id)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<HolderEntity> cs = new CommonService<HolderEntity>(dbc);
+                var holder = cs.GetAll().SingleOrDefault(h => h.Id == id);
+                if (holder == null)
+                {
+                    return false;
+                }
+                return holder.Point;
             }
         }
         #endregion

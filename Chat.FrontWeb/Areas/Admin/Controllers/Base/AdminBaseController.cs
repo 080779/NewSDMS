@@ -36,6 +36,7 @@ namespace SDMS.Web.Areas.Admin.Controllers.Base
             else
             {
                 PermissionAttribute[] attributes = (PermissionAttribute[])filterContext.ActionDescriptor.GetCustomAttributes(typeof(PermissionAttribute), false);
+                //PermissionAttribute[] attributes = (PermissionAttribute[])filterContext(typeof(PermissionAttribute), false);
                 AdminId = Convert.ToInt64(Session["AdminId"]);
                 if (attributes.Length > 0)
                 {                    

@@ -161,6 +161,7 @@ a {
     overflow: hidden;
     list-style: none;
     z-index: 1;
+    background: #fff;
 }
 
 .swiper-wrapper {
@@ -179,6 +180,7 @@ a {
     transition-property: transform, -webkit-transform;
     -webkit-box-sizing: content-box;
     box-sizing: content-box;
+    
 }
 
 .swiper-slide {
@@ -219,15 +221,17 @@ a {
         height: 100%;
     }
 
-.index-notice {
-    padding: 0 5%;
+.index-notice{
+    /* padding: 0 5%; */
+    background:#fff;
 }
 
 .index-notice-h {
     font-size: 1.1rem;
     color: #333;
-    padding: 10px 0;
+    padding: 20px 14px;
     line-height: 1.3rem;
+    background:#fff;
 }
 
     .index-notice-h .more {
@@ -240,10 +244,12 @@ a {
 
 
 .index-notice-list {
+    background: #fff;
 }
 
 .index-notice-li {
-    margin-bottom: 10px;
+    padding:0 16px;
+    margin-bottom: 16px;
 }
 
     .index-notice-li a {
@@ -256,12 +262,16 @@ a {
     width: 5rem;
     height: 5rem;
     float: left;
-    margin-right: 8px;
+    margin-right:16px;
+    border: 1px solid #ddd;
+    border-radius:8px;
+    box-shadow: 2px 2px 6px rgba(0,0,0,.2);
 }
 
     .index-notice-img img {
         width: 100%;
         height: 100%;
+        border-radius: 8px;
     }
 
 .index-notice-tit {
@@ -281,14 +291,18 @@ a {
 
 .index-notice-sx {
     font-size: .8rem;
-    padding-top: 1rem;
+    padding-top: .5rem;
     display: block;
+    text-overflow: ellipsis;
 }
-
-/* 登录 */
-.login {
-    padding-top: 15vw;
-}
+    .index-notice-sx + .index-notice-sx {
+        font-size: .75rem;
+        padding-top:.8rem;
+    }
+    /* 登录 */
+    .login {
+        padding-top: 15vw;
+    }
 
     .login .logo {
         display: block;

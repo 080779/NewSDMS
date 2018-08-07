@@ -140,7 +140,16 @@ namespace SDMS.Service.Service
                 return ToDTO(entity);
             }
         }
-                
+        public int GetCountByHolderId(long id)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                CommonService<TakeCashEntity> cs = new CommonService<TakeCashEntity>(dbc);
+                DateTime dt = DateTime.Now;
+                var entities = cs.GetAll().Where(t => t.HolderId == id).Where(t=>t.CreateTime.Year == dt.Year && t.CreateTime.Month==dt.Month && t.CreateTime.Day==dt.Day);
+                return entities.Count();
+            }
+        }
         public TakeCashDTO ToDTO(TakeCashEntity entity)
         {
             TakeCashDTO dto = new TakeCashDTO();

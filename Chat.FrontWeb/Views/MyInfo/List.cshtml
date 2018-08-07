@@ -63,7 +63,7 @@
                 <p>首页</p>
                 <span></span>
             </li>
-            <li>
+            <li id="point">
                 <div><a href="/home/share"><img src="/images/menu-bonus.png" alt="" /></a></div>
                 <p>分红</p>
                 <span></span>
@@ -105,6 +105,17 @@
                     return false;
                 }
             });
+        });
+        $.ajax({
+            url: "/home/getpoint", type: "post", data: {},
+            success: function (result) {
+                $("#point").addClass("active");
+                if (result.data == false) {
+                    $("#point").removeClass("active");
+                }
+            },
+            error: function () {
+            }
         });
     </script>
 </body>

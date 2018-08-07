@@ -19,10 +19,12 @@ namespace SDMS.Web.Controllers.Base
     /// </summary>
     public class FrontBaseController : Controller
     {
+        public int pageSize = 10;
         public IHolderService holderService { get; set; }
-        private string appId = "wx4bb5e170640ca437";
+        private string appId = System.Configuration.ConfigurationManager.AppSettings["appId"];
         //private string appId = "wx4bb5e170640ca437";
-        private string secret = "52622a0a4078040b94d502a145a7b6a7";
+        private string secret = System.Configuration.ConfigurationManager.AppSettings["secret"];
+        private string domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
         public long UserId;
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -48,7 +50,7 @@ namespace SDMS.Web.Controllers.Base
                     {
                         var state = "vz-" + DateTime.Now.Millisecond;//随机数，用于识别请求可靠性
                         Session["State"] = state;//储存随机数到Session
-                        string url = OAuthApi.GetAuthorizeUrl(appId, "http://x4xbtj.natappfree.cc/home/index", state, OAuthScope.snsapi_userinfo);
+                        string url = OAuthApi.GetAuthorizeUrl(appId, "http://"+domain+"/home/index", state, OAuthScope.snsapi_userinfo);
                         filterContext.Result = new RedirectResult(url);
                     }
                     else

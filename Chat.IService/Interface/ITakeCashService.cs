@@ -15,6 +15,7 @@ namespace SDMS.IService.Interface
         TakeCashSearchResult GetPageList(string name,string mobile,DateTime? startTime,DateTime? endTime,int pageIndex,int pageSize);
         TakeCashDTO[] GetByHolderId(long id);
         TakeCashDTO GetById(long id);
+        int GetCountByHolderId(long id);
     }
     public class TakeCashSearchResult
     {

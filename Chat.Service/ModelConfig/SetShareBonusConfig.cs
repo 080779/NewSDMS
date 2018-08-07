@@ -14,8 +14,8 @@ namespace SDMS.Service.ModelConfig
         {
             ToTable("T_SetShareBonus");
             Property(s => s.Name).IsRequired().HasMaxLength(50);
-            Property(s => s.Rate).HasPrecision(18, 4);
-            Property(s => s.OldRate).HasPrecision(18, 4);
+            Property(s => s.Rate).HasPrecision(18, 6);
+            Property(s => s.OldRate).HasPrecision(18, 6);
         }
     }
 }

@@ -97,6 +97,7 @@ namespace SDMS.Web.Areas.Admin.Controllers
             try
             {
                 long id = newService.AddNew(AdminId, model.Title, SaveImg(imgBytes, ext), model.Contents);
+                //PageToStatic(id);
             }
             catch(DbEntityValidationException ex)
             {
@@ -105,6 +106,14 @@ namespace SDMS.Web.Areas.Admin.Controllers
             return Json(new AjaxResult { Status = "1", Data = "/admin/news/list" });
         }
         #endregion
+
+        private void PageToStatic(long id)
+        {
+            var dto = newService.GetById(id);
+            string html= MVCHelper.RenderViewToString(this.ControllerContext,"/Views/Home/Details.cshtml",dto);
+            string path= Server.MapPath("~/static");
+            System.IO.File.WriteAllText(path+"\\"+id+".html",html);
+        }
 
         #region 修改
         [HttpGet]

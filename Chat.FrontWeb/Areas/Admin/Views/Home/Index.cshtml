@@ -33,11 +33,11 @@
                     @foreach (var modelList in list.Child)
                     {
                         <p>
-                            <a class="h30" href="#" onclick="addTab('@modelList.MenuName','@modelList.URL',@modelList.Id)">@modelList.MenuName</a>
+                            <a class="h30" onclick="console.log('@(modelList.URL)/?time='+new Date().getTime());addTab('@modelList.MenuName','@(modelList.URL)/?time='+new Date().getTime(),@modelList.Id)">@modelList.MenuName</a>
                         </p>
-                    }                    
+                    }
                 </div>
-            }            
+            }
         </div>
     </div>
     <!--导航e-->

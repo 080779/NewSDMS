@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using SDMS.Service.ModelConfig;
 
 namespace SDMS.Service
 {
@@ -27,11 +28,12 @@ namespace SDMS.Service
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Configurations.AddFromAssembly(Assembly.GetExecutingAssembly());
+            //modelBuilder.Configurations.Add(new AdminConfig());
         }
 
-        public DbSet<AdminEntity> Admin { get; set; }        
+        public DbSet<AdminEntity> Admin { get; set; }
         public DbSet<HolderEntity> Holder { get; set; }
-        public DbSet<JournalEntity> Journal { get; set; }       
+        public DbSet<JournalEntity> Journal { get; set; }
         public DbSet<JournalTypeEntity> JournalTypes { get; set; }
         public DbSet<NewsEntity> News { get; set; }
         public DbSet<MessageEntity> Messages { get; set; }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using SDMS.DTO.DTO;
 using SDMS.IService.Interface;
@@ -61,7 +62,7 @@ namespace SDMS.Service.Service
                     JournalQuery = JournalQuery.Where(p => p.CreateTime <= endTime);
                 }
                 PageResult.TotalCount = JournalQuery.LongCount();
-                PageResult.Journals = JournalQuery.OrderByDescending(p => p.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList().Select(p => ToDTO(p)).ToArray();                
+                PageResult.Journals = JournalQuery.OrderByDescending(j => j.CreateTime).OrderByDescending(j=>j.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList().Select(p => ToDTO(p)).ToArray();                
 
                 return PageResult;
             }
@@ -76,8 +77,11 @@ namespace SDMS.Service.Service
                 long average = jcs.GetAll().SingleOrDefault(j=>j.Name== "average").Id;
                 long directional = jcs.GetAll().SingleOrDefault(j => j.Name == "directional").Id;
                 DateTime time = DateTime.Now.AddDays(-1);
-                var bonus = cs.GetAll().Where(j => j.HolderId == id).Where(j => j.CreateTime.Year==time.Year && j.CreateTime.Month==time.Month && j.CreateTime.Day==time.Day).Where(j=>j.JournalTypeId== average || j.JournalTypeId== directional);
-                if(bonus.LongCount()<=0)
+
+                Expression<Func<JournalEntity, bool>> func = j => j.HolderId==id && j.CreateTime.Date==time.Date && (j.JournalTypeId==average || j.JournalTypeId==directional);
+                var bonus = cs.GetAll().Where(func.Compile());
+                //var bonus = cs.GetAll().Where(j=>j.HolderId==id).Where(j=>j.CreateTime.Year==time.Year && j.CreateTime.Month==time.Month && j.CreateTime.Day==time.Day).Where(j=>j.JournalTypeId==average || j.JournalTypeId==directional);
+                if (bonus.LongCount()<=0)
                 {
                     return 0;
                 }

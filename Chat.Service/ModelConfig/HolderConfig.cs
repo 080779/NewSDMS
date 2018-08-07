@@ -14,7 +14,7 @@ namespace SDMS.Service.ModelConfig
         {
             ToTable("T_Holder");
             //HasRequired(h => h.StockItem).WithMany().HasForeignKey(h => h.StockItemId).WillCascadeOnDelete(false);
-            Property(h => h.Proportion).HasPrecision(18, 4);
+            Property(h => h.Proportion).HasPrecision(18, 6);
             Property(h => h.Name).HasMaxLength(50).IsRequired();
             Property(h => h.BankName).HasMaxLength(50);
             Property(h => h.OpenId).HasMaxLength(100).IsUnicode();

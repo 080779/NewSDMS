@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "折线图";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout1.cshtml";
+}
+
+<div id="list1" style="width:500px;height:400px;"></div>
+<script src="~/js/echarts.min.js"></script>
+<script type="text/javascript">
+
+    var myChart = echarts.init(document.getElementById('list1'));
+    myChart.showLoading();
+    var option = {
+        title: {
+            text: '系统会员数量'
+        },
+        tooltip: {},
+        legend: {
+            data: ['会员数量']
+        },
+        xAxis: {
+            data: []
+        },
+        yAxis: {
+            minInterval:1
+        },
+        series: [{
+            name: '人数',
+            type: 'line',
+            smooth: true,
+            data: []
+        }]
+    };
+    
+    $.ajax({
+        url: "/admin/home/GetMemberCountList",
+        type: "post",
+        success: function (result) {
+            var arr = new Array();
+            var brr = new Array();
+            for (var i = 0; i < result.data.length; i++) {
+                arr[i] = result.data[i].regtime;
+                brr[i] = result.data[i].pnum;
+            }
+            option.xAxis.data = arr;
+            option.series[0].data = brr;
+            myChart.hideLoading();
+            myChart.setOption(option);
+        },
+        error: function () { alert("网络错误"); }
+    });
+
+    
+</script>

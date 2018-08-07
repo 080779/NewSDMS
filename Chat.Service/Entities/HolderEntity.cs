@@ -15,6 +15,7 @@ namespace SDMS.Service.Entities
         public bool Gender { get; set; }
         public string Mobile { get; set; }
         public string OpenId { get; set; }
+        public bool Point { get; set; } = false;
         public string Address { get; set; }
         /// <summary>
         /// 微信头像url

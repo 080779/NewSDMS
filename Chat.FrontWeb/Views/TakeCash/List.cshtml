@@ -43,7 +43,7 @@
                 <p>首页</p>
                 <span></span>
             </li>
-            <li>
+            <li id="point">
                 <div><a href="/home/share"><img src="/images/menu-bonus.png" alt="" /></a></div>
                 <p>分红</p>
                 <span></span>
@@ -61,5 +61,18 @@
         </ul>
     </div>
     <script src="~/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $.ajax({
+            url: "/home/getpoint", type: "post", data: {},
+            success: function (result) {
+                $("#point").addClass("active");
+                if (result.data == false) {
+                    $("#point").removeClass("active");
+                }
+            },
+            error: function () {
+            }
+        });
+    </script>
 </body>
 </html>
